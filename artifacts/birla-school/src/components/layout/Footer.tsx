@@ -10,7 +10,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-white">BIRLA OPEN MINDS</h3>
             <p className="text-secondary-foreground/80 text-sm leading-relaxed">
-              Nurturing tomorrow's leaders through holistic education, state-of-the-art facilities, and a commitment to excellence in Bhopal.
+              Nurturing tomorrow's leaders through holistic education, state-of-the-art facilities, and a commitment to excellence in Rajound, Haryana.
             </p>
             <div className="flex gap-4 pt-2">
               <a href="#" className="text-secondary-foreground/70 hover:text-white transition-colors">
@@ -76,20 +76,20 @@ export function Footer() {
               <li className="flex gap-3">
                 <MapPin className="h-5 w-5 text-primary shrink-0" />
                 <span className="text-secondary-foreground/80 text-sm">
-                  Birla Open Minds International School, 
-                  Bhopal, Madhya Pradesh, India
+                  HG85+W74, Assandh Kaithal Road,
+                  Rajound, Haryana 136044
                 </span>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="h-5 w-5 text-primary shrink-0" />
                 <span className="text-secondary-foreground/80 text-sm">
-                  +91 98765 43210
+                  +91 96534 24964
                 </span>
               </li>
               <li className="flex gap-3 items-center">
                 <Mail className="h-5 w-5 text-primary shrink-0" />
                 <span className="text-secondary-foreground/80 text-sm">
-                  info.bhopal@birlaopenminds.com
+                  info.rajound@birlaopenminds.com
                 </span>
               </li>
             </ul>

@@ -21,7 +21,7 @@ export default function About() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
           >
-            Discover the legacy, vision, and people behind Birla Open Minds International School, Bhopal.
+            Discover the legacy, vision, and people behind Birla Open Minds International School, Rajound.
           </motion.p>
         </div>
       </section>
@@ -37,7 +37,7 @@ export default function About() {
           >
             <h2 className="text-3xl font-bold text-foreground mb-6 text-center">Our Legacy</h2>
             <p className="lead text-xl text-foreground/80 text-center font-medium mb-12">
-              Birla Open Minds International School, Bhopal is a collaborative initiative of the Birla Edutech family, committed to bringing high-quality education to the heart of Madhya Pradesh.
+              Birla Open Minds International School, Rajound is a collaborative initiative of the Birla Edutech family, committed to bringing high-quality education to the heart of Haryana.
             </p>
             <p>
               We believe in creating a happy learning environment where children are eager to learn and explore. Our curriculum is designed to be comprehensive and holistic, focusing on the cognitive, emotional, and physical development of every child. We don't just teach subjects; we nurture independent thinkers, creative problem-solvers, and compassionate global citizens.

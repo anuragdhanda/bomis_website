@@ -102,8 +102,8 @@ export default function Contact() {
                       <h4 className="font-bold text-lg text-foreground mb-1">Campus Address</h4>
                       <p className="text-muted-foreground leading-relaxed">
                         Birla Open Minds International School<br />
-                        E-8, Arera Colony, Near Sai Board,<br />
-                        Bhopal, Madhya Pradesh 462039, India
+                        HG85+W74, Assandh Kaithal Road,<br />
+                        Rajound, Haryana 136044
                       </p>
                     </div>
                   </div>
@@ -114,7 +114,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg text-foreground mb-1">Phone</h4>
-                      <p className="text-muted-foreground">+91 98765 43210<br />+91 755 246 8000</p>
+                      <p className="text-muted-foreground">+91 96534 24964</p>
                     </div>
                   </div>
 
@@ -125,8 +125,8 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold text-lg text-foreground mb-1">Email</h4>
                       <p className="text-primary font-medium hover:underline cursor-pointer">
-                        info.bhopal@birlaopenminds.com<br />
-                        admissions@birlaopenminds.com
+                        info.rajound@birlaopenminds.com<br />
+                        admissions.rajound@birlaopenminds.com
                       </p>
                     </div>
                   </div>
@@ -138,8 +138,7 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold text-lg text-foreground mb-1">Visiting Hours</h4>
                       <p className="text-muted-foreground">
-                        Monday - Friday: 8:30 AM to 4:00 PM<br />
-                        Saturday: 9:00 AM to 1:00 PM<br />
+                        Monday - Saturday: Open till 4:00 PM<br />
                         Sunday: Closed
                       </p>
                     </div>
@@ -149,7 +148,7 @@ export default function Contact() {
 
               <div className="rounded-2xl overflow-hidden h-[300px] border border-border shadow-sm">
                 <iframe 
-                  src="https://maps.google.com/maps?q=Bhopal+Madhya+Pradesh&output=embed" 
+                  src="https://maps.google.com/maps?q=Birla+Open+Minds+International+School+Rajound+Haryana&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 

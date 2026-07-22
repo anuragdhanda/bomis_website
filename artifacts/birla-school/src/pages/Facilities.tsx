@@ -24,7 +24,7 @@ const FACILITIES = [
     title: "Safe Transport",
     icon: Bus,
     image: "/attached_assets/generated_images/transport.jpg",
-    description: "We offer a fleet of modern, GPS-enabled air-conditioned buses covering all major routes in Bhopal. Each bus is staffed with a trained driver and a female attendant, ensuring the utmost safety and comfort for your child's commute."
+    description: "We offer a fleet of modern, GPS-enabled air-conditioned buses covering all major routes in and around Rajound. Each bus is staffed with a trained driver and a female attendant, ensuring the utmost safety and comfort for your child's commute."
   },
   {
     title: "Smart Classrooms",
