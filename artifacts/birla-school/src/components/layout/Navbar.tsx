@@ -23,12 +23,14 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-xs">
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center group">
+          <Link href="/" className="flex items-center gap-3 group">
             <img
               src="/birla-logo.png"
               alt="Birla Open Minds International School"
               className="h-14 w-auto object-contain group-hover:opacity-85 transition-opacity"
             />
+            <div className="w-px h-10 bg-border" />
+            <span className="text-xl font-bold text-primary tracking-wide">BOMIS</span>
           </Link>
 
           {/* Desktop Nav */}
