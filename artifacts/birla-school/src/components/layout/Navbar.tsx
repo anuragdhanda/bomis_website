@@ -30,7 +30,7 @@ export function Navbar() {
               className="h-14 w-auto object-contain group-hover:opacity-85 transition-opacity"
             />
             <div className="w-px h-10 bg-border" />
-            <span className="text-3xl font-bold text-[#F15A29] tracking-wide bg-black px-3 py-1 rounded-lg">BOMIS</span>
+            <span className="text-3xl font-bold text-[#F15A29] tracking-wide">BOMIS</span>
           </Link>
 
           {/* Desktop Nav */}
