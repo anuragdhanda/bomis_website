@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: "/about", label: "About Us" },
   { href: "/academics", label: "Academics" },
   { href: "/admissions", label: "Admissions" },
+  { href: "/fees-structure", label: "Fee Structure" },
   { href: "/faculty", label: "Faculty" },
   { href: "/gallery", label: "Gallery" },
   { href: "/news-events", label: "News & Events" },
