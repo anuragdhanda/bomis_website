@@ -1,0 +1,75 @@
+Build a full-stack dynamic website for "Birla Open Minds International School" 
+using React (frontend) + Node.js/Express (backend) + MongoDB (database).
+
+THEME: White and Orange (primary orange: #F15A29 / #E8590C, dark maroon accent: #8B1E2D, 
+white background, clean modern sans-serif fonts like Poppins/Montserrat).
+
+LOGO: Use uploaded logo (bird pattern + BIRLA OPEN MINDS INTERNATIONAL SCHOOL text) 
+in navbar and footer.
+
+PAGES REQUIRED:
+1. Home Page
+   - Hero banner slider (school images, welcome message, CTA "Admissions Open")
+   - Quick highlights (About, Why Choose Us, Achievements)
+   - Latest News/Events section
+   - Testimonials slider
+   - Gallery preview
+   - Contact/Newsletter signup footer
+
+2. About Us
+   - School history, vision & mission
+   - Chairman/Principal message
+   - Infrastructure & facilities
+
+3. Academics
+   - Curriculum details (Pre-primary, Primary, Middle, Senior)
+   - Subjects offered
+   - Teaching methodology
+
+4. Admissions
+   - Admission process steps
+   - Eligibility criteria
+   - Downloadable admission form (PDF)
+   - Online inquiry form (connects to backend, stores in DB, sends email)
+
+5. Faculty
+   - Faculty grid with photo, name, subject, qualification (dynamic from DB)
+
+6. Gallery
+   - Image/video gallery with category filters (Sports, Events, Cultural)
+
+7. Events & News
+   - Dynamic blog-style news/events (Admin can add/edit/delete)
+
+8. Facilities
+   - Library, Labs, Sports, Transport, Smart Classes, Cafeteria (cards with icons)
+
+9. Contact Us
+   - Address, map (Google Maps embed), phone, email
+   - Contact form (saves to DB + sends email notification)
+
+10. Admin Panel (protected login)
+    - Add/Edit/Delete: News, Events, Gallery images, Faculty, Admission inquiries
+    - View contact form submissions
+
+TECH REQUIREMENTS:
+- Fully responsive (mobile, tablet, desktop)
+- Sticky navbar with dropdown menus
+- Smooth scroll animations (AOS or Framer Motion)
+- SEO-friendly meta tags
+- Fast image loading (lazy load)
+- Admin authentication (JWT)
+- MongoDB collections: News, Events, Gallery, Faculty, Inquiries, Admissions
+- REST API endpoints for all CRUD operations
+- Form validation (frontend + backend)
+- Deploy-ready structure for Replit
+
+DESIGN RULES:
+- White background dominant, orange used for buttons, headings, highlights, hover states
+- Maroon (#8B1E2D) used sparingly for accents (like in logo)
+- Rounded buttons, soft shadows, card-based layout
+- Use the uploaded logo image exactly as provided, do not recreate it
+
+Build this step-by-step: first set up project structure (client + server folders), 
+then backend models/routes, then frontend pages one by one, then connect them, 
+then style with the orange-white theme, then test all forms and admin CRUD.

@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Birla Open Minds School"
+version = "1.0.0"
+id = "artifacts/birla-school"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24675
+
+[services.development]
+run = "pnpm --filter @workspace/birla-school run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/birla-school", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/birla-school/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24675"
+BASE_PATH = "/"

@@ -1,0 +1,22 @@
+import { setAuthTokenGetter } from "@workspace/api-client-react";
+
+const TOKEN_KEY = "birla_admin_token";
+
+export function getAdminToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setAdminToken(token: string) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearAdminToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+export function isAdminLoggedIn(): boolean {
+  return !!getAdminToken();
+}
+
+// Configure the API client to automatically attach the admin token
+setAuthTokenGetter(getAdminToken);

@@ -3,6 +3,7 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
+import { ensureDefaultAdmin } from "./routes/auth.js";
 
 const app: Express = express();
 
@@ -30,5 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+// Seed default admin on startup
+ensureDefaultAdmin().catch((err) => logger.error({ err }, "Failed to seed default admin"));
 
 export default app;

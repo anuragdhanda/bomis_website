@@ -3,20 +3,30 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Birla Open Minds International School API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: news-events
+    description: News and events
+  - name: gallery
+    description: Gallery images
+  - name: faculty
+    description: Faculty members
+  - name: inquiries
+    description: Admission and contact inquiries
+  - name: auth
+    description: Admin authentication
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +34,649 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /news-events:
+    get:
+      operationId: listNewsEvents
+      tags: [news-events]
+      summary: List news and events
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [news, event]
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of news/events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewsEvent"
+    post:
+      operationId: createNewsEvent
+      tags: [news-events]
+      summary: Create a news/event (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsEventInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsEvent"
+
+  /news-events/{id}:
+    get:
+      operationId: getNewsEvent
+      tags: [news-events]
+      summary: Get a single news/event
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: News/event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsEvent"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateNewsEvent
+      tags: [news-events]
+      summary: Update a news/event (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsEventUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsEvent"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteNewsEvent
+      tags: [news-events]
+      summary: Delete a news/event (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /gallery:
+    get:
+      operationId: listGallery
+      tags: [gallery]
+      summary: List gallery items
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+            enum: [sports, events, cultural, academics]
+      responses:
+        "200":
+          description: List of gallery items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GalleryItem"
+    post:
+      operationId: createGalleryItem
+      tags: [gallery]
+      summary: Add gallery image (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GalleryItemInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryItem"
+
+  /gallery/{id}:
+    patch:
+      operationId: updateGalleryItem
+      tags: [gallery]
+      summary: Update gallery item (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GalleryItemUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryItem"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteGalleryItem
+      tags: [gallery]
+      summary: Delete gallery image (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /faculty:
+    get:
+      operationId: listFaculty
+      tags: [faculty]
+      summary: List all faculty members
+      responses:
+        "200":
+          description: List of faculty
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FacultyMember"
+    post:
+      operationId: createFacultyMember
+      tags: [faculty]
+      summary: Add faculty member (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacultyMemberInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FacultyMember"
+
+  /faculty/{id}:
+    patch:
+      operationId: updateFacultyMember
+      tags: [faculty]
+      summary: Update faculty member (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacultyMemberUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FacultyMember"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteFacultyMember
+      tags: [faculty]
+      summary: Delete faculty member (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /inquiries:
+    get:
+      operationId: listInquiries
+      tags: [inquiries]
+      summary: List all inquiries (admin)
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [admission, contact]
+      responses:
+        "200":
+          description: List of inquiries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Inquiry"
+    post:
+      operationId: createInquiry
+      tags: [inquiries]
+      summary: Submit an inquiry (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InquiryInput"
+      responses:
+        "201":
+          description: Inquiry submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Inquiry"
+
+  /inquiries/{id}:
+    patch:
+      operationId: updateInquiry
+      tags: [inquiries]
+      summary: Update inquiry status (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InquiryUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Inquiry"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteInquiry
+      tags: [inquiries]
+      summary: Delete an inquiry (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /auth/login:
+    post:
+      operationId: adminLogin
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginCredentials"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        "401":
+          description: Unauthorized
+
+  /auth/me:
+    get:
+      operationId: getAdminMe
+      tags: [auth]
+      summary: Get current admin info
+      responses:
+        "200":
+          description: Admin info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Unauthorized
+
+  /stats:
+    get:
+      operationId: getDashboardStats
+      tags: [news-events]
+      summary: Get dashboard stats (admin)
+      responses:
+        "200":
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    NewsEvent:
+      type: object
+      required: [id, title, content, type, publishedAt, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        type:
+          type: string
+          enum: [news, event]
+        imageUrl:
+          type: ["string", "null"]
+        eventDate:
+          type: ["string", "null"]
+        publishedAt:
+          type: string
+        createdAt:
+          type: string
+
+    NewsEventInput:
+      type: object
+      required: [title, content, type]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        content:
+          type: string
+          minLength: 1
+        excerpt:
+          type: string
+        type:
+          type: string
+          enum: [news, event]
+        imageUrl:
+          type: string
+        eventDate:
+          type: string
+
+    NewsEventUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        content:
+          type: string
+        excerpt:
+          type: string
+        type:
+          type: string
+          enum: [news, event]
+        imageUrl:
+          type: string
+        eventDate:
+          type: string
+
+    GalleryItem:
+      type: object
+      required: [id, title, imageUrl, category, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+          enum: [sports, events, cultural, academics]
+        createdAt:
+          type: string
+
+    GalleryItemInput:
+      type: object
+      required: [title, imageUrl, category]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        imageUrl:
+          type: string
+        category:
+          type: string
+          enum: [sports, events, cultural, academics]
+
+    GalleryItemUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+          enum: [sports, events, cultural, academics]
+
+    FacultyMember:
+      type: object
+      required: [id, name, subject, qualification, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        subject:
+          type: string
+        qualification:
+          type: string
+        photoUrl:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+        createdAt:
+          type: string
+
+    FacultyMemberInput:
+      type: object
+      required: [name, subject, qualification]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        subject:
+          type: string
+        qualification:
+          type: string
+        photoUrl:
+          type: string
+        sortOrder:
+          type: integer
+
+    FacultyMemberUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        qualification:
+          type: string
+        photoUrl:
+          type: string
+        sortOrder:
+          type: integer
+
+    Inquiry:
+      type: object
+      required: [id, name, email, message, type, status, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        message:
+          type: string
+        type:
+          type: string
+          enum: [admission, contact]
+        status:
+          type: string
+          enum: [new, read, replied]
+        studentName:
+          type: ["string", "null"]
+        gradeApplying:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    InquiryInput:
+      type: object
+      required: [name, email, message, type]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+        phone:
+          type: string
+        message:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          enum: [admission, contact]
+        studentName:
+          type: string
+        gradeApplying:
+          type: string
+
+    InquiryUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [new, read, replied]
+
+    LoginCredentials:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AuthToken:
+      type: object
+      required: [token, admin]
+      properties:
+        token:
+          type: string
+        admin:
+          $ref: "#/components/schemas/AdminUser"
+
+    AdminUser:
+      type: object
+      required: [id, username]
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+
+    DashboardStats:
+      type: object
+      required: [totalNews, totalEvents, totalFaculty, totalGallery, newInquiries, totalInquiries]
+      properties:
+        totalNews:
+          type: integer
+        totalEvents:
+          type: integer
+        totalFaculty:
+          type: integer
+        totalGallery:
+          type: integer
+        newInquiries:
+          type: integer
+        totalInquiries:
+          type: integer
