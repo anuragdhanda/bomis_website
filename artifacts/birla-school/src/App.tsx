@@ -15,6 +15,8 @@ import Facilities from "@/pages/Facilities";
 import Contact from "@/pages/Contact";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
+import StudentPortal from "@/pages/StudentPortal";
+import Showcase from "@/pages/Showcase";
 
 function Router() {
   return (
@@ -73,6 +75,14 @@ function Router() {
       <Route path="/contact">
         <PublicLayout>
           <Contact />
+        </PublicLayout>
+      </Route>
+      <Route path="/student-portal">
+        <StudentPortal />
+      </Route>
+      <Route path="/showcase">
+        <PublicLayout>
+          <Showcase />
         </PublicLayout>
       </Route>
 

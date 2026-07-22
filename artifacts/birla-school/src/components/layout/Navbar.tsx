@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/news-events", label: "News & Events" },
   { href: "/facilities", label: "Facilities" },
   { href: "/contact", label: "Contact Us" },
+  { href: "/showcase", label: "✨ Showcase" },
 ];
 
 export function Navbar() {
