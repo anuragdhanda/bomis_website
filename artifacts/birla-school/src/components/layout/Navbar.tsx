@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { href: "/admissions", label: "Admissions" },
   { href: "/faculty", label: "Faculty" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/news-events", label: "News & Events" },
+
   { href: "/facilities", label: "Facilities" },
   { href: "/contact", label: "Contact Us" },
 ];
