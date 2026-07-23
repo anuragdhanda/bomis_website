@@ -16,7 +16,6 @@ import Contact from "@/pages/Contact";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import StudentPortal from "@/pages/StudentPortal";
-import FeesStructure from "@/pages/FeesStructure";
 
 function Router() {
   return (
@@ -45,11 +44,6 @@ function Router() {
       <Route path="/admissions">
         <PublicLayout>
           <Admissions />
-        </PublicLayout>
-      </Route>
-      <Route path="/fees-structure">
-        <PublicLayout>
-          <FeesStructure />
         </PublicLayout>
       </Route>
       <Route path="/faculty">
