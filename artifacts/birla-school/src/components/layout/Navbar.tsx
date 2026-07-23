@@ -56,12 +56,6 @@ export function Navbar() {
                 </Link>
               );
             })}
-            <Link
-              href="/admin"
-              className="ml-4 px-4 py-2 text-sm font-medium text-primary border border-primary/20 rounded-md hover:bg-primary hover:text-white transition-colors"
-            >
-              Admin
-            </Link>
           </nav>
 
           {/* Mobile Nav Toggle */}
@@ -92,13 +86,6 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              onClick={() => setIsOpen(false)}
-              className="mx-6 mt-4 px-4 py-2 text-center text-sm font-medium bg-primary/10 text-primary rounded-md"
-            >
-              Admin Login
-            </Link>
           </nav>
         </div>
       )}
