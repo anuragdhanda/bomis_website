@@ -25,14 +25,13 @@ export function Navbar() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <img
-              src="/birla-logo.png"
+              src="/bomis-logo.png"
               alt="Birla Open Minds International School"
               className="h-14 w-auto object-contain group-hover:opacity-85 transition-opacity"
             />
-            <div className="w-px h-10 bg-border" />
             <div className="flex flex-col items-center leading-none">
               <span className="text-2xl sm:text-3xl font-bold text-[#F15A29] tracking-wide">BOMIS</span>
-              <span className="text-[10px] sm:text-xs font-semibold text-black tracking-widest uppercase">Rajound</span>
+              <span className="text-[10px] sm:text-xs font-semibold text-black tracking-widest uppercase -mt-0.5">Rajound</span>
             </div>
           </Link>
 
