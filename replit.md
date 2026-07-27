@@ -28,6 +28,11 @@ Workflows are configured automatically:
 - **Frontend**: `pnpm --filter @workspace/birla-school run dev`
 - **API Server**: `pnpm --filter @workspace/api-server run dev`
 
+For a fresh import, install dependencies and initialize the development database before opening the site:
+```bash
+pnpm run setup
+```
+
 ## Database
 
 Uses Replit's built-in PostgreSQL. The schema is managed with Drizzle Kit.

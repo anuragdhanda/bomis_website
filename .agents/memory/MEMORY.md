@@ -1,0 +1,1 @@
+- [Imported workspace setup](imported-workspace-setup.md) — imported pnpm workspaces need dependencies and the Drizzle development schema initialized before workflows are usable.
