@@ -94,43 +94,65 @@ export default function Contact() {
                 <h2 className="text-3xl font-bold text-foreground mb-8">Get in Touch</h2>
                 
                 <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  {/* Address — opens Google Maps */}
+                  <a
+                    href="https://maps.google.com/?q=Birla+Open+Minds+International+School+Rajound+Haryana+136044"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-4 group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg text-foreground mb-1">Campus Address</h4>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Campus Address</h4>
+                      <p className="text-muted-foreground leading-relaxed group-hover:text-primary/80 transition-colors">
                         Birla Open Minds International School<br />
                         HG85+W74, Assandh Kaithal Road,<br />
                         Rajound, Haryana 136044
                       </p>
+                      <span className="text-xs text-primary mt-1 inline-block opacity-0 group-hover:opacity-100 transition-opacity">Open in Maps →</span>
                     </div>
-                  </div>
+                  </a>
 
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  {/* Phone — tap to call */}
+                  <a
+                    href="tel:+919653424964"
+                    className="flex gap-4 group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg text-foreground mb-1">Phone</h4>
-                      <p className="text-muted-foreground">+91 96534 24964</p>
+                      <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Phone</h4>
+                      <p className="text-muted-foreground group-hover:text-primary transition-colors">+91 96534 24964</p>
+                      <span className="text-xs text-primary mt-1 inline-block opacity-0 group-hover:opacity-100 transition-opacity">Tap to call →</span>
                     </div>
-                  </div>
+                  </a>
 
+                  {/* Emails — tap to compose */}
                   <div className="flex gap-4">
                     <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
                       <Mail className="h-6 w-6" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <h4 className="font-bold text-lg text-foreground mb-1">Email</h4>
-                      <p className="text-primary font-medium hover:underline cursor-pointer">
-                        info.rajound@birlaopenminds.com<br />
+                      <a
+                        href="mailto:info.rajound@birlaopenminds.com"
+                        className="block text-primary font-medium hover:underline hover:text-primary/80 transition-colors"
+                      >
+                        info.rajound@birlaopenminds.com
+                      </a>
+                      <a
+                        href="mailto:admissions.rajound@birlaopenminds.com"
+                        className="block text-primary font-medium hover:underline hover:text-primary/80 transition-colors"
+                      >
                         admissions.rajound@birlaopenminds.com
-                      </p>
+                      </a>
                     </div>
                   </div>
 
+                  {/* Visiting Hours — static info */}
                   <div className="flex gap-4">
                     <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
                       <Clock className="h-6 w-6" />
