@@ -82,13 +82,13 @@ export default function Contact() {
 
       <section className="py-20 bg-background flex-1">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
             
             {/* Left Col: Contact Info & Map */}
             <motion.div 
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              className="space-y-12"
+              className="flex flex-col space-y-12"
             >
               <div>
                 <h2 className="text-3xl font-bold text-foreground mb-8">Get in Touch</h2>
@@ -168,7 +168,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden h-[300px] border border-border shadow-sm">
+              <div className="rounded-2xl overflow-hidden flex-1 min-h-[300px] border border-border shadow-sm">
                 <iframe 
                   src="https://maps.google.com/maps?q=Birla+Open+Minds+International+School+Rajound+Haryana&output=embed" 
                   width="100%" 
@@ -186,15 +186,16 @@ export default function Contact() {
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
+              className="flex flex-col"
             >
-              <div className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-lg">
+              <div className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-lg flex flex-col flex-1">
                 <h3 className="text-2xl font-bold text-foreground mb-2">Send us a Message</h3>
                 <p className="text-muted-foreground mb-8 text-sm">
                   Whether you have a question about admissions, curriculum, or anything else, our team is ready to answer all your questions.
                 </p>
 
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-col flex-1">
                     <FormField
                       control={form.control}
                       name="name"
@@ -242,12 +243,12 @@ export default function Contact() {
                       control={form.control}
                       name="message"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col flex-1">
                           <FormLabel>Your Message</FormLabel>
-                          <FormControl>
+                          <FormControl className="flex-1">
                             <Textarea 
                               placeholder="How can we help you?" 
-                              className="min-h-[150px]"
+                              className="flex-1 h-full resize-none"
                               {...field} 
                             />
                           </FormControl>

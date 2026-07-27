@@ -74,23 +74,34 @@ export function Footer() {
             <h4 className="text-lg font-semibold text-white mb-6">Contact Us</h4>
             <ul className="space-y-4">
               <li className="flex gap-3">
-                <MapPin className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-secondary-foreground/80 text-sm">
-                  HG85+W74, Assandh Kaithal Road,
+                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <a
+                  href="https://maps.google.com/?q=Birla+Open+Minds+International+School+Rajound+Haryana+136044"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary-foreground/80 text-sm hover:text-white transition-colors"
+                >
+                  HG85+W74, Assandh Kaithal Road,<br />
                   Rajound, Haryana 136044
-                </span>
+                </a>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-secondary-foreground/80 text-sm">
+                <a
+                  href="tel:+919653424964"
+                  className="text-secondary-foreground/80 text-sm hover:text-white transition-colors"
+                >
                   +91 96534 24964
-                </span>
+                </a>
               </li>
               <li className="flex gap-3 items-center">
                 <Mail className="h-5 w-5 text-primary shrink-0" />
-                <span className="text-secondary-foreground/80 text-sm">
+                <a
+                  href="mailto:info.rajound@birlaopenminds.com"
+                  className="text-secondary-foreground/80 text-sm hover:text-white transition-colors"
+                >
                   info.rajound@birlaopenminds.com
-                </span>
+                </a>
               </li>
             </ul>
           </div>
