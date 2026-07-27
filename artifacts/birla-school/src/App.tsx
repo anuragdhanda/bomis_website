@@ -1,5 +1,7 @@
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { AdmissionDrawerProvider } from "@/context/AdmissionDrawerContext";
+import { AdmissionDrawer } from "@/components/AdmissionDrawer";
 import { Route, Switch, Router as WouterRouter } from "wouter";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
@@ -90,11 +92,12 @@ function Router() {
 
 export default function App() {
   return (
-    <>
+    <AdmissionDrawerProvider>
       <ScrollToTop />
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <Router />
       </WouterRouter>
-    </>
+      <AdmissionDrawer />
+    </AdmissionDrawerProvider>
   );
 }

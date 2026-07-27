@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useAdmissionDrawer } from "@/context/AdmissionDrawerContext";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -18,6 +19,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { open: openAdmissionDrawer } = useAdmissionDrawer();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-xs">
@@ -56,12 +58,12 @@ export function Navbar() {
                 </Link>
               );
             })}
-            <Link
-              href="/admissions"
+            <button
+              onClick={openAdmissionDrawer}
               className="text-sm font-semibold text-white bg-[#F15A29] hover:bg-[#d94e22] transition-colors px-4 py-2 rounded-md"
             >
               Apply Now
-            </Link>
+            </button>
           </nav>
 
           {/* Mobile Nav Toggle */}
@@ -92,6 +94,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={() => { setIsOpen(false); openAdmissionDrawer(); }}
+              className="mx-4 mt-2 py-3 text-base font-semibold text-white bg-[#F15A29] hover:bg-[#d94e22] rounded-lg transition-colors"
+            >
+              Apply Now
+            </button>
           </nav>
         </div>
       )}
