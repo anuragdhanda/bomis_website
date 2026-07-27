@@ -56,6 +56,12 @@ export function Navbar() {
                 </Link>
               );
             })}
+            <Link
+              href="/admissions"
+              className="text-sm font-semibold text-white bg-[#F15A29] hover:bg-[#d94e22] transition-colors px-4 py-2 rounded-md"
+            >
+              Apply Now
+            </Link>
           </nav>
 
           {/* Mobile Nav Toggle */}
