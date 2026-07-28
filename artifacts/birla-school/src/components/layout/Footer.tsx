@@ -63,9 +63,6 @@ export function Footer() {
               <li>
                 <Link href="/contact" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Contact Us</Link>
               </li>
-              <li>
-                <Link href="/admin" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Admin Portal</Link>
-              </li>
             </ul>
           </div>
 
@@ -111,9 +108,10 @@ export function Footer() {
           <p className="text-secondary-foreground/60 text-sm">
             © {new Date().getFullYear()} Birla Open Minds International School. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-6 text-sm items-center">
             <a href="#" className="text-secondary-foreground/60 hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="text-secondary-foreground/60 hover:text-white transition-colors">Terms of Service</a>
+            <Link href="/admin" className="text-secondary-foreground/30 hover:text-secondary-foreground/70 transition-colors text-xs">Admin</Link>
           </div>
         </div>
       </div>
