@@ -9,6 +9,8 @@ import {
   ListInquiriesQueryParams,
 } from "@workspace/api-zod";
 import { requireAdmin } from "../middlewares/requireAdmin.js";
+import { sendInquiryEmail } from "../lib/mailer.js";
+import { logger } from "../lib/logger.js";
 
 const router: IRouter = Router();
 
@@ -45,6 +47,17 @@ router.post("/inquiries", async (req, res): Promise<void> => {
     studentName: parsed.data.studentName ?? null,
     gradeApplying: parsed.data.gradeApplying ?? null,
   }).returning();
+
+  // Send email notification — fire-and-forget, never block the response
+  sendInquiryEmail({
+    type: parsed.data.type as "admission" | "contact",
+    name: parsed.data.name,
+    email: parsed.data.email,
+    phone: parsed.data.phone ?? null,
+    studentName: parsed.data.studentName ?? null,
+    gradeApplying: parsed.data.gradeApplying ?? null,
+    message: parsed.data.message,
+  }).catch((err) => logger.error({ err }, "Failed to send inquiry email"));
 
   res.status(201).json({ ...item, createdAt: item.createdAt.toISOString() });
 });
