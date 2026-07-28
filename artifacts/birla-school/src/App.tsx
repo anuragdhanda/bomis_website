@@ -5,7 +5,6 @@ import { AdmissionDrawer } from "@/components/AdmissionDrawer";
 import { Route, Switch, Router as WouterRouter } from "wouter";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
-// Placeholders for other pages
 import About from "@/pages/About";
 import Academics from "@/pages/Academics";
 import Admissions from "@/pages/Admissions";
@@ -15,76 +14,63 @@ import NewsEvents from "@/pages/NewsEvents";
 import NewsEventDetail from "@/pages/NewsEventDetail";
 import Facilities from "@/pages/Facilities";
 import Contact from "@/pages/Contact";
+import StudentPortal from "@/pages/StudentPortal";
+
+// Admin
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
-import StudentPortal from "@/pages/StudentPortal";
+import NewsPage from "@/pages/admin/pages/NewsPage";
+import GalleryPage from "@/pages/admin/pages/GalleryPage";
+import FacultyPage from "@/pages/admin/pages/FacultyPage";
+import InquiriesPage from "@/pages/admin/pages/InquiriesPage";
 
 function Router() {
   return (
     <Switch>
-      {/* Admin Routes - rendered without PublicLayout */}
-      <Route path="/admin/login" component={AdminLogin} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/admin/:page*" component={AdminDashboard} />
+      {/* ── Admin Routes (no PublicLayout) ───────────────────── */}
+      <Route path="/admin/login"     component={AdminLogin} />
+      <Route path="/admin/news"      component={NewsPage} />
+      <Route path="/admin/gallery"   component={GalleryPage} />
+      <Route path="/admin/faculty"   component={FacultyPage} />
+      <Route path="/admin/inquiries" component={InquiriesPage} />
+      <Route path="/admin"           component={AdminDashboard} />
 
-      {/* Public Routes - rendered with PublicLayout */}
+      {/* ── Public Routes ────────────────────────────────────── */}
       <Route path="/">
-        <PublicLayout>
-          <Home />
-        </PublicLayout>
+        <PublicLayout><Home /></PublicLayout>
       </Route>
       <Route path="/about">
-        <PublicLayout>
-          <About />
-        </PublicLayout>
+        <PublicLayout><About /></PublicLayout>
       </Route>
       <Route path="/academics">
-        <PublicLayout>
-          <Academics />
-        </PublicLayout>
+        <PublicLayout><Academics /></PublicLayout>
       </Route>
       <Route path="/admissions">
-        <PublicLayout>
-          <Admissions />
-        </PublicLayout>
+        <PublicLayout><Admissions /></PublicLayout>
       </Route>
       <Route path="/faculty">
-        <PublicLayout>
-          <Faculty />
-        </PublicLayout>
+        <PublicLayout><Faculty /></PublicLayout>
       </Route>
       <Route path="/gallery">
-        <PublicLayout>
-          <Gallery />
-        </PublicLayout>
+        <PublicLayout><Gallery /></PublicLayout>
       </Route>
       <Route path="/news-events">
-        <PublicLayout>
-          <NewsEvents />
-        </PublicLayout>
+        <PublicLayout><NewsEvents /></PublicLayout>
       </Route>
       <Route path="/news-events/:id">
-        <PublicLayout>
-          <NewsEventDetail />
-        </PublicLayout>
+        <PublicLayout><NewsEventDetail /></PublicLayout>
       </Route>
       <Route path="/facilities">
-        <PublicLayout>
-          <Facilities />
-        </PublicLayout>
+        <PublicLayout><Facilities /></PublicLayout>
       </Route>
       <Route path="/contact">
-        <PublicLayout>
-          <Contact />
-        </PublicLayout>
+        <PublicLayout><Contact /></PublicLayout>
       </Route>
       <Route path="/student-portal">
         <StudentPortal />
       </Route>
       <Route>
-        <PublicLayout>
-          <NotFound />
-        </PublicLayout>
+        <PublicLayout><NotFound /></PublicLayout>
       </Route>
     </Switch>
   );
@@ -94,7 +80,7 @@ export default function App() {
   return (
     <AdmissionDrawerProvider>
       <ScrollToTop />
-      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
         <Router />
       </WouterRouter>
       <AdmissionDrawer />
