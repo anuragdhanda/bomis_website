@@ -1,56 +1,56 @@
 # Birla Open Minds International School (BOMIS) Website
 
-A full-stack school website built with React + Vite (frontend) and Express + Drizzle ORM (backend), backed by PostgreSQL.
+A full-stack dynamic website for Birla Open Minds International School, Rajound.
+
+## Stack
+
+- **Frontend**: React + Vite + Tailwind CSS (artifact: `artifacts/birla-school`, preview path: `/`)
+- **Backend**: Node.js + Express REST API (artifact: `artifacts/api-server`, preview path: `/api`)
+- **Database**: PostgreSQL via Drizzle ORM (lib: `lib/db`)
+- **Monorepo**: pnpm workspaces
+
+## How to Run
+
+Dependencies are installed with `pnpm install` from the workspace root.
+
+The database schema is pushed with:
+```
+pnpm --filter @workspace/db run push
+```
+
+Two workflows run the app:
+- **`artifacts/birla-school: web`** — Vite dev server for the React frontend
+- **`artifacts/api-server: API Server`** — Express API (builds then starts)
 
 ## Project Structure
 
 ```
 artifacts/
-  birla-school/   – React/Vite frontend (preview path: /)
-  api-server/     – Express REST API (preview path: /api)
-  mockup-sandbox/ – Design/canvas tooling (preview path: /__mockup)
+  birla-school/     # React frontend (pages, components, hooks)
+  api-server/       # Express backend (routes, middlewares)
 lib/
-  db/             – Drizzle ORM schema + migrations (PostgreSQL)
-  api-client-react/ – Generated React Query hooks
-  api-spec/       – OpenAPI spec + Orval codegen config
-  api-zod/        – Shared Zod validation schemas
+  db/               # Drizzle ORM schema + client (PostgreSQL)
+  api-zod/          # Shared Zod validation schemas
+  api-spec/         # OpenAPI spec + Orval codegen config
+  api-client-react/ # Generated React Query hooks from API spec
+attached_assets/    # School logo and images
 ```
 
-## Running the App
+## Pages
 
-Dependencies are managed with pnpm (monorepo). After cloning or syncing:
+Home, About Us, Academics, Admissions, Faculty, Gallery, Facilities, Contact Us, News & Events, Admin Panel (JWT-protected)
 
-```bash
-pnpm install
-```
+## Environment Variables
 
-Workflows are configured automatically:
-- **Frontend**: `pnpm --filter @workspace/birla-school run dev`
-- **API Server**: `pnpm --filter @workspace/api-server run dev`
+- `DATABASE_URL` — managed by Replit (auto-provisioned PostgreSQL)
+- `SESSION_SECRET` — secret for JWT signing
+- `GMAIL_USER` / `GMAIL_APP_PASSWORD` — optional, enables email notifications for contact/admission forms
 
-For a fresh import, install dependencies and initialize the development database before opening the site:
-```bash
-pnpm run setup
-```
+## Admin Panel
 
-## Database
-
-Uses Replit's built-in PostgreSQL. The schema is managed with Drizzle Kit.
-
-To push schema changes to the database:
-```bash
-pnpm --filter @workspace/db run push
-```
-
-Tables: `admins`, `faculty`, `gallery`, `inquiries`, `news_events`
-
-## Environment Secrets
-
-| Secret | Purpose |
-|--------|---------|
-| `SESSION_SECRET` | JWT signing secret for admin auth |
-| `DATABASE_URL` | Injected automatically by Replit's managed PostgreSQL |
+Default admin credentials are seeded on first startup. The admin panel (`/admin`) supports CRUD for News, Events, Gallery, Faculty, and Admissions inquiries.
 
 ## User Preferences
 
-(none recorded yet)
+- Keep the existing orange (#F15A29) and white theme
+- Use the uploaded logo assets from `attached_assets/`
