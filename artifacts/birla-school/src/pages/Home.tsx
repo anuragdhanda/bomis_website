@@ -5,24 +5,26 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useCallback } from "react";
 import { useListNewsEvents, useListGallery } from "@workspace/api-client-react";
 import { format } from "date-fns";
+import heroBuildingImg from "@assets/1000012710_1785343069794.png";
+import heroGardenImg from "@assets/1000012712_1785343063211.png";
 
 const HERO_SLIDES = [
   {
-    image: "/attached_assets/generated_images/hero-1.jpg",
+    image: heroBuildingImg,
     title: "Excellence in Education",
     subtitle: "Empowering students to think big, aim high, and achieve greatness in a rapidly changing world.",
     cta: "Discover Our Campus",
     link: "/about"
   },
   {
-    image: "/attached_assets/generated_images/hero-2.jpg",
+    image: heroGardenImg,
     title: "A Nurturing Environment",
     subtitle: "Where curiosity meets opportunity. Our modern campus provides the perfect setting for holistic growth.",
     cta: "View Facilities",
     link: "/facilities"
   },
   {
-    image: "/attached_assets/generated_images/hero-3.jpg",
+    image: heroBuildingImg,
     title: "Future-Ready Learning",
     subtitle: "Integrating traditional values with modern pedagogy to shape the leaders of tomorrow.",
     cta: "Admission Process",
