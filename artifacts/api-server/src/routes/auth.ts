@@ -26,6 +26,8 @@ function createTransporter() {
   return nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
 }
 
+function gmailUser() { return process.env["GMAIL_USER"] ?? ""; }
+
 // ---------------------------------------------------------------------------
 // POST /auth/login
 // ---------------------------------------------------------------------------
@@ -56,9 +58,9 @@ router.get("/auth/me", requireAdmin, async (req: AuthenticatedRequest, res): Pro
 // POST /auth/register  — create new admin (requires SESSION_SECRET as adminKey)
 // ---------------------------------------------------------------------------
 router.post("/auth/register", async (req, res): Promise<void> => {
-  const { username, password, confirmPassword, adminKey } = req.body ?? {};
+  const { username, password, confirmPassword, adminKey, email } = req.body ?? {};
 
-  if (!username || !password || !confirmPassword || !adminKey) {
+  if (!username || !password || !confirmPassword || !adminKey || !email) {
     res.status(400).json({ error: "All fields are required" });
     return;
   }
@@ -75,29 +77,42 @@ router.post("/auth/register", async (req, res): Promise<void> => {
     return;
   }
 
+  // Basic email format check
+  if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    res.status(400).json({ error: "Enter a valid Gmail address" });
+    return;
+  }
+
   const SESSION_SECRET = process.env["SESSION_SECRET"] ?? "";
   if (!SESSION_SECRET || adminKey !== SESSION_SECRET) {
     res.status(403).json({ error: "Invalid Admin Secret Key" });
     return;
   }
 
-  const [existing] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
-  if (existing) {
+  const [existingUsername] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
+  if (existingUsername) {
     res.status(409).json({ error: "Username already taken" });
+    return;
+  }
+
+  const [existingEmail] = await db.select().from(adminsTable).where(eq(adminsTable.email, email.trim().toLowerCase()));
+  if (existingEmail) {
+    res.status(409).json({ error: "This email is already registered" });
     return;
   }
 
   const [admin] = await db.insert(adminsTable).values({
     username: username.trim(),
     passwordHash: hashPassword(password),
+    email: email.trim().toLowerCase(),
   }).returning();
 
-  logger.info({ username: admin.username }, "New admin account created");
+  logger.info({ username: admin.username, email: admin.email }, "New admin account created");
   res.status(201).json({ message: "Account created successfully", username: admin.username });
 });
 
 // ---------------------------------------------------------------------------
-// POST /auth/forgot-password
+// POST /auth/forgot-password  — send OTP to admin's registered email
 // ---------------------------------------------------------------------------
 router.post("/auth/forgot-password", async (req, res): Promise<void> => {
   const { username } = req.body ?? {};
@@ -105,36 +120,53 @@ router.post("/auth/forgot-password", async (req, res): Promise<void> => {
     res.status(400).json({ error: "Username is required" });
     return;
   }
+
   const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
-  if (!admin) {
-    res.json({ message: "If that username exists, an OTP has been sent." });
+
+  // Always respond the same to prevent username enumeration
+  if (!admin || !admin.email) {
+    res.json({ message: "If that username exists, an OTP has been sent to the registered email." });
     return;
   }
+
   const otp = generateOtp();
   otpStore.set(username.trim(), { otp, expiresAt: Date.now() + 10 * 60 * 1000 });
-  const gmailUser = process.env["GMAIL_USER"];
+
   const transporter = createTransporter();
-  if (transporter && gmailUser) {
+  if (transporter) {
     try {
       await transporter.sendMail({
-        from: `"BOMIS Admin" <${gmailUser}>`,
-        to: gmailUser,
-        subject: `[BOMIS] Admin Password Reset OTP`,
-        html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
-          <div style="background:#F15A29;padding:24px 32px;"><h1 style="margin:0;color:#fff;font-size:20px;">Password Reset OTP</h1></div>
-          <div style="padding:32px;">
-            <p style="color:#333;">A password reset was requested for admin <strong>${username}</strong>.</p>
-            <div style="text-align:center;margin:28px 0;"><span style="font-size:40px;font-weight:800;letter-spacing:10px;color:#F15A29;">${otp}</span></div>
-            <p style="color:#888;font-size:13px;">Valid for <strong>10 minutes</strong>.</p>
-          </div></div>`,
+        from: `"BOMIS Admin Portal" <${gmailUser()}>`,
+        to: admin.email,
+        subject: `[BOMIS] Password Reset OTP — ${otp}`,
+        html: `
+<div style="font-family:sans-serif;max-width:480px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+  <div style="background:#8B1E2D;padding:24px 32px;">
+    <h1 style="margin:0;color:#fff;font-size:20px;">Password Reset OTP</h1>
+    <p style="margin:6px 0 0;color:#f8c8c8;font-size:13px;">Birla Open Minds International School</p>
+  </div>
+  <div style="padding:32px;">
+    <p style="color:#333;margin:0 0 16px;">Hi <strong>${admin.username}</strong>,</p>
+    <p style="color:#555;margin:0 0 24px;">We received a request to reset your admin portal password. Use the OTP below to continue:</p>
+    <div style="text-align:center;margin:28px 0;background:#fff5f0;border:2px dashed #F15A29;border-radius:10px;padding:24px 0;">
+      <span style="font-size:42px;font-weight:800;letter-spacing:12px;color:#F15A29;font-family:monospace;">${otp}</span>
+    </div>
+    <p style="color:#888;font-size:13px;text-align:center;">Valid for <strong>10 minutes</strong>. Do not share this OTP with anyone.</p>
+    <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+    <p style="color:#bbb;font-size:12px;text-align:center;">If you did not request this, you can safely ignore this email.</p>
+  </div>
+</div>`,
       });
+      logger.info({ username: admin.username, email: admin.email }, "OTP email sent");
     } catch (err) {
       logger.error({ err }, "Failed to send OTP email");
     }
   } else {
-    logger.warn({ otp, username }, "Email not configured — OTP logged for dev use");
+    // Dev fallback — log OTP to console
+    logger.warn({ otp, username, email: admin.email }, "Email not configured — OTP logged for dev use");
   }
-  res.json({ message: "If that username exists, an OTP has been sent." });
+
+  res.json({ message: "If that username exists, an OTP has been sent to the registered email." });
 });
 
 // ---------------------------------------------------------------------------
@@ -158,15 +190,17 @@ router.post("/auth/reset-password", async (req, res): Promise<void> => {
     return;
   }
   if (entry.otp !== otp.trim()) { res.status(400).json({ error: "Invalid OTP." }); return; }
+
   const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
   if (!admin) { res.status(404).json({ error: "User not found" }); return; }
+
   await db.update(adminsTable).set({ passwordHash: hashPassword(newPassword) }).where(eq(adminsTable.id, admin.id));
   otpStore.delete(username.trim());
   res.json({ message: "Password reset successfully." });
 });
 
 // ---------------------------------------------------------------------------
-// Seed default admin
+// Seed default admin (no email — nullable)
 // ---------------------------------------------------------------------------
 export async function ensureDefaultAdmin(): Promise<void> {
   const existing = await db.select().from(adminsTable);

@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Lock, ShieldAlert, Eye, EyeOff, KeyRound, ArrowLeft, CheckCircle2, UserPlus, LogIn } from "lucide-react";
+import { Lock, ShieldAlert, Eye, EyeOff, KeyRound, ArrowLeft, CheckCircle2, UserPlus, LogIn, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,6 +23,7 @@ const loginSchema = z.object({
 // ─── Register schema ──────────────────────────────────────────────────────────
 const registerSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
+  email: z.string().email("Enter a valid Gmail address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string().min(6, "Please confirm your password"),
   adminKey: z.string().min(1, "Admin key is required"),
@@ -229,7 +230,7 @@ function RegisterForm() {
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { username: "", password: "", confirmPassword: "", adminKey: "" },
+    defaultValues: { username: "", email: "", password: "", confirmPassword: "", adminKey: "" },
   });
 
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
@@ -240,6 +241,7 @@ function RegisterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: values.username,
+          email: values.email,
           password: values.password,
           confirmPassword: values.confirmPassword,
           adminKey: values.adminKey,
@@ -278,6 +280,20 @@ function RegisterForm() {
           <FormItem>
             <FormLabel>Username</FormLabel>
             <FormControl><Input placeholder="newadmin" {...field} /></FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+
+        <FormField control={form.control} name="email" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Gmail Address</FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input type="email" placeholder="yourname@gmail.com" className="pl-9" {...field} />
+              </div>
+            </FormControl>
+            <p className="text-xs text-muted-foreground mt-1">OTP for password reset will be sent here.</p>
             <FormMessage />
           </FormItem>
         )} />
