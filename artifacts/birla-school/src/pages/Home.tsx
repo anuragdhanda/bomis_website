@@ -7,6 +7,7 @@ import { useListNewsEvents, useListGallery } from "@workspace/api-client-react";
 import { format } from "date-fns";
 import heroBuildingImg from "@assets/1000012710_1785343069794.png";
 import heroGardenImg from "@assets/1000012712_1785343063211.png";
+import heroAssemblyImg from "@assets/file_00000000173c8208bd2a49578dac6e25_1785344981644.png";
 
 const HERO_SLIDES = [
   {
@@ -24,7 +25,7 @@ const HERO_SLIDES = [
     link: "/facilities"
   },
   {
-    image: heroBuildingImg,
+    image: heroAssemblyImg,
     title: "Future-Ready Learning",
     subtitle: "Integrating traditional values with modern pedagogy to shape the leaders of tomorrow.",
     cta: "Admission Process",
