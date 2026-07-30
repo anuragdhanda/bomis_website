@@ -299,7 +299,7 @@ export default function Home() {
                 <p className="text-muted-foreground leading-relaxed flex-1 pr-12">{card.text}</p>
                 <div className="absolute bottom-6 right-6">
                   <Link href={card.link}>
-                    <button className="w-11 h-11 bg-[#2d5016] rounded-full flex items-center justify-center shadow-md hover:bg-[#3d6b1a] transition-colors">
+                    <button className="w-11 h-11 bg-[#F15A29] rounded-full flex items-center justify-center shadow-md hover:bg-[#d94e22] transition-colors">
                       <ArrowUpRight className="h-5 w-5 text-white" />
                     </button>
                   </Link>
