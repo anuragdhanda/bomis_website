@@ -140,7 +140,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Stats Bar */}
       <div className="relative z-20 -mt-10 container mx-auto px-4">
         <motion.div
@@ -168,7 +167,6 @@ export default function Home() {
           ))}
         </motion.div>
       </div>
-
       {/* Highlights Strip */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
@@ -232,12 +230,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Programs Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="flex items-center justify-center gap-3 mb-4 text-ring border-t-[color:var(--color-red-400)] border-r-[color:var(--color-red-400)] border-b-[color:var(--color-red-400)] border-l-[color:var(--color-red-400)]">
               <span className="w-8 h-0.5 bg-[#2d5016]" />
               <span className="text-xs font-bold uppercase tracking-widest text-[#2d5016]">Programs</span>
               <span className="w-8 h-0.5 bg-[#2d5016]" />
@@ -312,7 +309,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Latest News & Events */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
@@ -382,7 +378,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Testimonials */}
       <section className="py-24 relative overflow-hidden bg-white">
         {/* Orange top accent */}
@@ -492,7 +487,6 @@ export default function Home() {
         </div>
         <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-300 via-primary to-orange-300" />
       </section>
-
       {/* Gallery Preview */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
@@ -541,7 +535,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-muted/50 border-t border-border">
         <div className="container mx-auto px-4 text-center max-w-3xl">
