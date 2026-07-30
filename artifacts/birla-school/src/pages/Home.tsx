@@ -145,7 +145,7 @@ export default function Home() {
               key={i}
               className={`flex flex-col items-center justify-center py-8 px-6 text-center ${i < 3 ? "border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0 border-border"}`}
             >
-              <span className="text-3xl md:text-4xl font-bold text-[#2d5016]" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="text-3xl md:text-4xl font-bold text-primary" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {item.stat}
               </span>
               <span className="text-sm text-muted-foreground mt-1">{item.label}</span>
