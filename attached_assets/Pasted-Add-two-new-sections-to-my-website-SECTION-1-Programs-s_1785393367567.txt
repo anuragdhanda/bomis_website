@@ -1,0 +1,54 @@
+Add two new sections to my website:
+
+SECTION 1: "Programs" showcase section
+
+Layout:
+- Centered header block:
+  - Small eyebrow label above the title: a short horizontal line + "PROGRAMS" in uppercase, small bold green text, letter-spacing
+  - Large serif heading (use a font like Playfair Display or similar elegant serif), dark navy/charcoal color, centered, two lines: "A path for every age, a future for every child."
+  - Subheading below in gray, regular sans-serif, centered, max-width for readability: "Our four academic stages flow seamlessly into one another, building confidence year by year."
+
+- Below the header, a responsive 2x2 grid (stacks to 1 column on mobile) of 4 cards. Each card:
+  - Rounded corners (large radius, ~20px), soft gradient pastel background, generous padding (~32-40px)
+  - Small uppercase label in green, bold, small text, letter-spaced (e.g. "NURSERY — KG")
+  - Card title in large serif font, dark color (e.g. "Pre-Primary")
+  - Descriptive paragraph text in gray below, with room/margin before the bottom
+  - A circular button in the bottom-right corner of the card: dark green background, white arrow icon (arrow pointing up-right, like ↗ or an "external link" icon), subtle shadow
+
+  Card content:
+  1. Gradient: soft mint/green gradient
+     Label: "NURSERY — KG" | Title: "Pre-Primary"
+     Text: "Play-based foundations that build curiosity, confidence, and early literacy."
+
+  2. Gradient: soft pale yellow gradient
+     Label: "GRADES 1 — 5" | Title: "Primary"
+     Text: "Concept-led learning across subjects, with art, music and outdoor play built in."
+
+  3. Gradient: soft pale blue gradient
+     Label: "GRADES 6 — 10" | Title: "Secondary"
+     Text: "Strong academic core, project work, and CBSE board preparation done thoughtfully."
+
+  4. Gradient: soft pale pink gradient
+     Label: "GRADES 11 — 12" | Title: "Sr. Secondary"
+     Text: "Streams in Science, Commerce & Humanities with mentoring for college and life beyond."
+
+Section should have generous vertical padding, white/light background, and the whole thing should be responsive (grid becomes single column on small screens, font sizes scale down).
+
+---
+
+SECTION 2: Stats bar
+
+Layout:
+- A floating white rounded card (large border-radius, subtle drop shadow) that overlaps the bottom edge of a hero/banner image section (dark background image behind it, card sits partially on top, translucent edge blending with image above).
+- Inside the card: 4 columns in a row (stack to 2x2 grid on mobile), separated by thin vertical divider lines between columns.
+- Each column, centered text:
+  - A large bold serif number/stat in dark green (e.g. "1,200+")
+  - Below it, smaller gray label text (e.g. "Happy Students")
+
+  Stats:
+  1. "1,200+" — "Happy Students"
+  2. "75+" — "Expert Teachers"
+  3. "25" — "Years of Excellence"
+  4. "120+" — "Awards & Honours"
+
+Use clean, professional styling matching an educational institute website. Use Tailwind CSS for styling. Make both sections fully responsive and match the color palette: dark green (#2d5016 approx), navy/charcoal for headings, soft gray for body text, and pastel gradient backgrounds for the cards.

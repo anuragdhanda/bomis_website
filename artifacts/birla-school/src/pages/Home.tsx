@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, Award, BookOpen, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Award, BookOpen, Users } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useCallback } from "react";
 import { useListNewsEvents, useListGallery } from "@workspace/api-client-react";
@@ -126,6 +126,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Stats Bar */}
+      <div className="relative z-20 -mt-10 container mx-auto px-4">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-white rounded-2xl shadow-xl grid grid-cols-2 md:grid-cols-4 divide-border"
+          style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.12)" }}
+        >
+          {[
+            { stat: "1,200+", label: "Happy Students" },
+            { stat: "75+", label: "Expert Teachers" },
+            { stat: "25", label: "Years of Excellence" },
+            { stat: "120+", label: "Awards & Honours" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className={`flex flex-col items-center justify-center py-8 px-6 text-center ${i < 3 ? "border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0 border-border"}`}
+            >
+              <span className="text-3xl md:text-4xl font-bold text-[#2d5016]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                {item.stat}
+              </span>
+              <span className="text-sm text-muted-foreground mt-1">{item.label}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
       {/* Highlights Strip */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
@@ -186,6 +214,86 @@ export default function Home() {
                 Meet Faculty <ArrowRight className="h-4 w-4" />
               </Link>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Programs Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-0.5 bg-[#2d5016]" />
+              <span className="text-xs font-bold uppercase tracking-widest text-[#2d5016]">Programs</span>
+              <span className="w-8 h-0.5 bg-[#2d5016]" />
+            </div>
+            <h2
+              className="text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              A path for every age,<br />a future for every child.
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+              Our four academic stages flow seamlessly into one another, building confidence year by year.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                gradient: "from-emerald-50 to-green-100",
+                label: "NURSERY — KG",
+                title: "Pre-Primary",
+                text: "Play-based foundations that build curiosity, confidence, and early literacy.",
+                link: "/academics"
+              },
+              {
+                gradient: "from-yellow-50 to-amber-100",
+                label: "GRADES 1 — 5",
+                title: "Primary",
+                text: "Concept-led learning across subjects, with art, music and outdoor play built in.",
+                link: "/academics"
+              },
+              {
+                gradient: "from-sky-50 to-blue-100",
+                label: "GRADES 6 — 10",
+                title: "Secondary",
+                text: "Strong academic core, project work, and CBSE board preparation done thoughtfully.",
+                link: "/academics"
+              },
+              {
+                gradient: "from-pink-50 to-rose-100",
+                label: "GRADES 11 — 12",
+                title: "Sr. Secondary",
+                text: "Streams in Science, Commerce & Humanities with mentoring for college and life beyond.",
+                link: "/academics"
+              },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className={`relative bg-gradient-to-br ${card.gradient} rounded-[20px] p-10 flex flex-col min-h-[220px]`}
+              >
+                <span className="text-xs font-bold uppercase tracking-widest text-[#2d5016] mb-3">{card.label}</span>
+                <h3
+                  className="text-3xl font-bold text-foreground mb-3"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {card.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed flex-1 pr-12">{card.text}</p>
+                <div className="absolute bottom-6 right-6">
+                  <Link href={card.link}>
+                    <button className="w-11 h-11 bg-[#2d5016] rounded-full flex items-center justify-center shadow-md hover:bg-[#3d6b1a] transition-colors">
+                      <ArrowUpRight className="h-5 w-5 text-white" />
+                    </button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
