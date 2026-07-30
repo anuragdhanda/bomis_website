@@ -1,3 +1,4 @@
+import { randomInt, randomBytes } from "crypto";
 import { Router, type IRouter } from "express";
 import { db, adminsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
@@ -6,17 +7,19 @@ import { hashPassword, verifyPassword, signToken } from "../lib/auth.js";
 import { requireAdmin, type AuthenticatedRequest } from "../middlewares/requireAdmin.js";
 import { logger } from "../lib/logger.js";
 import nodemailer from "nodemailer";
+import { authRateLimit } from "../middlewares/rateLimits.js";
 
 const router: IRouter = Router();
 
 // ---------------------------------------------------------------------------
 // In-memory OTP store
 // ---------------------------------------------------------------------------
-interface OtpEntry { otp: string; expiresAt: number; }
+interface OtpEntry { otp: string; expiresAt: number; attempts: number; }
 const otpStore = new Map<string, OtpEntry>();
 
+/** Cryptographically secure 6-digit OTP */
 function generateOtp(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  return randomInt(100000, 1000000).toString();
 }
 
 function createTransporter() {
@@ -31,7 +34,7 @@ function gmailUser() { return process.env["GMAIL_USER"] ?? ""; }
 // ---------------------------------------------------------------------------
 // POST /auth/login
 // ---------------------------------------------------------------------------
-router.post("/auth/login", async (req, res): Promise<void> => {
+router.post("/auth/login", authRateLimit, async (req, res): Promise<void> => {
   const parsed = AdminLoginBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -57,7 +60,7 @@ router.get("/auth/me", requireAdmin, async (req: AuthenticatedRequest, res): Pro
 // ---------------------------------------------------------------------------
 // POST /auth/register  — create new admin (requires SESSION_SECRET as adminKey)
 // ---------------------------------------------------------------------------
-router.post("/auth/register", async (req, res): Promise<void> => {
+router.post("/auth/register", authRateLimit, async (req, res): Promise<void> => {
   const { username, password, confirmPassword, adminKey, email } = req.body ?? {};
 
   if (!username || !password || !confirmPassword || !adminKey || !email) {
@@ -68,8 +71,8 @@ router.post("/auth/register", async (req, res): Promise<void> => {
     res.status(400).json({ error: "Username must be at least 3 characters" });
     return;
   }
-  if (typeof password !== "string" || password.length < 6) {
-    res.status(400).json({ error: "Password must be at least 6 characters" });
+  if (typeof password !== "string" || password.length < 8) {
+    res.status(400).json({ error: "Password must be at least 8 characters" });
     return;
   }
   if (password !== confirmPassword) {
@@ -79,7 +82,7 @@ router.post("/auth/register", async (req, res): Promise<void> => {
 
   // Basic email format check
   if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    res.status(400).json({ error: "Enter a valid Gmail address" });
+    res.status(400).json({ error: "Enter a valid email address" });
     return;
   }
 
@@ -114,7 +117,7 @@ router.post("/auth/register", async (req, res): Promise<void> => {
 // ---------------------------------------------------------------------------
 // POST /auth/forgot-password  — send OTP to admin's registered email
 // ---------------------------------------------------------------------------
-router.post("/auth/forgot-password", async (req, res): Promise<void> => {
+router.post("/auth/forgot-password", authRateLimit, async (req, res): Promise<void> => {
   const { username } = req.body ?? {};
   if (!username || typeof username !== "string") {
     res.status(400).json({ error: "Username is required" });
@@ -130,7 +133,7 @@ router.post("/auth/forgot-password", async (req, res): Promise<void> => {
   }
 
   const otp = generateOtp();
-  otpStore.set(username.trim(), { otp, expiresAt: Date.now() + 10 * 60 * 1000 });
+  otpStore.set(username.trim(), { otp, expiresAt: Date.now() + 10 * 60 * 1000, attempts: 0 });
 
   const transporter = createTransporter();
   if (transporter) {
@@ -138,7 +141,7 @@ router.post("/auth/forgot-password", async (req, res): Promise<void> => {
       await transporter.sendMail({
         from: `"BOMIS Admin Portal" <${gmailUser()}>`,
         to: admin.email,
-        subject: `[BOMIS] Password Reset OTP — ${otp}`,
+        subject: `[BOMIS] Password Reset OTP`,
         html: `
 <div style="font-family:sans-serif;max-width:480px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
   <div style="background:#8B1E2D;padding:24px 32px;">
@@ -157,13 +160,13 @@ router.post("/auth/forgot-password", async (req, res): Promise<void> => {
   </div>
 </div>`,
       });
-      logger.info({ username: admin.username, email: admin.email }, "OTP email sent");
+      logger.info({ username: admin.username }, "OTP email sent");
     } catch (err) {
       logger.error({ err }, "Failed to send OTP email");
     }
   } else {
-    // Dev fallback — log OTP to console
-    logger.warn({ otp, username, email: admin.email }, "Email not configured — OTP logged for dev use");
+    // Email not configured — OTP is not delivered. Do NOT log it.
+    logger.warn({ username }, "Email not configured — OTP could not be delivered. Configure GMAIL_USER and GMAIL_APP_PASSWORD.");
   }
 
   res.json({ message: "If that username exists, an OTP has been sent to the registered email." });
@@ -172,14 +175,14 @@ router.post("/auth/forgot-password", async (req, res): Promise<void> => {
 // ---------------------------------------------------------------------------
 // POST /auth/reset-password
 // ---------------------------------------------------------------------------
-router.post("/auth/reset-password", async (req, res): Promise<void> => {
+router.post("/auth/reset-password", authRateLimit, async (req, res): Promise<void> => {
   const { username, otp, newPassword } = req.body ?? {};
   if (!username || !otp || !newPassword) {
     res.status(400).json({ error: "username, otp and newPassword are required" });
     return;
   }
-  if (typeof newPassword !== "string" || newPassword.length < 6) {
-    res.status(400).json({ error: "Password must be at least 6 characters" });
+  if (typeof newPassword !== "string" || newPassword.length < 8) {
+    res.status(400).json({ error: "Password must be at least 8 characters" });
     return;
   }
   const entry = otpStore.get(username.trim());
@@ -189,6 +192,15 @@ router.post("/auth/reset-password", async (req, res): Promise<void> => {
     res.status(400).json({ error: "OTP has expired. Please request a new one." });
     return;
   }
+
+  // Limit OTP guessing attempts per request window
+  entry.attempts += 1;
+  if (entry.attempts > 5) {
+    otpStore.delete(username.trim());
+    res.status(429).json({ error: "Too many incorrect attempts. Please request a new OTP." });
+    return;
+  }
+
   if (entry.otp !== otp.trim()) { res.status(400).json({ error: "Invalid OTP." }); return; }
 
   const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
@@ -200,15 +212,21 @@ router.post("/auth/reset-password", async (req, res): Promise<void> => {
 });
 
 // ---------------------------------------------------------------------------
-// Seed default admin (no email — nullable)
+// Seed default admin on first boot — generates a random secure password
 // ---------------------------------------------------------------------------
 export async function ensureDefaultAdmin(): Promise<void> {
   const existing = await db.select().from(adminsTable);
   if (existing.length === 0) {
+    const temporaryPassword = randomBytes(12).toString("base64url");
     await db.insert(adminsTable).values({
       username: "admin",
-      passwordHash: hashPassword("birla@admin2024"),
+      passwordHash: hashPassword(temporaryPassword),
     });
+    logger.warn(
+      { username: "admin", temporaryPassword },
+      "⚠️  Default admin seeded with a random temporary password. " +
+      "Log in immediately and change it via /auth/reset-password, then delete this log entry.",
+    );
   }
 }
 

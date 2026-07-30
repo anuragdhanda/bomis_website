@@ -1,10 +1,11 @@
 import { Router, type IRouter } from "express";
 import { db, newsEventsTable, galleryTable, facultyTable, inquiriesTable } from "@workspace/db";
 import { eq, count } from "drizzle-orm";
+import { requireAdmin } from "../middlewares/requireAdmin.js";
 
 const router: IRouter = Router();
 
-router.get("/stats", async (_req, res): Promise<void> => {
+router.get("/stats", requireAdmin, async (_req, res): Promise<void> => {
   const [newsCount] = await db.select({ count: count() }).from(newsEventsTable).where(eq(newsEventsTable.type, "news"));
   const [eventCount] = await db.select({ count: count() }).from(newsEventsTable).where(eq(newsEventsTable.type, "event"));
   const [galleryCount] = await db.select({ count: count() }).from(galleryTable);

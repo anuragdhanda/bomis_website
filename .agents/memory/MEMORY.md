@@ -1,1 +1,2 @@
 - [Imported workspace setup](imported-workspace-setup.md) — imported pnpm workspaces need dependencies and the Drizzle development schema initialized before workflows are usable.
+- [Security hardening patterns](security-hardening-patterns.md) — JWT fallback secrets, hardcoded seed passwords, predictable OTPs, unauthenticated data endpoints, and partial [[ports]] entries are the patterns to check on every Express service.
