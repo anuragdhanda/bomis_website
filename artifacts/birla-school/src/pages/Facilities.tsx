@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Coffee } from "lucide-react";
+import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Monitor } from "lucide-react";
 
 const FACILITIES = [
   {
@@ -33,10 +33,10 @@ const FACILITIES = [
     description: "Learning comes alive in our smart classrooms. Equipped with interactive flat panels, digital content repositories, and ergonomic furniture, these spaces are designed to make learning highly engaging, visual, and interactive."
   },
   {
-    title: "Hygienic Cafeteria",
-    icon: Coffee,
-    image: "/attached_assets/generated_images/cafeteria.jpg",
-    description: "Our modern cafeteria serves nutritious, balanced, and delicious meals prepared under strict hygiene standards. The menu is regularly updated in consultation with nutritionists to ensure students get the energy they need for a productive day."
+    title: "Computer Lab",
+    icon: Monitor,
+    image: "/attached_assets/generated_images/smart-classes.jpg",
+    description: "Our fully-equipped computer lab features the latest desktops, high-speed internet, and licensed software for programming, design, and digital literacy. Students gain hands-on exposure to coding, MS Office, and emerging technologies from an early age."
   }
 ];
 
