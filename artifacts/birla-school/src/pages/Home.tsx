@@ -289,7 +289,7 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className={`relative bg-gradient-to-br ${card.gradient} rounded-[20px] p-10 flex flex-col min-h-[220px]`}
               >
-                <span className="text-xs font-bold uppercase tracking-widest text-[#2d5016] mb-3">{card.label}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#F15A29] mb-3">{card.label}</span>
                 <h3
                   className="text-3xl font-bold text-foreground mb-3"
                   style={{ fontFamily: "'Playfair Display', serif" }}
