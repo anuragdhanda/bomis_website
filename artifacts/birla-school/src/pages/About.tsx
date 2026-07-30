@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Coffee, Flag, Building2, GraduationCap, Users, Star, Rocket } from "lucide-react";
+import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Monitor, Flag, Building2, GraduationCap, Users, Star, Rocket } from "lucide-react";
 
 const MILESTONES = [
   {
@@ -263,7 +263,7 @@ export default function About() {
               { icon: Trophy, title: "Sports Complex" },
               { icon: MonitorPlay, title: "Smart Classrooms" },
               { icon: Bus, title: "Safe Transport" },
-              { icon: Coffee, title: "Hygienic Cafeteria" }
+              { icon: Monitor, title: "Computer Lab" }
             ].map((facility, index) => (
               <motion.div
                 key={index}
