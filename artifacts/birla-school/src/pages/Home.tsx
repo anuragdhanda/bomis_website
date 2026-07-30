@@ -369,34 +369,84 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-secondary text-secondary-foreground relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-16">
-            Hear From Our Parents
-          </h2>
+      <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-5" style={{backgroundImage: "radial-gradient(circle, #F15A29 1px, transparent 1px)", backgroundSize: "40px 40px"}} />
 
-          <div className="max-w-4xl mx-auto" ref={testiRef}>
-            <div className="flex touch-pan-y">
-              {TESTIMONIALS.map((testi, i) => (
-                <div key={i} className="flex-[0_0_100%] min-w-0 px-4">
-                  <div className="text-center">
-                    <div className="text-5xl text-primary mb-6 font-serif">"</div>
-                    <p className="text-xl md:text-3xl font-medium text-white/90 leading-relaxed mb-10">
-                      {testi.quote}
-                    </p>
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-3 bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20">
+              Parent Testimonials
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mt-3">
+              Hear From Our <span className="text-primary">Parents</span>
+            </h2>
+            <p className="text-white/50 mt-4 max-w-xl mx-auto text-base">
+              Real experiences from families who chose BOMIS Rajound for their children's future.
+            </p>
+          </div>
+
+          {/* Cards grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {TESTIMONIALS.map((testi, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className="relative group"
+              >
+                {/* Card */}
+                <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full flex flex-col hover:bg-white/10 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10">
+                  {/* Big decorative quote */}
+                  <div className="absolute -top-4 -left-2 text-8xl text-primary/20 font-serif leading-none select-none group-hover:text-primary/30 transition-colors">
+                    "
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-5 relative">
+                    {[...Array(5)].map((_, s) => (
+                      <svg key={s} className="w-4 h-4 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Quote text */}
+                  <p className="text-white/80 leading-relaxed text-[15px] flex-1 relative italic">
+                    {testi.quote}
+                  </p>
+
+                  {/* Divider */}
+                  <div className="my-6 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                  {/* Author */}
+                  <div className="flex items-center gap-4">
+                    {/* Avatar circle with initials */}
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-orange-400 flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg shadow-primary/30">
+                      {testi.author.split(" ").map(n => n[0]).join("")}
+                    </div>
                     <div>
-                      <div className="font-bold text-white text-lg">{testi.author}</div>
-                      <div className="text-primary/90">{testi.role}</div>
+                      <div className="font-bold text-white text-sm">{testi.author}</div>
+                      <div className="text-primary/80 text-xs mt-0.5">{testi.role}</div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom tagline */}
+          <div className="text-center mt-12">
+            <p className="text-white/30 text-sm">Join 1,200+ families who trust BOMIS Rajound</p>
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       </section>
 
       {/* Gallery Preview */}
