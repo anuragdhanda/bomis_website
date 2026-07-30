@@ -235,9 +235,9 @@ export default function Home() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-4 text-ring border-t-[color:var(--color-red-400)] border-r-[color:var(--color-red-400)] border-b-[color:var(--color-red-400)] border-l-[color:var(--color-red-400)]">
-              <span className="w-8 h-0.5 bg-[#2d5016]" />
-              <span className="text-xs font-bold uppercase tracking-widest text-[#2d5016]">Programs</span>
-              <span className="w-8 h-0.5 bg-[#2d5016]" />
+              <span className="w-8 h-0.5 bg-primary" />
+              <span className="text-xs font-bold uppercase tracking-widest text-primary">Programs</span>
+              <span className="w-8 h-0.5 bg-primary" />
             </div>
             <h2
               className="text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight"
