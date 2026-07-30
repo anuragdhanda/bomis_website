@@ -48,6 +48,21 @@ const TESTIMONIALS = [
     quote: "We are continually impressed by the school's infrastructure and the management's commitment to providing a safe, enriching environment.",
     author: "Anita Patel",
     role: "Parent of Grade 10 Student"
+  },
+  {
+    quote: "The sports and extracurricular programs at BOMIS are outstanding. My son has grown not just academically but as a confident, well-rounded individual.",
+    author: "Suresh Kumar",
+    role: "Parent of Grade 6 Student"
+  },
+  {
+    quote: "Communication between teachers and parents is excellent. We always feel involved in our daughter's learning journey. Truly a community school.",
+    author: "Meena Agarwal",
+    role: "Parent of Grade 3 Student"
+  },
+  {
+    quote: "The values instilled here go beyond textbooks. My child has become more disciplined, empathetic, and goal-oriented since joining BOMIS Rajound.",
+    author: "Vikram Singh",
+    role: "Parent of Grade 11 Student"
   }
 ];
 
@@ -369,47 +384,51 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
-        <div className="absolute top-10 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute inset-0 opacity-5" style={{backgroundImage: "radial-gradient(circle, #F15A29 1px, transparent 1px)", backgroundSize: "40px 40px"}} />
+      <section className="py-24 relative overflow-hidden bg-white">
+        {/* Orange top accent */}
+        <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-300 via-primary to-orange-300" />
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: "radial-gradient(circle, #F15A29 1.5px, transparent 1.5px)", backgroundSize: "32px 32px"}} />
+        {/* Corner blobs */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-orange-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
 
         <div className="container mx-auto px-4 relative z-10">
           {/* Header */}
-          <div className="text-center mb-16">
-            <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-3 bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20">
-              Parent Testimonials
+          <div className="text-center mb-14">
+            <span className="inline-block text-primary font-semibold text-xs uppercase tracking-widest mb-4 bg-orange-50 px-5 py-2 rounded-full border border-orange-200">
+              ⭐ Parent Testimonials
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mt-3">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-2">
               Hear From Our <span className="text-primary">Parents</span>
             </h2>
-            <p className="text-white/50 mt-4 max-w-xl mx-auto text-base">
+            <p className="text-gray-500 mt-4 max-w-xl mx-auto text-base leading-relaxed">
               Real experiences from families who chose BOMIS Rajound for their children's future.
             </p>
           </div>
 
-          {/* Cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* Cards grid — 3 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {TESTIMONIALS.map((testi, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="relative group"
+                transition={{ duration: 0.45, delay: i * 0.1 }}
+                className="group"
               >
-                {/* Card */}
-                <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full flex flex-col hover:bg-white/10 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10">
-                  {/* Big decorative quote */}
-                  <div className="absolute -top-4 -left-2 text-8xl text-primary/20 font-serif leading-none select-none group-hover:text-primary/30 transition-colors">
-                    "
+                <div className="relative bg-white border border-orange-100 rounded-2xl p-7 h-full flex flex-col shadow-sm hover:shadow-xl hover:shadow-orange-100 hover:-translate-y-1.5 hover:border-primary/30 transition-all duration-300">
+                  {/* Top orange stripe */}
+                  <div className="absolute top-0 left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-primary/40 to-transparent rounded-full" />
+
+                  {/* Large decorative quote mark */}
+                  <div className="text-7xl text-primary/10 font-serif leading-none select-none mb-1 group-hover:text-primary/20 transition-colors -mt-2">
+                    ❝
                   </div>
 
                   {/* Stars */}
-                  <div className="flex gap-1 mb-5 relative">
+                  <div className="flex gap-0.5 mb-4">
                     {[...Array(5)].map((_, s) => (
                       <svg key={s} className="w-4 h-4 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -417,23 +436,22 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Quote text */}
-                  <p className="text-white/80 leading-relaxed text-[15px] flex-1 relative italic">
-                    {testi.quote}
+                  {/* Quote */}
+                  <p className="text-gray-600 leading-relaxed text-[14.5px] flex-1 italic">
+                    "{testi.quote}"
                   </p>
 
                   {/* Divider */}
-                  <div className="my-6 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                  <div className="my-5 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
 
-                  {/* Author */}
-                  <div className="flex items-center gap-4">
-                    {/* Avatar circle with initials */}
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-orange-400 flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg shadow-primary/30">
+                  {/* Author row */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-orange-300 flex items-center justify-center text-white font-bold text-base flex-shrink-0 shadow-md shadow-orange-200">
                       {testi.author.split(" ").map(n => n[0]).join("")}
                     </div>
                     <div>
-                      <div className="font-bold text-white text-sm">{testi.author}</div>
-                      <div className="text-primary/80 text-xs mt-0.5">{testi.role}</div>
+                      <div className="font-bold text-gray-900 text-sm">{testi.author}</div>
+                      <div className="text-primary text-xs font-medium mt-0.5">{testi.role}</div>
                     </div>
                   </div>
                 </div>
@@ -441,12 +459,19 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Bottom tagline */}
-          <div className="text-center mt-12">
-            <p className="text-white/30 text-sm">Join 1,200+ families who trust BOMIS Rajound</p>
+          {/* Bottom trust badge */}
+          <div className="text-center mt-12 flex flex-col items-center gap-2">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, s) => (
+                <svg key={s} className="w-5 h-5 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <p className="text-gray-400 text-sm">Trusted by <span className="text-primary font-semibold">1,200+ families</span> at BOMIS Rajound</p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-300 via-primary to-orange-300" />
       </section>
 
       {/* Gallery Preview */}
