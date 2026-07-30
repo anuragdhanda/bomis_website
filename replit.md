@@ -1,56 +1,41 @@
-# Birla Open Minds International School (BOMIS) Website
+# Birla Open Minds International School (BOMIS Rajound)
 
-A full-stack dynamic website for Birla Open Minds International School, Rajound.
+A full-stack school website for BOMIS Rajound — Birla Open Minds International School.
 
 ## Stack
 
-- **Frontend**: React + Vite + Tailwind CSS (artifact: `artifacts/birla-school`, preview path: `/`)
-- **Backend**: Node.js + Express REST API (artifact: `artifacts/api-server`, preview path: `/api`)
-- **Database**: PostgreSQL via Drizzle ORM (lib: `lib/db`)
-- **Monorepo**: pnpm workspaces
+- **Frontend** (`artifacts/birla-school`): React + Vite + Tailwind CSS + shadcn/ui
+- **Backend** (`artifacts/api-server`): Express 5 + Drizzle ORM + PostgreSQL
+- **Shared libs** (`lib/`): `api-spec`, `api-zod`, `api-client-react`, `db`
+- **Package manager**: pnpm (monorepo)
 
-## How to Run
+## Running the project
 
-Dependencies are installed with `pnpm install` from the workspace root.
+Both services start automatically via managed workflows.
 
-The database schema is pushed with:
-```
-pnpm --filter @workspace/db run push
-```
+| Service | Workflow name | Port |
+|---------|--------------|------|
+| Frontend (React/Vite) | `artifacts/birla-school: web` | 5173 |
+| API server (Express) | `artifacts/api-server: API Server` | 8080 |
 
-Two workflows run the app:
-- **`artifacts/birla-school: web`** — Vite dev server for the React frontend
-- **`artifacts/api-server: API Server`** — Express API (builds then starts)
+To start from scratch after a fresh import:
 
-## Project Structure
-
-```
-artifacts/
-  birla-school/     # React frontend (pages, components, hooks)
-  api-server/       # Express backend (routes, middlewares)
-lib/
-  db/               # Drizzle ORM schema + client (PostgreSQL)
-  api-zod/          # Shared Zod validation schemas
-  api-spec/         # OpenAPI spec + Orval codegen config
-  api-client-react/ # Generated React Query hooks from API spec
-attached_assets/    # School logo and images
+```bash
+pnpm install --frozen-lockfile   # install all workspace dependencies
+cd lib/db && pnpm run push        # push Drizzle schema to the database
 ```
 
-## Pages
+## Environment variables / secrets
 
-Home, About Us, Academics, Admissions, Faculty, Gallery, Facilities, Contact Us, News & Events, Admin Panel (JWT-protected)
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `DATABASE_URL` | ✅ Yes | PostgreSQL connection (auto-provided by Replit) |
+| `SESSION_SECRET` | ✅ Yes | JWT/session signing for the API |
+| `GMAIL_USER` | Optional | Gmail address for inquiry email notifications |
+| `GMAIL_APP_PASSWORD` | Optional | Gmail app password for email notifications |
 
-## Environment Variables
+Email notifications are gracefully disabled if `GMAIL_USER`/`GMAIL_APP_PASSWORD` are not set.
 
-- `DATABASE_URL` — managed by Replit (auto-provisioned PostgreSQL)
-- `SESSION_SECRET` — secret for JWT signing
-- `GMAIL_USER` / `GMAIL_APP_PASSWORD` — optional, enables email notifications for contact/admission forms
+## User preferences
 
-## Admin Panel
-
-Default admin credentials are seeded on first startup. The admin panel (`/admin`) supports CRUD for News, Events, Gallery, Faculty, and Admissions inquiries.
-
-## User Preferences
-
-- Keep the existing orange (#F15A29) and white theme
-- Use the uploaded logo assets from `attached_assets/`
+<!-- Add remembered preferences here -->
