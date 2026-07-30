@@ -228,10 +228,10 @@ export default function About() {
             >
               <div className="w-full md:w-1/3 shrink-0">
                 <div className="aspect-square rounded-xl overflow-hidden bg-muted">
-                  <img src="/attached_assets/generated_images/principal.jpg" alt="Principal" className="w-full h-full object-cover" />
+                  <img src="/principal.png" alt="Principal" className="w-full h-full object-cover" />
                 </div>
                 <div className="mt-4 text-center md:text-left">
-                  <h4 className="font-bold text-lg text-foreground">Dr. Meera Menon</h4>
+                  <h4 className="font-bold text-lg text-foreground">Mr. Shishpal</h4>
                   <p className="text-primary font-medium text-sm">Principal</p>
                 </div>
               </div>
