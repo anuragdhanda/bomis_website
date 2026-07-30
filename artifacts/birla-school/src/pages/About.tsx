@@ -1,5 +1,44 @@
 import { motion } from "framer-motion";
-import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Coffee } from "lucide-react";
+import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Coffee, Flag, Building2, GraduationCap, Users, Star, Rocket } from "lucide-react";
+
+const MILESTONES = [
+  {
+    year: "2015",
+    icon: Flag,
+    title: "Foundation Laid",
+    description: "Birla Open Minds International School, Rajound was established under the visionary leadership of Mr. Yashovardhan Birla, with a mission to bring world-class education to Haryana."
+  },
+  {
+    year: "2016",
+    icon: Building2,
+    title: "Campus Inauguration",
+    description: "Our state-of-the-art campus spanning acres of greenery was inaugurated, featuring modern classrooms, science labs, and a dedicated sports complex."
+  },
+  {
+    year: "2018",
+    icon: GraduationCap,
+    title: "First Graduating Batch",
+    description: "Our pioneer batch completed their schooling journey with outstanding board results, with 95% of students securing distinction grades."
+  },
+  {
+    year: "2019",
+    icon: Users,
+    title: "1,000 Students Milestone",
+    description: "BOMIS reached an enrolment of over 1,000 students, reflecting the community's trust and the school's growing reputation across Haryana."
+  },
+  {
+    year: "2021",
+    icon: Star,
+    title: "Academic Excellence Award",
+    description: "Recognised as one of the top CBSE schools in the Kaithal district, receiving the State Academic Excellence Award for consistent outstanding board results."
+  },
+  {
+    year: "2024",
+    icon: Rocket,
+    title: "Smart Campus Expansion",
+    description: "Launched a full digital transformation with smart classrooms, an upgraded STEM lab, and a new student wellness centre, furthering our commitment to holistic education."
+  }
+];
 
 export default function About() {
   return (
@@ -84,8 +123,73 @@ export default function About() {
         </div>
       </section>
 
-      {/* Leadership Messages */}
+      {/* Our Journey — Milestones */}
       <section className="py-24 bg-background">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-bold text-foreground mb-4"
+            >
+              Our Journey
+            </motion.h2>
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            >
+              A decade of dedication, growth, and unwavering commitment to excellence.
+            </motion.p>
+          </div>
+
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-px" />
+
+            <div className="flex flex-col gap-12">
+              {MILESTONES.map((milestone, index) => {
+                const isEven = index % 2 === 0;
+                return (
+                  <motion.div
+                    key={milestone.year}
+                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`relative flex items-start gap-6 md:gap-0 ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
+                  >
+                    {/* Content card */}
+                    <div className={`pl-16 md:pl-0 md:w-[calc(50%-2.5rem)] ${isEven ? "md:pr-10 md:text-right" : "md:pl-10"}`}>
+                      <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <span className="inline-block bg-primary/10 text-primary font-bold text-sm px-3 py-1 rounded-full mb-3">
+                          {milestone.year}
+                        </span>
+                        <h3 className="text-xl font-bold text-foreground mb-2">{milestone.title}</h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">{milestone.description}</p>
+                      </div>
+                    </div>
+
+                    {/* Icon dot — centered on the line */}
+                    <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg z-10">
+                      <milestone.icon className="h-5 w-5 text-white" />
+                    </div>
+
+                    {/* Spacer for opposite side on desktop */}
+                    <div className="hidden md:block md:w-[calc(50%-2.5rem)]" />
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Messages */}
+      <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">Our Leadership</h2>
           
