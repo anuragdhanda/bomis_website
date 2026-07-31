@@ -16,25 +16,9 @@ import Facilities from "@/pages/Facilities";
 import Contact from "@/pages/Contact";
 import StudentPortal from "@/pages/StudentPortal";
 
-// Admin
-import AdminLogin from "@/pages/admin/Login";
-import AdminDashboard from "@/pages/admin/Dashboard";
-import NewsPage from "@/pages/admin/pages/NewsPage";
-import GalleryPage from "@/pages/admin/pages/GalleryPage";
-import FacultyPage from "@/pages/admin/pages/FacultyPage";
-import InquiriesPage from "@/pages/admin/pages/InquiriesPage";
-
 function Router() {
   return (
     <Switch>
-      {/* ── Admin Routes (no PublicLayout) ───────────────────── */}
-      <Route path="/admin/login"     component={AdminLogin} />
-      <Route path="/admin/news"      component={NewsPage} />
-      <Route path="/admin/gallery"   component={GalleryPage} />
-      <Route path="/admin/faculty"   component={FacultyPage} />
-      <Route path="/admin/inquiries" component={InquiriesPage} />
-      <Route path="/admin"           component={AdminDashboard} />
-
       {/* ── Public Routes ────────────────────────────────────── */}
       <Route path="/">
         <PublicLayout><Home /></PublicLayout>
