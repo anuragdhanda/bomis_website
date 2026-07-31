@@ -25,7 +25,7 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 import { useListGallery } from "@workspace/api-client-react";
-import heroBuildingImg from "@assets/1000012710_1785343069794.png";
+import heroBuildingImg from "@assets/file_000000003a648208a8d8ede98caf1363_1785517414158.png";
 import heroGardenImg from "@assets/1000012712_1785343063211.png";
 import heroAssemblyImg from "@assets/file_00000000173c8208bd2a49578dac6e25_1785344981644.png";
 
