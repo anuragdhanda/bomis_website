@@ -1,8 +1,29 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, Award, BookOpen, Users } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
+
+function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 1600;
+    const startTime = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [isInView, target]);
+
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+}
 import { useListGallery } from "@workspace/api-client-react";
 import heroBuildingImg from "@assets/1000012710_1785343069794.png";
 import heroGardenImg from "@assets/1000012712_1785343063211.png";
@@ -148,17 +169,17 @@ export default function Home() {
           style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.12)" }}
         >
           {[
-            { stat: "1,200+", label: "Happy Students" },
-            { stat: "75+", label: "Expert Teachers" },
-            { stat: "25", label: "Years of Excellence" },
-            { stat: "120+", label: "Awards & Honours" },
+            { target: 1200, suffix: "+", label: "Happy Students" },
+            { target: 75,   suffix: "+", label: "Expert Teachers" },
+            { target: 25,   suffix: "",  label: "Years of Excellence" },
+            { target: 120,  suffix: "+", label: "Awards & Honours" },
           ].map((item, i) => (
             <div
               key={i}
               className={`flex flex-col items-center justify-center py-8 px-6 text-center ${i < 3 ? "border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0 border-border"}`}
             >
               <span className="text-3xl md:text-4xl font-bold text-primary" style={{ fontFamily: "'Playfair Display', serif" }}>
-                {item.stat}
+                <AnimatedCounter target={item.target} suffix={item.suffix} />
               </span>
               <span className="text-sm text-muted-foreground mt-1">{item.label}</span>
             </div>
