@@ -3,7 +3,6 @@ import { Link, useLocation } from "wouter";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
-  Newspaper,
   Image as ImageIcon,
   Users,
   MessageSquare,
@@ -18,7 +17,6 @@ import { useGetDashboardStats } from "@workspace/api-client-react";
 
 const NAV_ITEMS = [
   { href: "/admin",            label: "Overview",       icon: LayoutDashboard, exact: true },
-  { href: "/admin/news",       label: "News & Events",  icon: Newspaper },
   { href: "/admin/gallery",    label: "Gallery",        icon: ImageIcon },
   { href: "/admin/faculty",    label: "Faculty",        icon: Users },
   { href: "/admin/inquiries",  label: "Inquiries",      icon: MessageSquare },

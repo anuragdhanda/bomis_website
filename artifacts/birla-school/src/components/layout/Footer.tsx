@@ -55,9 +55,6 @@ export function Footer() {
             <h4 className="text-lg font-semibold text-white mb-6">Discover</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/news-events" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">News & Events</Link>
-              </li>
-              <li>
                 <Link href="/gallery" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Gallery</Link>
               </li>
               <li>

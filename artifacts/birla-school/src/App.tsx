@@ -10,8 +10,6 @@ import Academics from "@/pages/Academics";
 import Admissions from "@/pages/Admissions";
 import Faculty from "@/pages/Faculty";
 import Gallery from "@/pages/Gallery";
-import NewsEvents from "@/pages/NewsEvents";
-import NewsEventDetail from "@/pages/NewsEventDetail";
 import Facilities from "@/pages/Facilities";
 import Contact from "@/pages/Contact";
 import StudentPortal from "@/pages/StudentPortal";
@@ -19,7 +17,6 @@ import StudentPortal from "@/pages/StudentPortal";
 // Admin
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
-import NewsPage from "@/pages/admin/pages/NewsPage";
 import GalleryPage from "@/pages/admin/pages/GalleryPage";
 import FacultyPage from "@/pages/admin/pages/FacultyPage";
 import InquiriesPage from "@/pages/admin/pages/InquiriesPage";
@@ -29,7 +26,6 @@ function Router() {
     <Switch>
       {/* ── Admin Routes (no PublicLayout) ───────────────────── */}
       <Route path="/admin/login"     component={AdminLogin} />
-      <Route path="/admin/news"      component={NewsPage} />
       <Route path="/admin/gallery"   component={GalleryPage} />
       <Route path="/admin/faculty"   component={FacultyPage} />
       <Route path="/admin/inquiries" component={InquiriesPage} />
@@ -53,12 +49,6 @@ function Router() {
       </Route>
       <Route path="/gallery">
         <PublicLayout><Gallery /></PublicLayout>
-      </Route>
-      <Route path="/news-events">
-        <PublicLayout><NewsEvents /></PublicLayout>
-      </Route>
-      <Route path="/news-events/:id">
-        <PublicLayout><NewsEventDetail /></PublicLayout>
       </Route>
       <Route path="/facilities">
         <PublicLayout><Facilities /></PublicLayout>

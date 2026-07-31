@@ -3,8 +3,7 @@ import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, Award, BookOpen, Users } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useCallback } from "react";
-import { useListNewsEvents, useListGallery } from "@workspace/api-client-react";
-import { format } from "date-fns";
+import { useListGallery } from "@workspace/api-client-react";
 import heroBuildingImg from "@assets/1000012710_1785343069794.png";
 import heroGardenImg from "@assets/1000012712_1785343063211.png";
 import heroAssemblyImg from "@assets/file_00000000173c8208bd2a49578dac6e25_1785344981644.png";
@@ -70,7 +69,6 @@ export default function Home() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [testiRef, testiApi] = useEmblaCarousel({ loop: true });
 
-  const { data: newsEvents } = useListNewsEvents({ limit: 3 });
   const { data: galleryItems } = useListGallery();
 
   const scrollNext = useCallback(() => {
@@ -306,75 +304,6 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-      {/* Latest News & Events */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">News & Events</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">
-                Stay updated with the latest happenings, achievements, and upcoming events at our campus.
-              </p>
-            </div>
-            <Link 
-              href="/news-events" 
-              className="bg-background border border-border hover:bg-accent hover:text-white text-foreground px-6 py-2.5 rounded-md font-medium transition-colors"
-            >
-              View All News
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {Array.isArray(newsEvents) && newsEvents.length > 0 ? (
-              newsEvents.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-card rounded-xl overflow-hidden border border-border shadow-sm group"
-                >
-                  <div className="h-48 overflow-hidden bg-muted relative">
-                    {item.imageUrl ? (
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-secondary/5 text-secondary">
-                        <BookOpen className="h-12 w-12 opacity-50" />
-                      </div>
-                    )}
-                    <div className="absolute top-4 right-4 bg-background/90 backdrop-blur text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider text-foreground">
-                      {item.type}
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="text-sm text-primary font-medium mb-3">
-                      {format(new Date(item.publishedAt), "MMM dd, yyyy")}
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4 line-clamp-2">
-                      {item.excerpt || item.content.substring(0, 100) + "..."}
-                    </p>
-                    <Link href={`/news-events/${item.id}`} className="text-primary font-medium flex items-center gap-1 hover:underline">
-                      Read More <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              <div className="col-span-3 text-center py-12 text-muted-foreground">
-                No recent news or events available.
-              </div>
-            )}
           </div>
         </div>
       </section>

@@ -1,14 +1,12 @@
 import { useGetDashboardStats } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Newspaper, Calendar, Image as ImageIcon, Users, MessageSquare, BellRing, ArrowRight } from "lucide-react";
+import { Image as ImageIcon, Users, MessageSquare, BellRing, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 
 const statCards = [
   { label: "New Inquiries",    icon: BellRing,      color: "text-red-500",    bg: "bg-red-500/10",    href: "/admin/inquiries", key: "newInquiries" as const },
   { label: "Total Inquiries",  icon: MessageSquare, color: "text-blue-500",   bg: "bg-blue-500/10",   href: "/admin/inquiries", key: "totalInquiries" as const },
-  { label: "News Articles",    icon: Newspaper,     color: "text-green-500",  bg: "bg-green-500/10",  href: "/admin/news",      key: "totalNews" as const },
-  { label: "Upcoming Events",  icon: Calendar,      color: "text-amber-500",  bg: "bg-amber-500/10",  href: "/admin/news",      key: "totalEvents" as const },
   { label: "Faculty Members",  icon: Users,         color: "text-purple-500", bg: "bg-purple-500/10", href: "/admin/faculty",   key: "totalFaculty" as const },
   { label: "Gallery Images",   icon: ImageIcon,     color: "text-pink-500",   bg: "bg-pink-500/10",   href: "/admin/gallery",   key: "totalGallery" as const },
 ];
@@ -65,7 +63,6 @@ export default function DashboardHome() {
         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Add News / Event", href: "/admin/news", icon: Newspaper, color: "bg-green-500" },
             { label: "Add Gallery Image", href: "/admin/gallery", icon: ImageIcon, color: "bg-pink-500" },
             { label: "Add Faculty Member", href: "/admin/faculty", icon: Users, color: "bg-purple-500" },
             { label: "View Inquiries", href: "/admin/inquiries", icon: MessageSquare, color: "bg-blue-500" },
