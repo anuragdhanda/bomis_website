@@ -422,6 +422,11 @@ paths:
                 $ref: "#/components/schemas/DashboardStats"
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     HealthStatus:
       type: object

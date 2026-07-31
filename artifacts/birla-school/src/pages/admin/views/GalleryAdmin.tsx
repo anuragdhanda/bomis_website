@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   useListGallery, useCreateGalleryItem, useDeleteGalleryItem,
   GalleryItemInputCategory,
@@ -19,12 +19,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Trash2, Plus, ImageIcon } from "lucide-react";
+import { Trash2, Plus, ImageIcon, Upload, X, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getAdminToken } from "@/lib/auth";
+
+const BASE_API = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  imageUrl: z.string().url("Must be a valid URL").min(1, "Image URL is required"),
+  imageUrl: z.string().min(1, "Image is required"),
   category: z.nativeEnum(GalleryItemInputCategory),
 });
 
@@ -38,6 +41,170 @@ const CATEGORY_LABELS: Record<GalleryItemInputCategory, string> = {
   [GalleryItemInputCategory.infrastructure]: "Infrastructure",
 };
 
+// ── Image Upload Field ─────────────────────────────────────────────────────────
+interface ImageUploadFieldProps {
+  value: string;
+  onChange: (url: string) => void;
+}
+
+function ImageUploadField({ value, onChange }: ImageUploadFieldProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [localPreview, setLocalPreview] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate it's an image
+    if (!file.type.startsWith("image/")) {
+      toast({ variant: "destructive", title: "Invalid file", description: "Please select an image file." });
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      toast({ variant: "destructive", title: "File too large", description: "Image must be under 10 MB." });
+      return;
+    }
+
+    // Show local preview immediately
+    const previewUrl = URL.createObjectURL(file);
+    setLocalPreview(previewUrl);
+    setIsUploading(true);
+    setUploadProgress(10);
+
+    try {
+      // Step 1: Get presigned upload URL from our API
+      const token = getAdminToken();
+      const metaRes = await fetch(`${BASE_API}/api/storage/uploads/request-url`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
+      });
+
+      if (!metaRes.ok) {
+        const err = await metaRes.json().catch(() => ({}));
+        throw new Error(err.error ?? "Failed to get upload URL");
+      }
+
+      const { uploadURL, objectPath } = await metaRes.json();
+      setUploadProgress(40);
+
+      // Step 2: Upload file directly to GCS via presigned URL
+      const uploadRes = await fetch(uploadURL, {
+        method: "PUT",
+        body: file,
+        headers: { "Content-Type": file.type },
+      });
+
+      if (!uploadRes.ok) throw new Error("Upload to storage failed");
+      setUploadProgress(100);
+
+      // Serving URL — the API proxies it through /api/storage/objects/...
+      const servingUrl = `${BASE_API}/api/storage${objectPath}`;
+      onChange(servingUrl);
+      toast({ title: "Image uploaded successfully" });
+    } catch (err: any) {
+      setLocalPreview(null);
+      onChange("");
+      toast({ variant: "destructive", title: "Upload failed", description: err?.message ?? "Try again" });
+    } finally {
+      setIsUploading(false);
+      setUploadProgress(0);
+      // Reset input so same file can be re-selected if needed
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemove = () => {
+    setLocalPreview(null);
+    onChange("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const preview = localPreview || value || null;
+
+  return (
+    <div className="space-y-3">
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChange}
+        disabled={isUploading}
+      />
+
+      {preview ? (
+        /* Image preview with remove button */
+        <div className="relative rounded-xl overflow-hidden border border-border bg-muted aspect-video">
+          <img
+            src={preview}
+            alt="Preview"
+            className="w-full h-full object-cover"
+          />
+          {isUploading && (
+            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-2">
+              <Loader2 className="h-8 w-8 text-white animate-spin" />
+              <div className="w-40 bg-white/20 rounded-full h-1.5">
+                <div
+                  className="bg-white h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+              <span className="text-white text-xs font-medium">Uploading… {uploadProgress}%</span>
+            </div>
+          )}
+          {!isUploading && (
+            <button
+              type="button"
+              onClick={handleRemove}
+              className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 rounded-full p-1 text-white transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      ) : (
+        /* Upload button */
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          className="w-full border-2 border-dashed border-border rounded-xl bg-muted/40 hover:bg-muted/70 hover:border-primary/40 transition-all py-10 flex flex-col items-center gap-3 text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <div className="p-3 rounded-full bg-background border border-border">
+            <Upload className="h-6 w-6" />
+          </div>
+          <div className="text-center">
+            <p className="font-medium text-sm text-foreground">Click to upload image</p>
+            <p className="text-xs mt-0.5">JPG, PNG, WEBP · Max 10 MB</p>
+          </div>
+        </button>
+      )}
+
+      {/* Change image button when preview is shown and not uploading */}
+      {preview && !isUploading && (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-full gap-2"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="h-4 w-4" /> Change Image
+        </Button>
+      )}
+    </div>
+  );
+}
+
+// ── Main Gallery Admin ─────────────────────────────────────────────────────────
 export default function GalleryAdmin() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
@@ -64,7 +231,7 @@ export default function GalleryAdmin() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListGalleryQueryKey() });
-          toast({ title: "Image added successfully" });
+          toast({ title: "Image added to gallery" });
           setIsDialogOpen(false);
           form.reset();
         },
@@ -82,7 +249,7 @@ export default function GalleryAdmin() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListGalleryQueryKey() });
-          toast({ title: "Image deleted successfully" });
+          toast({ title: "Image deleted" });
           setDeleteTarget(null);
         },
         onError: (err: any) => {
@@ -95,11 +262,11 @@ export default function GalleryAdmin() {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Gallery</h2>
-          <p className="text-muted-foreground text-sm mt-1">Add and delete school gallery images.</p>
+          <p className="text-muted-foreground text-sm mt-1">Upload and manage school gallery images.</p>
         </div>
         <Button size="lg" onClick={openAdd} className="shrink-0">
           <Plus className="h-5 w-5 mr-2" /> Add Image
@@ -109,7 +276,9 @@ export default function GalleryAdmin() {
       {/* Grid */}
       {isLoading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(i => <div key={i} className="aspect-square bg-muted animate-pulse rounded-xl" />)}
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+            <div key={i} className="aspect-square bg-muted animate-pulse rounded-xl" />
+          ))}
         </div>
       ) : items && items.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -168,19 +337,11 @@ export default function GalleryAdmin() {
 
               <FormField control={form.control} name="imageUrl" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image URL</FormLabel>
-                  <FormControl><Input placeholder="https://example.com/photo.jpg" {...field} /></FormControl>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <ImageUploadField value={field.value} onChange={field.onChange} />
+                  </FormControl>
                   <FormMessage />
-                  {field.value && (
-                    <div className="mt-2 rounded-lg overflow-hidden border border-border aspect-video bg-muted">
-                      <img
-                        src={field.value}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                      />
-                    </div>
-                  )}
                 </FormItem>
               )} />
 
@@ -200,8 +361,19 @@ export default function GalleryAdmin() {
               )} />
 
               <div className="flex justify-end gap-3 pt-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                <Button type="submit" disabled={createMutation.isPending} className="px-8">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                  disabled={createMutation.isPending}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={createMutation.isPending || !form.watch("imageUrl")}
+                  className="px-8"
+                >
                   {createMutation.isPending ? "Adding…" : "Add Image"}
                 </Button>
               </div>
@@ -215,11 +387,17 @@ export default function GalleryAdmin() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this image?</AlertDialogTitle>
-            <AlertDialogDescription>This will permanently remove the image from the gallery. This action cannot be undone.</AlertDialogDescription>
+            <AlertDialogDescription>
+              This will permanently remove the image from the gallery. This action cannot be undone.
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={deleteMutation.isPending}>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deleteMutation.isPending}
+            >
               {deleteMutation.isPending ? "Deleting…" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
