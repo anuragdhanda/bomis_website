@@ -328,7 +328,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {newsEvents && newsEvents.length > 0 ? (
+            {Array.isArray(newsEvents) && newsEvents.length > 0 ? (
               newsEvents.map((item, i) => (
                 <motion.div
                   key={item.id}
@@ -506,7 +506,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {galleryItems && galleryItems.slice(0, 6).map((item, i) => (
+            {Array.isArray(galleryItems) && galleryItems.slice(0, 6).map((item, i) => (
               <motion.div
                 key={item.id}
                 initial={{ scale: 0.95, opacity: 0 }}
@@ -527,7 +527,7 @@ export default function Home() {
               </motion.div>
             ))}
             
-            {(!galleryItems || galleryItems.length === 0) && (
+            {(!Array.isArray(galleryItems) || galleryItems.length === 0) && (
               <div className="col-span-full py-12 text-center text-muted-foreground">
                 No gallery items available yet.
               </div>

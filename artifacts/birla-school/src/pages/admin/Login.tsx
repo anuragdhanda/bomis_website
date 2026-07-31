@@ -14,6 +14,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+const BASE_API = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 // ─── Login schema ────────────────────────────────────────────────────────────
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -74,7 +76,7 @@ function ForgotPasswordDialog({ open, onClose }: { open: boolean; onClose: () =>
   const onStep1Submit = async (values: z.infer<typeof step1Schema>) => {
     setLoadingStep1(true);
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch(`${BASE_API}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: values.username }),
@@ -96,7 +98,7 @@ function ForgotPasswordDialog({ open, onClose }: { open: boolean; onClose: () =>
   const onStep2Submit = async (values: z.infer<typeof step2Schema>) => {
     setLoadingStep2(true);
     try {
-      const res = await fetch("/api/auth/reset-password", {
+      const res = await fetch(`${BASE_API}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -236,7 +238,7 @@ function RegisterForm() {
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(`${BASE_API}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
