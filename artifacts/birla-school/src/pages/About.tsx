@@ -147,23 +147,32 @@ export default function About() {
           </div>
 
           <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-px" />
+            {/* Vertical line — draws downward on scroll */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              style={{ originY: 0 }}
+              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-px"
+            />
 
             <div className="flex flex-col gap-12">
               {MILESTONES.map((milestone, index) => {
                 const isEven = index % 2 === 0;
                 return (
-                  <motion.div
+                  <div
                     key={milestone.year}
-                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`relative flex items-start gap-6 md:gap-0 ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
                   >
-                    {/* Content card */}
-                    <div className={`pl-16 md:pl-0 md:w-[calc(50%-2.5rem)] ${isEven ? "md:pr-10 md:text-right" : "md:pl-10"}`}>
+                    {/* Content card — slides in from its side */}
+                    <motion.div
+                      initial={{ opacity: 0, x: isEven ? -60 : 60 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                      className={`pl-16 md:pl-0 md:w-[calc(50%-2.5rem)] ${isEven ? "md:pr-10 md:text-right" : "md:pl-10"}`}
+                    >
                       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
                         <span className="inline-block bg-primary/10 text-primary font-bold text-sm px-3 py-1 rounded-full mb-3">
                           {milestone.year}
@@ -171,16 +180,22 @@ export default function About() {
                         <h3 className="text-xl font-bold text-foreground mb-2">{milestone.title}</h3>
                         <p className="text-muted-foreground text-sm leading-relaxed">{milestone.description}</p>
                       </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Icon dot — centered on the line */}
-                    <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg z-10">
+                    {/* Icon dot — pops in with spring bounce */}
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ type: "spring", stiffness: 280, damping: 18, delay: 0.25 }}
+                      className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg z-10"
+                    >
                       <milestone.icon className="h-5 w-5 text-white" />
-                    </div>
+                    </motion.div>
 
                     {/* Spacer for opposite side on desktop */}
                     <div className="hidden md:block md:w-[calc(50%-2.5rem)]" />
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
