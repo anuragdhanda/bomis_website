@@ -70,7 +70,7 @@ export function Footer() {
               <li className="flex gap-3">
                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <a
-                  href="https://maps.google.com/?q=Birla+Open+Minds+International+School+Rajound+Haryana+136044"
+                  href="https://maps.google.com/?q=Bright+Open+Minds+International+School+Rajound+Haryana+136044"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-secondary-foreground/80 text-sm hover:text-white transition-colors"
@@ -91,10 +91,10 @@ export function Footer() {
               <li className="flex gap-3 items-center">
                 <Mail className="h-5 w-5 text-primary shrink-0" />
                 <a
-                  href="mailto:info.rajound@birlaopenminds.com"
+                  href="mailto:info.rajound@brightopenminds.com"
                   className="text-secondary-foreground/80 text-sm hover:text-white transition-colors"
                 >
-                  info.rajound@birlaopenminds.com
+                  info.rajound@brightopenminds.com
                 </a>
               </li>
             </ul>
@@ -103,7 +103,7 @@ export function Footer() {
 
         <div className="border-t border-secondary-foreground/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/60 text-sm">
-            © {new Date().getFullYear()} Birla Open Minds International School. All rights reserved.
+            © {new Date().getFullYear()} Bright Open Minds International School. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm items-center">
             <a href="#" className="text-secondary-foreground/60 hover:text-white transition-colors">Privacy Policy</a>

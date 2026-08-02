@@ -39,7 +39,7 @@ export default function Gallery() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
           >
-            Glimpses of life, learning, and celebrations at Birla Open Minds.
+            Glimpses of life, learning, and celebrations at Bright Open Minds.
           </motion.p>
         </div>
       </section>

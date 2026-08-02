@@ -9,7 +9,7 @@ import {
 // ── Mock student data ──────────────────────────────────────────────────────────
 const MOCK_STUDENT = {
   name: "Aryan Sharma",
-  rollNo: "BOMIS2024089",
+  rollNo: "BOMS2024089",
   class: "10-A",
   section: "Science",
   photo: null,
@@ -99,10 +99,10 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
     if (!roll || !pass) { setError("Sabhi fields bharna zaroori hai."); return; }
     setLoading(true);
     setTimeout(() => {
-      if (roll === "BOMIS2024089" && pass === "student123") {
+      if (roll === "BOMS2024089" && pass === "student123") {
         onLogin();
       } else {
-        setError("Roll No. ya password galat hai. Hint: BOMIS2024089 / student123");
+        setError("Roll No. ya password galat hai. Hint: BOMS2024089 / student123");
         setLoading(false);
       }
     }, 1200);
@@ -128,7 +128,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
             <GraduationCap className="w-8 h-8 text-white" />
           </motion.div>
           <h1 className="text-2xl font-bold text-white">Student Portal</h1>
-          <p className="text-white/60 text-sm mt-1">Birla Open Minds International School</p>
+          <p className="text-white/60 text-sm mt-1">Bright Open Minds International School</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -136,7 +136,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
             <label className="block text-white/80 text-sm font-medium mb-1.5">Roll Number</label>
             <input
               type="text" value={roll} onChange={e => { setRoll(e.target.value); setError(""); }}
-              placeholder="e.g. BOMIS2024089"
+              placeholder="e.g. BOMS2024089"
               className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-[#F15A29] focus:bg-white/15 transition"
             />
           </div>
@@ -169,7 +169,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
         </form>
 
         <p className="text-center text-white/40 text-xs mt-6">
-          Demo: Roll No. <span className="text-white/70">BOMIS2024089</span> / Pass: <span className="text-white/70">student123</span>
+          Demo: Roll No. <span className="text-white/70">BOMS2024089</span> / Pass: <span className="text-white/70">student123</span>
         </p>
       </motion.div>
     </div>

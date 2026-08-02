@@ -6,7 +6,7 @@ const MILESTONES = [
     year: "2015",
     icon: Flag,
     title: "Foundation Laid",
-    description: "Birla Open Minds International School, Rajound was established under the visionary leadership of Mr. Yashovardhan Birla, with a mission to bring world-class education to Haryana."
+    description: "Bright Open Minds International School, Rajound was established under the visionary leadership of Mr. Yashovardhan Bright, with a mission to bring world-class education to Haryana."
   },
   {
     year: "2016",
@@ -24,7 +24,7 @@ const MILESTONES = [
     year: "2019",
     icon: Users,
     title: "1,000 Students Milestone",
-    description: "BOMIS reached an enrolment of over 1,000 students, reflecting the community's trust and the school's growing reputation across Haryana."
+    description: "Bright Open Minds reached an enrolment of over 1,000 students, reflecting the community's trust and the school's growing reputation across Haryana."
   },
   {
     year: "2021",
@@ -60,7 +60,7 @@ export default function About() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
           >
-            Discover the legacy, vision, and people behind Birla Open Minds International School, Rajound.
+            Discover the legacy, vision, and people behind Bright Open Minds International School, Rajound.
           </motion.p>
         </div>
       </section>
@@ -76,7 +76,7 @@ export default function About() {
           >
             <h2 className="text-3xl font-bold text-foreground mb-6 text-center">Our Legacy</h2>
             <p className="lead text-xl text-foreground/80 text-center font-medium mb-12">
-              Birla Open Minds International School, Rajound is a collaborative initiative of the Birla Edutech family, committed to bringing high-quality education to the heart of Haryana.
+              Bright Open Minds International School, Rajound is a collaborative initiative of the Bright Edutech family, committed to bringing high-quality education to the heart of Haryana.
             </p>
             <p>
               We believe in creating a happy learning environment where children are eager to learn and explore. Our curriculum is designed to be comprehensive and holistic, focusing on the cognitive, emotional, and physical development of every child. We don't just teach subjects; we nurture independent thinkers, creative problem-solvers, and compassionate global citizens.
@@ -221,14 +221,14 @@ export default function About() {
                   <img src="/attached_assets/generated_images/chairman.jpg" alt="Chairman" className="w-full h-full object-cover" />
                 </div>
                 <div className="mt-4 text-center md:text-left">
-                  <h4 className="font-bold text-lg text-foreground">Mr. Yashovardhan Birla</h4>
+                  <h4 className="font-bold text-lg text-foreground">Mr. Yashovardhan Bright</h4>
                   <p className="text-primary font-medium text-sm">Chairman</p>
                 </div>
               </div>
               <div className="w-full md:w-2/3">
                 <div className="text-4xl text-secondary mb-4 font-serif">"</div>
                 <p className="text-muted-foreground italic mb-4">
-                  Education is not merely about imparting facts; it is about awakening curiosity, building character, and preparing minds for the challenges of tomorrow. At Birla Open Minds, we are committed to upholding this philosophy in every classroom, every day.
+                  Education is not merely about imparting facts; it is about awakening curiosity, building character, and preparing minds for the challenges of tomorrow. At Bright Open Minds, we are committed to upholding this philosophy in every classroom, every day.
                 </p>
               </div>
             </motion.div>

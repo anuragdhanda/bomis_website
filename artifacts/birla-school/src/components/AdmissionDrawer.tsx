@@ -85,7 +85,7 @@ export function AdmissionDrawer() {
                   </div>
                   <div>
                     <h2 className="text-lg font-bold text-white leading-tight">Admission Inquiry</h2>
-                    <p className="text-white/75 text-xs">BOMIS Rajound — 2025–26</p>
+                    <p className="text-white/75 text-xs">Bright Open Minds Rajound — 2025–26</p>
                   </div>
                 </div>
                 <button
@@ -114,7 +114,7 @@ export function AdmissionDrawer() {
                       <div>
                         <h3 className="text-2xl font-bold text-foreground mb-2">Inquiry Submitted!</h3>
                         <p className="text-muted-foreground text-sm leading-relaxed">
-                          Thank you for your interest in BOMIS. Our admissions team will call you within 24 hours.
+                          Thank you for your interest in Bright Open Minds. Our admissions team will call you within 24 hours.
                         </p>
                       </div>
                       <button

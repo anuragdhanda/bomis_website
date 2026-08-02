@@ -138,7 +138,7 @@ function ForgotPasswordDialog({ open, onClose }: { open: boolean; onClose: () =>
                   <FormField control={step1Form.control} name="username" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Username</FormLabel>
-                      <FormControl><Input placeholder="adminbomis" {...field} /></FormControl>
+                      <FormControl><Input placeholder="adminbright" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -401,7 +401,7 @@ export default function AdminLogin() {
             <Lock className="h-8 w-8" />
           </div>
           <h2 className="text-2xl font-bold text-foreground">Admin Portal</h2>
-          <p className="text-muted-foreground mt-2">Birla Open Minds International School</p>
+          <p className="text-muted-foreground mt-2">Bright Open Minds International School</p>
         </div>
 
         {/* Tabs */}
@@ -431,7 +431,7 @@ export default function AdminLogin() {
                 <FormField control={form.control} name="username" render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
-                    <FormControl><Input placeholder="adminbomis" {...field} /></FormControl>
+                    <FormControl><Input placeholder="adminbright" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />

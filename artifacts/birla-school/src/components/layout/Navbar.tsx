@@ -27,8 +27,8 @@ export function Navbar() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <img
-              src="/bomis-logo.png"
-              alt="Birla Open Minds International School"
+              src="/bright-logo.png"
+              alt="Bright Open Minds International School"
               className="h-14 w-auto object-contain group-hover:opacity-85 transition-opacity"
             />
             <div className="w-px h-10 bg-border" />

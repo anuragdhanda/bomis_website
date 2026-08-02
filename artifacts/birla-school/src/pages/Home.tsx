@@ -55,7 +55,7 @@ const HERO_SLIDES = [
 
 const TESTIMONIALS = [
   {
-    quote: "Choosing Birla Open Minds for our children was the best decision. The perfect balance of academics and co-curricular activities has truly helped them blossom.",
+    quote: "Choosing Bright Open Minds for our children was the best decision. The perfect balance of academics and co-curricular activities has truly helped them blossom.",
     author: "Priya Sharma",
     role: "Parent of Grade 8 Student"
   },
@@ -70,7 +70,7 @@ const TESTIMONIALS = [
     role: "Parent of Grade 10 Student"
   },
   {
-    quote: "The sports and extracurricular programs at BOMIS are outstanding. My son has grown not just academically but as a confident, well-rounded individual.",
+    quote: "The sports and extracurricular programs at Bright Open Minds are outstanding. My son has grown not just academically but as a confident, well-rounded individual.",
     author: "Suresh Kumar",
     role: "Parent of Grade 6 Student"
   },
@@ -80,7 +80,7 @@ const TESTIMONIALS = [
     role: "Parent of Grade 3 Student"
   },
   {
-    quote: "The values instilled here go beyond textbooks. My child has become more disciplined, empathetic, and goal-oriented since joining BOMIS Rajound.",
+    quote: "The values instilled here go beyond textbooks. My child has become more disciplined, empathetic, and goal-oriented since joining Bright Open Minds Rajound.",
     author: "Vikram Singh",
     role: "Parent of Grade 11 Student"
   }
@@ -348,7 +348,7 @@ export default function Home() {
               Hear From Our <span className="text-primary">Parents</span>
             </h2>
             <p className="text-gray-500 mt-4 max-w-xl mx-auto text-base leading-relaxed">
-              Real experiences from families who chose BOMIS Rajound for their children's future.
+              Real experiences from families who chose Bright Open Minds Rajound for their children's future.
             </p>
           </div>
 
@@ -432,7 +432,7 @@ export default function Home() {
                 </svg>
               ))}
             </div>
-            <p className="text-gray-400 text-sm">Trusted by <span className="text-primary font-semibold">1,200+ families</span> at BOMIS Rajound</p>
+            <p className="text-gray-400 text-sm">Trusted by <span className="text-primary font-semibold">1,200+ families</span> at Bright Open Minds Rajound</p>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-300 via-primary to-orange-300" />
@@ -492,7 +492,7 @@ export default function Home() {
             Ready to Take the Next Step?
           </h2>
           <p className="text-xl text-muted-foreground mb-10">
-            Join the Birla Open Minds family and give your child the foundation they need to succeed.
+            Join the Bright Open Minds family and give your child the foundation they need to succeed.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/admissions" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-md font-semibold text-lg transition-all shadow-md">

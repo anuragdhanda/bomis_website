@@ -163,7 +163,7 @@ export default function Admissions() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
           >
-            Join the Birla Open Minds community. Your child's journey to excellence starts here.
+            Join the Bright Open Minds community. Your child's journey to excellence starts here.
           </motion.p>
 
           {/* Tabs inside header */}

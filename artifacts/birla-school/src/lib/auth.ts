@@ -1,6 +1,6 @@
 import { setAuthTokenGetter } from "@workspace/api-client-react";
 
-const TOKEN_KEY = "birla_admin_token";
+const TOKEN_KEY = "bright_admin_token";
 
 export function getAdminToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);

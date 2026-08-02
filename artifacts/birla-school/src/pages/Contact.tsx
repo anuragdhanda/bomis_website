@@ -96,7 +96,7 @@ export default function Contact() {
                 <div className="space-y-6">
                   {/* Address — opens Google Maps */}
                   <a
-                    href="https://maps.google.com/?q=Birla+Open+Minds+International+School+Rajound+Haryana+136044"
+                    href="https://maps.google.com/?q=Bright+Open+Minds+International+School+Rajound+Haryana+136044"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex gap-4 group"
@@ -107,7 +107,7 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Campus Address</h4>
                       <p className="text-muted-foreground leading-relaxed group-hover:text-primary/80 transition-colors">
-                        Birla Open Minds International School<br />
+                        Bright Open Minds International School<br />
                         HG85+W74, Assandh Kaithal Road,<br />
                         Rajound, Haryana 136044
                       </p>
@@ -138,16 +138,16 @@ export default function Contact() {
                     <div className="space-y-1">
                       <h4 className="font-bold text-lg text-foreground mb-1">Email</h4>
                       <a
-                        href="mailto:info.rajound@birlaopenminds.com"
+                        href="mailto:info.rajound@brightopenminds.com"
                         className="block text-primary font-medium hover:underline hover:text-primary/80 transition-colors"
                       >
-                        info.rajound@birlaopenminds.com
+                        info.rajound@brightopenminds.com
                       </a>
                       <a
-                        href="mailto:admissions.rajound@birlaopenminds.com"
+                        href="mailto:admissions.rajound@brightopenminds.com"
                         className="block text-primary font-medium hover:underline hover:text-primary/80 transition-colors"
                       >
-                        admissions.rajound@birlaopenminds.com
+                        admissions.rajound@brightopenminds.com
                       </a>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export default function Contact() {
 
               <div className="rounded-2xl overflow-hidden flex-1 min-h-[300px] border border-border shadow-sm">
                 <iframe 
-                  src="https://maps.google.com/maps?q=Birla+Open+Minds+International+School+Rajound+Haryana&output=embed" 
+                  src="https://maps.google.com/maps?q=Bright+Open+Minds+International+School+Rajound+Haryana&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 

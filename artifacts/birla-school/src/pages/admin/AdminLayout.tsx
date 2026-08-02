@@ -64,7 +64,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
             </div>
             <div>
               <p className="font-bold text-base leading-tight">Admin Portal</p>
-              <p className="text-white/55 text-[11px] leading-tight mt-0.5">Birla Open Minds</p>
+              <p className="text-white/55 text-[11px] leading-tight mt-0.5">Bright Open Minds</p>
             </div>
           </div>
           <button className="lg:hidden text-white/70 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
