@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-white">BIRLA OPEN MINDS</h3>
+            <h3 className="text-2xl font-bold text-white">BRIGHT OPEN MINDS</h3>
             <p className="text-secondary-foreground/80 text-sm leading-relaxed">
               Nurturing tomorrow's leaders through holistic education, state-of-the-art facilities, and a commitment to excellence in Rajound, Haryana.
             </p>
