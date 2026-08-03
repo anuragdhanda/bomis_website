@@ -1,0 +1,94 @@
+# Replit AI Prompt — Email OTP Admin Login
+
+Copy the text below and paste it into Replit's AI Agent / Assistant chat.
+
+---
+
+## PROMPT (copy from here)
+
+```
+I want to replace the current password-based login on my Admin Portal 
+(Bright Open Minds International School) with an Email OTP-based login system.
+
+Please implement the following:
+
+1. REMOVE the current username + password login form.
+   Replace it with a single "Email / Username" input field.
+
+2. WHEN THE ADMIN SUBMITS THEIR EMAIL:
+   - Generate a random 6-digit numeric OTP.
+   - Store the OTP in the database (or in-memory store) along with:
+     - the admin's email
+     - an expiry timestamp (5 minutes from generation)
+     - a "used" flag (default false)
+   - Send the OTP to the admin's registered email address using an email 
+     sending service (use Nodemailer with SMTP, or SendGrid/Resend API — 
+     whichever is easier to set up with Replit Secrets for credentials).
+   - Do NOT reveal in the UI whether the email exists in the system 
+     (to prevent user enumeration) — just show "If this email is 
+     registered, an OTP has been sent."
+
+3. OTP VERIFICATION SCREEN:
+   - Show a 6-digit OTP input field.
+   - On submit, check the OTP against the database:
+     - Must match exactly.
+     - Must not be expired (5 min limit).
+     - Must not already be used.
+   - If valid: mark OTP as used, create a secure session/JWT token, and 
+     log the admin into the portal.
+   - If invalid/expired: show a clear error message and allow the admin 
+     to request a new OTP.
+
+4. SECURITY MEASURES TO INCLUDE:
+   - Rate limit OTP requests: max 3 requests per email per 15 minutes.
+   - Rate limit OTP verification attempts: max 5 wrong attempts, then 
+     temporarily lock (15 min) further attempts for that email.
+   - OTP must be single-use (invalidate immediately after successful login).
+   - Store OTPs hashed (not plain text) in the database, similar to how 
+     passwords are hashed.
+   - Use HTTPS-only, HttpOnly, Secure cookies for the session token 
+     (not localStorage).
+   - Add a "Resend OTP" button with a 30–60 second cooldown timer.
+   - Log all login attempts (timestamp, IP, success/failure) for audit 
+     purposes.
+   - Keep the admin's email address itself validated against a known 
+     admin list — don't let arbitrary emails receive OTPs to gain access.
+
+5. EMAIL TEMPLATE:
+   - Send a clean, simple email with:
+     - School name (Bright Open Minds International School)
+     - The 6-digit OTP in large, clear text
+     - A note that it expires in 5 minutes
+     - A note like "If you didn't request this, ignore this email."
+
+6. ENVIRONMENT / SECRETS:
+   - Store email service credentials (SMTP user/pass or API key) in 
+     Replit Secrets, not hardcoded in the code.
+   - Store JWT/session secret in Replit Secrets as well.
+
+7. UI/UX:
+   - Keep the existing "Admin Portal" branding and layout style.
+   - Step 1 screen: Email input → "Send OTP" button.
+   - Step 2 screen: OTP input (6 boxes or single field) → "Verify & Sign In" 
+     button, with a "Resend OTP" link/timer below it.
+   - Show loading states while sending/verifying.
+
+Please implement this end-to-end, including any backend routes, database 
+schema changes, and frontend changes needed. Ask me for my SMTP or email 
+API credentials setup if you need them, and tell me exactly which Replit 
+Secrets I need to add (with their key names).
+```
+
+---
+
+## Aapko ye cheezein Replit Secrets mein add karni hongi (prompt implement hone ke baad)
+
+- **Email service credentials** — jaise `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_PORT` (agar Gmail/SMTP use kar rahe hain) ya `SENDGRID_API_KEY` / `RESEND_API_KEY` (agar third-party service use karein)
+- **JWT_SECRET** ya **SESSION_SECRET** — session/token banane ke liye ek random strong string
+
+## Extra Tips (agar Replit AI khud na kare to inhe manually yaad dilayein)
+
+- **Admin email list fix rakhein** — koi bhi email OTP na maang sake, sirf pehle se registered admin emails hi
+- **5 minute expiry** se zyada na rakhein OTP ki validity
+- **Testing ke baad** free Gmail SMTP ki jagah production ke liye SendGrid/Resend jaisi reliable service use karein (Gmail SMTP kabhi kabhi block ho jaata hai bulk/automated mails par)
+- Login attempt logs check karte rahein taake koi suspicious activity dikhe to pata chal sake
