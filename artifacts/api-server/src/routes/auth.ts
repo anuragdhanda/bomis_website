@@ -212,21 +212,41 @@ router.post("/auth/reset-password", authRateLimit, async (req, res): Promise<voi
 });
 
 // ---------------------------------------------------------------------------
-// Seed default admin on first boot — generates a random secure password
+// Seed default admin on first boot.
+// If ADMIN_PASSWORD env var is set, it is used as the admin password and
+// kept in sync on every restart — so changing the env var updates the login.
+// If not set and no admin exists yet, a random password is generated once
+// and printed to the server logs.
 // ---------------------------------------------------------------------------
 export async function ensureDefaultAdmin(): Promise<void> {
+  const envPassword = process.env["ADMIN_PASSWORD"];
   const existing = await db.select().from(adminsTable);
+
   if (existing.length === 0) {
-    const temporaryPassword = randomBytes(12).toString("base64url");
+    // First boot — create the default admin
+    const password = envPassword ?? randomBytes(12).toString("base64url");
     await db.insert(adminsTable).values({
       username: "admin",
-      passwordHash: hashPassword(temporaryPassword),
+      passwordHash: hashPassword(password),
     });
-    logger.warn(
-      { username: "admin", temporaryPassword },
-      "⚠️  Default admin seeded with a random temporary password. " +
-      "Log in immediately and change it via /auth/reset-password, then delete this log entry.",
-    );
+    if (envPassword) {
+      logger.info({ username: "admin" }, "✅ Default admin created using ADMIN_PASSWORD env var.");
+    } else {
+      logger.warn(
+        { username: "admin", temporaryPassword: password },
+        "⚠️  Default admin seeded with a random temporary password. " +
+        "Set ADMIN_PASSWORD env var to lock in a stable password, or log in and change it now.",
+      );
+    }
+  } else if (envPassword) {
+    // Admin exists — keep password in sync with ADMIN_PASSWORD env var
+    const [admin] = existing.filter(a => a.username === "admin");
+    if (admin) {
+      await db.update(adminsTable)
+        .set({ passwordHash: hashPassword(envPassword) })
+        .where(eq(adminsTable.id, admin.id));
+      logger.info({ username: "admin" }, "✅ Admin password synced from ADMIN_PASSWORD env var.");
+    }
   }
 }
 
