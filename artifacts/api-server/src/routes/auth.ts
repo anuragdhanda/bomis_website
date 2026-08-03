@@ -17,8 +17,18 @@ const router: IRouter = Router();
 function createTransporter() {
   const user = process.env["GMAIL_USER"];
   const pass = process.env["GMAIL_APP_PASSWORD"];
-  if (!user || !pass) return null;
-  return nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
+  if (!user || !pass) {
+    logger.warn("GMAIL_USER or GMAIL_APP_PASSWORD not set — email sending disabled");
+    return null;
+  }
+  // Use explicit SMTP config (more reliable than service:"gmail" shorthand)
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,        // STARTTLS on port 587
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false },
+  });
 }
 
 function gmailUser() { return process.env["GMAIL_USER"] ?? ""; }
@@ -84,34 +94,46 @@ router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Prom
 
   sendSameResponse();
 
-  if (!admin) return; // don't reveal non-existence
-
-  // Generate, hash, and store OTP
-  const otp = randomInt(100000, 1000000).toString().padStart(6, "0");
-  const otpHash = hashPassword(otp);
-  const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
-  const ipAddress = (req.headers["x-forwarded-for"] as string | undefined)?.split(",")[0]?.trim() ?? req.socket.remoteAddress ?? "unknown";
-
-  await db.insert(adminOtpTokensTable).values({ email: normalizedEmail, otpHash, expiresAt, ipAddress });
-
-  // Send email
-  const transporter = createTransporter();
-  if (transporter) {
-    try {
-      await transporter.sendMail({
-        from: `"Bright Open Minds Admin" <${gmailUser()}>`,
-        to: admin.email!,
-        subject: `Your Admin Login OTP — ${otp}`,
-        html: otpEmailHtml(otp),
-      });
-      logger.info({ email: normalizedEmail }, "OTP email sent");
-    } catch (err) {
-      logger.error({ err }, "Failed to send OTP email");
-    }
-  } else {
-    // Dev fallback: print OTP to server logs only
-    logger.warn({ email: normalizedEmail, otp }, "📧 Email not configured — OTP printed here (dev only). Set GMAIL_USER + GMAIL_APP_PASSWORD.");
+  if (!admin) {
+    logger.warn({ email: normalizedEmail }, "OTP requested for unknown email — ignored");
+    return;
   }
+
+  // All work after response is sent — must be wrapped so Express 5 cannot swallow the error
+  void (async () => {
+    try {
+      // Generate & hash OTP (cost 10 is sufficient for a 5-min expiring token)
+      const otp = randomInt(100000, 1000000).toString().padStart(6, "0");
+      const otpHash = hashPassword(otp);
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+      const ipAddress =
+        (req.headers["x-forwarded-for"] as string | undefined)?.split(",")[0]?.trim() ??
+        req.socket.remoteAddress ??
+        "unknown";
+
+      logger.info({ email: normalizedEmail }, "Inserting OTP record into DB...");
+      await db.insert(adminOtpTokensTable).values({ email: normalizedEmail, otpHash, expiresAt, ipAddress });
+      logger.info({ email: normalizedEmail }, "OTP record inserted successfully");
+
+      // Send email
+      const transporter = createTransporter();
+      if (transporter) {
+        logger.info({ email: normalizedEmail }, "Attempting to send OTP email via Gmail SMTP...");
+        await transporter.sendMail({
+          from: `"Bright Open Minds Admin" <${gmailUser()}>`,
+          to: admin.email!,
+          subject: `Your Admin Login OTP`,
+          html: otpEmailHtml(otp),
+        });
+        logger.info({ email: normalizedEmail }, "✅ OTP email sent successfully");
+      } else {
+        // Dev fallback: print OTP to server logs only
+        logger.warn({ email: normalizedEmail, otp }, "📧 GMAIL not configured — OTP (dev only): " + otp);
+      }
+    } catch (err) {
+      logger.error({ err, email: normalizedEmail }, "❌ OTP generation/send failed");
+    }
+  })();
 });
 
 // ---------------------------------------------------------------------------
