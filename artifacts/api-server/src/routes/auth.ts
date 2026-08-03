@@ -101,9 +101,10 @@ router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Prom
 
   // All work after response is sent — must be wrapped so Express 5 cannot swallow the error
   void (async () => {
+    // Declare otp outside try so it's accessible in catch for dev fallback
+    const otp = randomInt(100000, 1000000).toString().padStart(6, "0");
     try {
       // Generate & hash OTP (cost 10 is sufficient for a 5-min expiring token)
-      const otp = randomInt(100000, 1000000).toString().padStart(6, "0");
       const otpHash = hashPassword(otp);
       const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
       const ipAddress =
@@ -128,10 +129,14 @@ router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Prom
         logger.info({ email: normalizedEmail }, "✅ OTP email sent successfully");
       } else {
         // Dev fallback: print OTP to server logs only
-        logger.warn({ email: normalizedEmail, otp }, "📧 GMAIL not configured — OTP (dev only): " + otp);
+        logger.warn({ email: normalizedEmail }, "📧 GMAIL not configured — OTP (dev only): " + otp);
       }
     } catch (err) {
-      logger.error({ err, email: normalizedEmail }, "❌ OTP generation/send failed");
+      logger.error({ err, email: normalizedEmail }, "❌ OTP email send failed — check GMAIL_USER and GMAIL_APP_PASSWORD");
+      // Dev fallback so admin can still login via server logs
+      if (process.env["NODE_ENV"] !== "production") {
+        logger.warn({ email: normalizedEmail }, "🔑 DEV FALLBACK — OTP is: " + otp);
+      }
     }
   })();
 });
