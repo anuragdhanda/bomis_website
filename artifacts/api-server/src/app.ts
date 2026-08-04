@@ -9,6 +9,9 @@ import { ensureDefaultAdmin } from "./routes/auth.js";
 
 const app: Express = express();
 
+// Trust the Replit proxy so rate-limiters see the real client IP
+app.set("trust proxy", 1);
+
 // ── Security headers ──────────────────────────────────────────────────────────
 app.use(helmet());
 

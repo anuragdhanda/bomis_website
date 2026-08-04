@@ -245,8 +245,9 @@ router.post("/auth/register", authRateLimit, async (req, res): Promise<void> => 
     return;
   }
 
-  const SESSION_SECRET = process.env["SESSION_SECRET"] ?? "";
-  if (!SESSION_SECRET || adminKey !== SESSION_SECRET) {
+  // Prefer dedicated ADMIN_SECRET_KEY; fall back to SESSION_SECRET
+  const validKey = process.env["ADMIN_SECRET_KEY"] || process.env["SESSION_SECRET"] || "";
+  if (!validKey || adminKey !== validKey) {
     res.status(403).json({ error: "Invalid Admin Secret Key." });
     return;
   }
