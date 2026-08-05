@@ -2,17 +2,6 @@ import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, CheckCircle2, Lightbulb, MonitorPlay, Puzzle, Users } from "lucide-react";
 
-const INFRA_IMAGES = [
-  { src: "/gallery/infra-building-front.png", alt: "School Building Front View" },
-  { src: "/gallery/infra-entrance.png", alt: "School Entrance" },
-  { src: "/gallery/infra-building-2.png", alt: "School Infrastructure" },
-  { src: "/gallery/infra-building-3.png", alt: "Campus Block" },
-  { src: "/gallery/infra-building-4.png", alt: "Campus Wing" },
-  { src: "/gallery/infra-building-side.png", alt: "Building Side View" },
-  { src: "/gallery/infra-building-field.png", alt: "School Ground & Field" },
-  { src: "/gallery/school-building.png", alt: "School Overview" },
-];
-
 const CURRICULUM_DATA = {
   preprimary: {
     title: "Pre-Primary (Early Years)",
@@ -183,39 +172,6 @@ export default function Academics() {
         </div>
       </section>
 
-      {/* Infrastructure Gallery */}
-      <section className="py-20 bg-background border-t border-border">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Our Infrastructure</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A world-class campus built to inspire learning — modern facilities, open spaces, and a nurturing environment.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {INFRA_IMAGES.map((img, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="group relative aspect-square overflow-hidden rounded-xl border border-border shadow-sm"
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                  <p className="text-white text-sm font-medium">{img.alt}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

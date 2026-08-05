@@ -6,6 +6,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ImageIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const INFRA_IMAGES = [
+  { src: "/gallery/infra-building-front.png", alt: "School Building Front View" },
+  { src: "/gallery/infra-entrance.png", alt: "School Entrance" },
+  { src: "/gallery/infra-building-2.png", alt: "Campus Infrastructure" },
+  { src: "/gallery/infra-building-3.png", alt: "Campus Block" },
+  { src: "/gallery/infra-building-4.png", alt: "Campus Wing" },
+  { src: "/gallery/infra-building-side.png", alt: "Building Side View" },
+  { src: "/gallery/infra-building-field.png", alt: "School Ground & Field" },
+  { src: "/gallery/school-building.png", alt: "School Overview" },
+];
+
 const CATEGORIES = [
   { id: "all", label: "All Images" },
   { id: GalleryItemCategory.academics, label: "Academics" },
@@ -63,6 +74,33 @@ export default function Gallery() {
                 {cat.label}
               </button>
             ))}
+          </div>
+
+          {/* Infrastructure Photos */}
+          <div className="mb-14">
+            <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Infrastructure</h2>
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+              {INFRA_IMAGES.map((img, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.07 }}
+                  className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
+                  onClick={() => setLightboxImage({ url: img.src, title: img.alt })}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <div className="text-white font-bold text-lg">{img.alt}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {/* Grid */}
