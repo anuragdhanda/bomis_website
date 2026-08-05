@@ -13,6 +13,8 @@ export interface FacultyMember {
   qualification: string;
   /** @nullable */
   photoUrl?: string | null;
+  /** @nullable */
+  classLevel?: string | null;
   sortOrder?: number;
   createdAt: string;
 }

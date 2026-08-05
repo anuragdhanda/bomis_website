@@ -1,41 +1,63 @@
-# Birla Open Minds International School (BOMIS Rajound)
+# Birla Open Minds International School (BOMIS)
 
-A full-stack school website for BOMIS Rajound — Birla Open Minds International School.
+A full-stack school website and admin dashboard for **Birla Open Minds International School**. The public site covers academics, admissions, faculty, facilities, and a gallery. The admin dashboard lets staff manage faculty, news/events, gallery items, and inquiries.
 
-## Stack
+## Tech Stack
 
-- **Frontend** (`artifacts/birla-school`): React + Vite + Tailwind CSS + shadcn/ui
-- **Backend** (`artifacts/api-server`): Express 5 + Drizzle ORM + PostgreSQL
-- **Shared libs** (`lib/`): `api-spec`, `api-zod`, `api-client-react`, `db`
-- **Package manager**: pnpm (monorepo)
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS v4, Radix UI, Framer Motion, Wouter, TanStack Query
+- **Backend**: Express v5, Node.js (ESM)
+- **Database**: PostgreSQL via Drizzle ORM
+- **Auth**: JWT-based admin authentication (bcryptjs password hashing)
+- **Storage**: Replit Object Storage
+- **Email**: Nodemailer + Gmail (optional — disabled when credentials are absent)
 
-## Running the project
+## Project Structure
 
-Both services start automatically via managed workflows.
-
-| Service | Workflow name | Port |
-|---------|--------------|------|
-| Frontend (React/Vite) | `artifacts/birla-school: web` | 5173 |
-| API server (Express) | `artifacts/api-server: API Server` | 8080 |
-
-To start from scratch after a fresh import:
-
-```bash
-pnpm install --frozen-lockfile   # install all workspace dependencies
-cd lib/db && pnpm run push        # push Drizzle schema to the database
+```
+artifacts/
+  birla-school/   # React + Vite frontend (served at /)
+  api-server/     # Express API backend (served at /api)
+lib/
+  db/             # Drizzle schema + PostgreSQL connection
+  api-spec/       # OpenAPI spec + Orval codegen config
+  api-client-react/ # Generated React Query hooks
+  api-zod/        # Zod validation schemas
+  object-storage-web/ # Object storage helpers
 ```
 
-## Environment variables / secrets
+## How to Run
 
-| Variable | Required | Purpose |
-|----------|----------|---------|
-| `DATABASE_URL` | ✅ Yes | PostgreSQL connection (auto-provided by Replit) |
-| `SESSION_SECRET` | ✅ Yes | JWT/session signing for the API |
-| `GMAIL_USER` | Optional | Gmail address for inquiry email notifications |
-| `GMAIL_APP_PASSWORD` | Optional | Gmail app password for email notifications |
+Both services start automatically via their managed workflows:
 
-Email notifications are gracefully disabled if `GMAIL_USER`/`GMAIL_APP_PASSWORD` are not set.
+| Workflow | Command |
+|---|---|
+| `artifacts/birla-school: web` | `pnpm --filter @workspace/birla-school run dev` (port 5173) |
+| `artifacts/api-server: API Server` | `pnpm --filter @workspace/api-server run dev` (port 8080) |
 
-## User preferences
+## Environment Variables / Secrets
 
-<!-- Add remembered preferences here -->
+| Key | Notes |
+|---|---|
+| `SESSION_SECRET` | Secret (set) — used to sign JWTs |
+| `DATABASE_URL` | Runtime-managed by Replit — do not set manually |
+| `NODE_ENV` | Set to `development` |
+| `GMAIL_USER` | Optional — Gmail address for email notifications |
+| `GMAIL_APP_PASSWORD` | Optional secret — Gmail App Password for notifications |
+| `PUBLIC_OBJECT_SEARCH_PATHS` | Optional — paths for public object storage |
+| `PRIVATE_OBJECT_DIR` | Optional — directory for private object storage |
+
+## Database
+
+Schema is managed with Drizzle ORM. To push schema changes to the database:
+
+```bash
+pnpm --filter @workspace/db run push
+```
+
+## Default Admin
+
+On first start the server seeds a default admin account with username `admin`. To enable OTP login, set `ADMIN_EMAIL` to the admin's email address. Alternatively, use "Create Account" on the login page.
+
+## User Preferences
+
+- Keep the existing monorepo structure and stack

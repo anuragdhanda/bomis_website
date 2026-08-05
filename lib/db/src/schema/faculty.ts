@@ -8,6 +8,7 @@ export const facultyTable = pgTable("faculty", {
   subject: text("subject").notNull(),
   qualification: text("qualification").notNull(),
   photoUrl: text("photo_url"),
+  classLevel: text("class_level"),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),

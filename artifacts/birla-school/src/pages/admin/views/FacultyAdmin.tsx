@@ -14,6 +14,9 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +24,18 @@ import * as z from "zod";
 import { Pencil, Trash2, Plus, Users, UserCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const CLASS_LEVELS = [
+  "Nursery", "LKG", "UKG",
+  "Class 1", "Class 2", "Class 3", "Class 4",
+  "Class 5", "Class 6", "Class 7", "Class 8",
+] as const;
+
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   subject: z.string().min(1, "Subject / designation is required"),
   qualification: z.string().min(1, "Qualification is required"),
   photoUrl: z.string().optional(),
+  classLevel: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -45,12 +55,12 @@ export default function FacultyAdmin() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", subject: "", qualification: "", photoUrl: "" },
+    defaultValues: { name: "", subject: "", qualification: "", photoUrl: "", classLevel: "" },
   });
 
   const openCreate = () => {
     setEditingId(null);
-    form.reset({ name: "", subject: "", qualification: "", photoUrl: "" });
+    form.reset({ name: "", subject: "", qualification: "", photoUrl: "", classLevel: "" });
     setIsDialogOpen(true);
   };
 
@@ -61,6 +71,7 @@ export default function FacultyAdmin() {
       subject: item.subject,
       qualification: item.qualification,
       photoUrl: item.photoUrl || "",
+      classLevel: item.classLevel || "",
     });
     setIsDialogOpen(true);
   };
@@ -129,6 +140,7 @@ export default function FacultyAdmin() {
                   <th className="px-5 py-4 font-semibold">Photo</th>
                   <th className="px-5 py-4 font-semibold">Name</th>
                   <th className="px-5 py-4 font-semibold hidden sm:table-cell">Subject / Designation</th>
+                  <th className="px-5 py-4 font-semibold hidden md:table-cell">Class</th>
                   <th className="px-5 py-4 font-semibold hidden lg:table-cell">Qualifications</th>
                   <th className="px-5 py-4 font-semibold text-right">Actions</th>
                 </tr>
@@ -146,6 +158,12 @@ export default function FacultyAdmin() {
                     </td>
                     <td className="px-5 py-4 font-semibold text-foreground">{item.name}</td>
                     <td className="px-5 py-4 text-muted-foreground hidden sm:table-cell">{item.subject}</td>
+                    <td className="px-5 py-4 hidden md:table-cell">
+                      {item.classLevel
+                        ? <span className="inline-block text-xs font-medium bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">{item.classLevel}</span>
+                        : <span className="text-muted-foreground/40 text-xs">—</span>
+                      }
+                    </td>
                     <td className="px-5 py-4 text-muted-foreground hidden lg:table-cell">{item.qualification}</td>
                     <td className="px-5 py-4">
                       <div className="flex justify-end gap-2">
@@ -161,7 +179,7 @@ export default function FacultyAdmin() {
                 ))}
                 {(!items || items.length === 0) && (
                   <tr>
-                    <td colSpan={5} className="px-5 py-14 text-center text-muted-foreground">
+                    <td colSpan={6} className="px-5 py-14 text-center text-muted-foreground">
                       <Users className="h-10 w-10 mx-auto mb-3 opacity-20" />
                       No faculty members yet. Click "Add Member" to get started.
                     </td>
@@ -201,6 +219,25 @@ export default function FacultyAdmin() {
                 <FormItem>
                   <FormLabel>Qualifications</FormLabel>
                   <FormControl><Input placeholder="e.g. M.Sc., B.Ed., Ph.D." {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
+              <FormField control={form.control} name="classLevel" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Class Assignment <span className="text-muted-foreground font-normal">(optional)</span></FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value ?? ""}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select class..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {CLASS_LEVELS.map((cls) => (
+                        <SelectItem key={cls} value={cls}>{cls}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )} />

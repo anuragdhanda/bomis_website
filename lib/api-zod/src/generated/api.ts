@@ -208,6 +208,7 @@ export const ListFacultyResponseItem = zod.object({
   "subject": zod.string(),
   "qualification": zod.string(),
   "photoUrl": zod.string().nullish(),
+  "classLevel": zod.string().nullish(),
   "sortOrder": zod.number().optional(),
   "createdAt": zod.string()
 })
@@ -225,6 +226,7 @@ export const CreateFacultyMemberBody = zod.object({
   "subject": zod.string(),
   "qualification": zod.string(),
   "photoUrl": zod.string().optional(),
+  "classLevel": zod.string().optional(),
   "sortOrder": zod.number().optional()
 })
 
@@ -234,6 +236,7 @@ export const CreateFacultyMemberResponse = zod.object({
   "subject": zod.string(),
   "qualification": zod.string(),
   "photoUrl": zod.string().nullish(),
+  "classLevel": zod.string().nullish(),
   "sortOrder": zod.number().optional(),
   "createdAt": zod.string()
 })
@@ -251,6 +254,7 @@ export const UpdateFacultyMemberBody = zod.object({
   "subject": zod.string().optional(),
   "qualification": zod.string().optional(),
   "photoUrl": zod.string().optional(),
+  "classLevel": zod.string().optional(),
   "sortOrder": zod.number().optional()
 })
 
@@ -260,6 +264,7 @@ export const UpdateFacultyMemberResponse = zod.object({
   "subject": zod.string(),
   "qualification": zod.string(),
   "photoUrl": zod.string().nullish(),
+  "classLevel": zod.string().nullish(),
   "sortOrder": zod.number().optional(),
   "createdAt": zod.string()
 })

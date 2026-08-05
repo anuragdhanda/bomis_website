@@ -28,6 +28,7 @@ router.post("/faculty", requireAdmin, async (req, res): Promise<void> => {
     subject: parsed.data.subject,
     qualification: parsed.data.qualification,
     photoUrl: parsed.data.photoUrl ?? null,
+    classLevel: parsed.data.classLevel ?? null,
     sortOrder: parsed.data.sortOrder ?? 0,
   }).returning();
 
@@ -52,6 +53,7 @@ router.patch("/faculty/:id", requireAdmin, async (req, res): Promise<void> => {
   if (parsed.data.subject !== undefined) updateData.subject = parsed.data.subject;
   if (parsed.data.qualification !== undefined) updateData.qualification = parsed.data.qualification;
   if (parsed.data.photoUrl !== undefined) updateData.photoUrl = parsed.data.photoUrl;
+  if (parsed.data.classLevel !== undefined) updateData.classLevel = parsed.data.classLevel;
   if (parsed.data.sortOrder !== undefined) updateData.sortOrder = parsed.data.sortOrder;
 
   const [item] = await db.update(facultyTable).set(updateData).where(eq(facultyTable.id, params.data.id)).returning();

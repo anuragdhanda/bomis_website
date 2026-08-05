@@ -551,6 +551,8 @@ components:
           type: string
         photoUrl:
           type: ["string", "null"]
+        classLevel:
+          type: ["string", "null"]
         sortOrder:
           type: integer
         createdAt:
@@ -569,6 +571,8 @@ components:
           type: string
         photoUrl:
           type: string
+        classLevel:
+          type: string
         sortOrder:
           type: integer
 
@@ -582,6 +586,8 @@ components:
         qualification:
           type: string
         photoUrl:
+          type: string
+        classLevel:
           type: string
         sortOrder:
           type: integer

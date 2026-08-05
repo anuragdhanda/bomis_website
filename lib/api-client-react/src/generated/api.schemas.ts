@@ -127,6 +127,8 @@ export interface FacultyMember {
   qualification: string;
   /** @nullable */
   photoUrl?: string | null;
+  /** @nullable */
+  classLevel?: string | null;
   sortOrder?: number;
   createdAt: string;
 }
@@ -137,6 +139,7 @@ export interface FacultyMemberInput {
   subject: string;
   qualification: string;
   photoUrl?: string;
+  classLevel?: string;
   sortOrder?: number;
 }
 
@@ -145,6 +148,7 @@ export interface FacultyMemberUpdate {
   subject?: string;
   qualification?: string;
   photoUrl?: string;
+  classLevel?: string;
   sortOrder?: number;
 }
 

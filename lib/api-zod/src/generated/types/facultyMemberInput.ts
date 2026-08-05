@@ -12,5 +12,6 @@ export interface FacultyMemberInput {
   subject: string;
   qualification: string;
   photoUrl?: string;
+  classLevel?: string;
   sortOrder?: number;
 }

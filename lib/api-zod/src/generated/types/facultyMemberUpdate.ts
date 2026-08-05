@@ -11,5 +11,6 @@ export interface FacultyMemberUpdate {
   subject?: string;
   qualification?: string;
   photoUrl?: string;
+  classLevel?: string;
   sortOrder?: number;
 }
