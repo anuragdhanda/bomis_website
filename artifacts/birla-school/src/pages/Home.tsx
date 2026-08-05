@@ -27,12 +27,12 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 import { useListGallery } from "@workspace/api-client-react";
 
 const CAMPUS_IMAGES = [
-  { src: "/gallery/classroom.png",          title: "Classrooms" },
-  { src: "/gallery/celebration.png",        title: "Celebrations" },
-  { src: "/gallery/green-day.png",          title: "Green Day" },
   { src: "/gallery/infra-building-front.png", title: "School Building" },
+  { src: "/gallery/infra-entrance.png",       title: "School Entrance" },
+  { src: "/gallery/infra-building-2.png",     title: "Campus Infrastructure" },
   { src: "/gallery/infra-building-field.png", title: "School Ground" },
-  { src: "/gallery/staff-group.png",        title: "Our Staff" },
+  { src: "/gallery/infra-building-side.png",  title: "Campus Wing" },
+  { src: "/gallery/school-building.png",      title: "School Overview" },
 ];
 
 import heroBuildingImg from "@assets/file_000000003a648208a8d8ede98caf1363_1785517414158.png";
@@ -488,23 +488,25 @@ export default function Home() {
                   </motion.div>
                 ))
               : CAMPUS_IMAGES.map((img, i) => (
-                  <motion.div
-                    key={img.src}
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="aspect-square rounded-xl overflow-hidden bg-muted group relative"
-                  >
-                    <img
-                      src={img.src}
-                      alt={img.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                      <div className="text-white font-bold text-lg">{img.title}</div>
-                    </div>
-                  </motion.div>
+                  <Link key={img.src} href="/gallery">
+                    <motion.div
+                      initial={{ scale: 0.95, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      className="aspect-square rounded-xl overflow-hidden bg-muted group relative cursor-pointer"
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <div className="text-white font-bold text-lg">{img.title}</div>
+                        <div className="text-white/70 text-sm">View Gallery →</div>
+                      </div>
+                    </motion.div>
+                  </Link>
                 ))}
           </div>
         </div>
