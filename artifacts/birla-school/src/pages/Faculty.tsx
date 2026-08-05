@@ -346,7 +346,7 @@ export default function Faculty() {
                 </div>
               ))}
             </div>
-          ) : facultyMembers && facultyMembers.length > 0 ? (
+          ) : Array.isArray(facultyMembers) && facultyMembers.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {facultyMembers.map((member, idx) => (
                 <motion.div

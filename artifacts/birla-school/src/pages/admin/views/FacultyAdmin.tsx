@@ -134,7 +134,7 @@ export default function FacultyAdmin() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {items?.map((item) => (
+                {Array.isArray(items) && items.map((item) => (
                   <tr key={item.id} className="hover:bg-muted/40 transition-colors">
                     <td className="px-5 py-3">
                       <div className="w-11 h-11 rounded-full bg-muted overflow-hidden shrink-0 flex items-center justify-center">
