@@ -155,7 +155,7 @@ export default function Gallery() {
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4 backdrop-blur-xl"
           onClick={() => setLightboxImage(null)}
         >
           <button 
