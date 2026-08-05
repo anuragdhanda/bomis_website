@@ -1,6 +1,6 @@
 import { useAdminAuth } from "@/lib/store";
 import { Link, useLocation } from "wouter";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
   Image as ImageIcon,
@@ -29,16 +29,10 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children, title }: AdminLayoutProps) {
-  const { isLoggedIn, logout } = useAdminAuth();
+  const { logout } = useAdminAuth();
   const [location, setLocation] = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: stats } = useGetDashboardStats();
-
-  useEffect(() => {
-    if (!isLoggedIn) setLocation("/admin/login");
-  }, [isLoggedIn, setLocation]);
-
-  if (!isLoggedIn) return null;
 
   const isActive = (item: (typeof NAV_ITEMS)[number]) =>
     item.exact ? location === item.href : location.startsWith(item.href);
