@@ -280,7 +280,7 @@ export default function GalleryAdmin() {
             <div key={i} className="aspect-square bg-muted animate-pulse rounded-xl" />
           ))}
         </div>
-      ) : items && items.length > 0 ? (
+      ) : Array.isArray(items) && items.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {items.map((item) => (
             <div key={item.id} className="bg-card border border-border rounded-xl overflow-hidden shadow-sm group">
