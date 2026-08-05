@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, ArrowUpRight, Award, BookOpen, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Award, BookOpen, Users, ChevronLeft, ChevronRight, X } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useCallback, useRef, useState } from "react";
 
@@ -99,8 +99,22 @@ const TESTIMONIALS = [
 export default function Home() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [testiRef, testiApi] = useEmblaCarousel({ loop: true });
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const { data: galleryItems } = useListGallery();
+
+  const lightboxImages = Array.isArray(galleryItems) && galleryItems.length > 0
+    ? galleryItems.slice(0, 6).map((item) => ({ url: item.imageUrl, title: item.title }))
+    : CAMPUS_IMAGES.map((img) => ({ url: img.src, title: img.title }));
+
+  const goNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => prev === null ? null : (prev + 1) % lightboxImages.length);
+  };
+  const goPrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => prev === null ? null : (prev - 1 + lightboxImages.length) % lightboxImages.length);
+  };
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
@@ -488,29 +502,69 @@ export default function Home() {
                   </motion.div>
                 ))
               : CAMPUS_IMAGES.map((img, i) => (
-                  <Link key={img.src} href="/gallery">
-                    <motion.div
-                      initial={{ scale: 0.95, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: i * 0.1 }}
-                      className="aspect-square rounded-xl overflow-hidden bg-muted group relative cursor-pointer"
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <div className="text-white font-bold text-lg">{img.title}</div>
-                        <div className="text-white/70 text-sm">View Gallery →</div>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div
+                    key={img.src}
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="aspect-square rounded-xl overflow-hidden bg-muted group relative cursor-pointer"
+                    onClick={() => setLightboxIndex(i)}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                      <div className="text-white font-bold text-lg">{img.title}</div>
+                    </div>
+                  </motion.div>
                 ))}
           </div>
         </div>
       </section>
+      {/* Campus Life Lightbox */}
+      {lightboxIndex !== null && lightboxImages[lightboxIndex] && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4 backdrop-blur-xl"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <button
+            className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-10"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); }}
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <button
+            className="absolute left-4 md:left-8 text-white/70 hover:text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all z-10"
+            onClick={goPrev}
+          >
+            <ChevronLeft className="h-7 w-7" />
+          </button>
+          <div
+            className="max-w-5xl max-h-[90vh] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={lightboxImages[lightboxIndex].url}
+              alt={lightboxImages[lightboxIndex].title}
+              className="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl"
+            />
+            <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent rounded-b-md">
+              <p className="text-white font-medium text-center text-lg">{lightboxImages[lightboxIndex].title}</p>
+              <p className="text-white/60 text-center text-sm mt-1">{lightboxIndex + 1} / {lightboxImages.length}</p>
+            </div>
+          </div>
+          <button
+            className="absolute right-4 md:right-8 text-white/70 hover:text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all z-10"
+            onClick={goNext}
+          >
+            <ChevronRight className="h-7 w-7" />
+          </button>
+        </div>
+      )}
+
       {/* CTA Section */}
       <section className="py-20 bg-muted/50 border-t border-border">
         <div className="container mx-auto px-4 text-center max-w-3xl">
