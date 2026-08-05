@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useListGallery } from "@workspace/api-client-react";
 import { GalleryItemCategory } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ImageIcon, X } from "lucide-react";
+import { ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const INFRA_IMAGES = [
@@ -28,11 +28,40 @@ const CATEGORIES = [
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [lightboxImage, setLightboxImage] = useState<{url: string, title: string} | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const isInfrastructure = activeCategory === "infrastructure";
   const queryParams = activeCategory === "all" || isInfrastructure ? undefined : { category: activeCategory as GalleryItemCategory };
   const { data: galleryItems, isLoading } = useListGallery(isInfrastructure ? undefined : queryParams);
+
+  // Build the full list of images visible in the current view
+  const allImages: { url: string; title: string }[] = [
+    ...(activeCategory === "all" || isInfrastructure
+      ? INFRA_IMAGES.map((img) => ({ url: img.src, title: img.alt }))
+      : []),
+    ...(!isInfrastructure && Array.isArray(galleryItems)
+      ? galleryItems.map((item) => ({ url: item.imageUrl, title: item.title }))
+      : []),
+  ];
+
+  const lightboxImage = lightboxIndex !== null ? allImages[lightboxIndex] ?? null : null;
+
+  const openLightbox = (url: string, title: string) => {
+    const idx = allImages.findIndex((img) => img.url === url && img.title === title);
+    setLightboxIndex(idx !== -1 ? idx : null);
+  };
+
+  const goNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lightboxIndex === null) return;
+    setLightboxIndex((lightboxIndex + 1) % allImages.length);
+  };
+
+  const goPrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lightboxIndex === null) return;
+    setLightboxIndex((lightboxIndex - 1 + allImages.length) % allImages.length);
+  };
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -92,7 +121,7 @@ export default function Gallery() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.07 }}
                     className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
-                    onClick={() => setLightboxImage({ url: img.src, title: img.alt })}
+                    onClick={() => openLightbox(img.src, img.alt)}
                   >
                     <img
                       src={img.src}
@@ -126,7 +155,7 @@ export default function Gallery() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: (idx % 6) * 0.1 }}
                     className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
-                    onClick={() => setLightboxImage({ url: item.imageUrl, title: item.title })}
+                    onClick={() => openLightbox(item.imageUrl, item.title)}
                   >
                     <img 
                       src={item.imageUrl} 
@@ -154,32 +183,51 @@ export default function Gallery() {
 
       {/* Lightbox Modal */}
       {lightboxImage && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4 backdrop-blur-xl"
-          onClick={() => setLightboxImage(null)}
+          onClick={() => setLightboxIndex(null)}
         >
-          <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightboxImage(null);
-            }}
+          {/* Close */}
+          <button
+            className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-10"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); }}
           >
             <X className="h-6 w-6" />
           </button>
-          <div 
+
+          {/* Prev */}
+          <button
+            className="absolute left-4 md:left-8 text-white/70 hover:text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all z-10"
+            onClick={goPrev}
+          >
+            <ChevronLeft className="h-7 w-7" />
+          </button>
+
+          {/* Image */}
+          <div
             className="max-w-5xl max-h-[90vh] relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <img 
-              src={lightboxImage.url} 
-              alt={lightboxImage.title} 
-              className="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl" 
+            <img
+              src={lightboxImage.url}
+              alt={lightboxImage.title}
+              className="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl"
             />
-            <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+            <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent rounded-b-md">
               <p className="text-white font-medium text-center text-lg">{lightboxImage.title}</p>
+              <p className="text-white/60 text-center text-sm mt-1">
+                {lightboxIndex !== null ? `${lightboxIndex + 1} / ${allImages.length}` : ""}
+              </p>
             </div>
           </div>
+
+          {/* Next */}
+          <button
+            className="absolute right-4 md:right-8 text-white/70 hover:text-white bg-white/10 hover:bg-white/25 rounded-full p-3 transition-all z-10"
+            onClick={goNext}
+          >
+            <ChevronRight className="h-7 w-7" />
+          </button>
         </div>
       )}
     </div>
