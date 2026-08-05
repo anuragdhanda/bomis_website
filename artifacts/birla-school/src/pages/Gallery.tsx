@@ -23,14 +23,16 @@ const CATEGORIES = [
   { id: GalleryItemCategory.sports, label: "Sports" },
   { id: GalleryItemCategory.events, label: "Events" },
   { id: GalleryItemCategory.cultural, label: "Cultural" },
+  { id: "infrastructure", label: "Infrastructure" },
 ];
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [lightboxImage, setLightboxImage] = useState<{url: string, title: string} | null>(null);
 
-  const queryParams = activeCategory === "all" ? undefined : { category: activeCategory as GalleryItemCategory };
-  const { data: galleryItems, isLoading } = useListGallery(queryParams);
+  const isInfrastructure = activeCategory === "infrastructure";
+  const queryParams = activeCategory === "all" || isInfrastructure ? undefined : { category: activeCategory as GalleryItemCategory };
+  const { data: galleryItems, isLoading } = useListGallery(isInfrastructure ? undefined : queryParams);
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -77,69 +79,75 @@ export default function Gallery() {
           </div>
 
           {/* Infrastructure Photos */}
-          <div className="mb-14">
-            <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Infrastructure</h2>
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-              {INFRA_IMAGES.map((img, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.07 }}
-                  className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
-                  onClick={() => setLightboxImage({ url: img.src, title: img.alt })}
-                >
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <div className="text-white font-bold text-lg">{img.alt}</div>
-                  </div>
-                </motion.div>
-              ))}
+          {(activeCategory === "all" || isInfrastructure) && (
+            <div className={activeCategory === "all" ? "mb-14" : ""}>
+              {activeCategory === "all" && (
+                <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Infrastructure</h2>
+              )}
+              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                {INFRA_IMAGES.map((img, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.07 }}
+                    className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
+                    onClick={() => setLightboxImage({ url: img.src, title: img.alt })}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                      <div className="text-white font-bold text-lg">{img.alt}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Grid */}
-          {isLoading ? (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <Skeleton key={i} className={`w-full rounded-xl ${i % 2 === 0 ? 'h-64' : 'h-96'}`} />
-              ))}
-            </div>
-          ) : Array.isArray(galleryItems) && galleryItems.length > 0 ? (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-              {galleryItems.map((item, idx) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (idx % 6) * 0.1 }}
-                  className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
-                  onClick={() => setLightboxImage({ url: item.imageUrl, title: item.title })}
-                >
-                  <img 
-                    src={item.imageUrl} 
-                    alt={item.title} 
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <div className="text-white font-bold text-lg">{item.title}</div>
-                    <div className="text-primary font-medium text-sm capitalize">{item.category}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-24 bg-muted/30 rounded-xl border border-border border-dashed">
-              <ImageIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-30" />
-              <h3 className="text-2xl font-bold text-foreground mb-2">No Images Found</h3>
-              <p className="text-muted-foreground">There are no images in this category yet.</p>
-            </div>
+          {/* API-backed Grid (hidden when Infrastructure filter is active) */}
+          {!isInfrastructure && (
+            isLoading ? (
+              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Skeleton key={i} className={`w-full rounded-xl ${i % 2 === 0 ? 'h-64' : 'h-96'}`} />
+                ))}
+              </div>
+            ) : Array.isArray(galleryItems) && galleryItems.length > 0 ? (
+              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                {galleryItems.map((item, idx) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (idx % 6) * 0.1 }}
+                    className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
+                    onClick={() => setLightboxImage({ url: item.imageUrl, title: item.title })}
+                  >
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title} 
+                      className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                      <div className="text-white font-bold text-lg">{item.title}</div>
+                      <div className="text-primary font-medium text-sm capitalize">{item.category}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-24 bg-muted/30 rounded-xl border border-border border-dashed">
+                <ImageIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-30" />
+                <h3 className="text-2xl font-bold text-foreground mb-2">No Images Found</h3>
+                <p className="text-muted-foreground">There are no images in this category yet.</p>
+              </div>
+            )
           )}
         </div>
       </section>
