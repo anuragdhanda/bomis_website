@@ -56,6 +56,30 @@ function otpEmailHtml(otp: string) {
 }
 
 // ---------------------------------------------------------------------------
+// POST /auth/login  — direct username + password login
+// ---------------------------------------------------------------------------
+router.post("/auth/login", authRateLimit, async (req: Request, res): Promise<void> => {
+  const { username, password } = req.body ?? {};
+
+  if (!username || !password || typeof username !== "string" || typeof password !== "string") {
+    res.status(400).json({ error: "Username and password are required." });
+    return;
+  }
+
+  const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username.trim()));
+  if (!admin || !verifyPassword(password, admin.passwordHash)) {
+    res.status(401).json({ error: "Invalid username or password." });
+    return;
+  }
+
+  const token = signToken({ id: admin.id, username: admin.username });
+  const ip = (req.headers["x-forwarded-for"] as string | undefined)?.split(",")[0]?.trim() ?? req.socket.remoteAddress ?? "unknown";
+  logger.info({ username: admin.username, ip }, "✅ Admin logged in via password");
+
+  res.json({ token, admin: { id: admin.id, username: admin.username } });
+});
+
+// ---------------------------------------------------------------------------
 // POST /auth/send-otp  — step 1 of email OTP login
 // ---------------------------------------------------------------------------
 router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Promise<void> => {
