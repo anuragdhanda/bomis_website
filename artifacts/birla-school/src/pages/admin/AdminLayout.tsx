@@ -100,11 +100,11 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
         {/* Sign out */}
         <div className="px-3 py-4 border-t border-white/10">
           <button
-            onClick={() => { logout(); setLocation("/admin/login"); }}
+            onClick={() => setLocation("/")}
             className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-white/60 hover:bg-white/10 hover:text-white transition-all text-sm font-medium"
           >
             <LogOut className="h-4.5 w-4.5" />
-            Sign Out
+            Go to Website
           </button>
         </div>
       </aside>
