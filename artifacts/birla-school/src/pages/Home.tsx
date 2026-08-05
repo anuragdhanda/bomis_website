@@ -25,6 +25,16 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 import { useListGallery } from "@workspace/api-client-react";
+
+const CAMPUS_IMAGES = [
+  { src: "/gallery/classroom.png",          title: "Classrooms" },
+  { src: "/gallery/celebration.png",        title: "Celebrations" },
+  { src: "/gallery/green-day.png",          title: "Green Day" },
+  { src: "/gallery/infra-building-front.png", title: "School Building" },
+  { src: "/gallery/infra-building-field.png", title: "School Ground" },
+  { src: "/gallery/staff-group.png",        title: "Our Staff" },
+];
+
 import heroBuildingImg from "@assets/file_000000003a648208a8d8ede98caf1363_1785517414158.png";
 import heroGardenImg from "@assets/1000012712_1785343063211.png";
 import heroAssemblyImg from "@assets/file_00000000173c8208bd2a49578dac6e25_1785344981644.png";
@@ -456,32 +466,46 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {Array.isArray(galleryItems) && galleryItems.slice(0, 6).map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ scale: 0.95, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="aspect-square rounded-xl overflow-hidden bg-muted group relative cursor-pointer"
-              >
-                <img 
-                  src={item.imageUrl} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <div className="text-white font-bold text-lg">{item.title}</div>
-                  <div className="text-white/80 text-sm capitalize">{item.category}</div>
-                </div>
-              </motion.div>
-            ))}
-            
-            {(!Array.isArray(galleryItems) || galleryItems.length === 0) && (
-              <div className="col-span-full py-12 text-center text-muted-foreground">
-                No gallery items available yet.
-              </div>
-            )}
+            {Array.isArray(galleryItems) && galleryItems.length > 0
+              ? galleryItems.slice(0, 6).map((item, i) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="aspect-square rounded-xl overflow-hidden bg-muted group relative cursor-pointer"
+                  >
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                      <div className="text-white font-bold text-lg">{item.title}</div>
+                      <div className="text-white/80 text-sm capitalize">{item.category}</div>
+                    </div>
+                  </motion.div>
+                ))
+              : CAMPUS_IMAGES.map((img, i) => (
+                  <motion.div
+                    key={img.src}
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="aspect-square rounded-xl overflow-hidden bg-muted group relative"
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                      <div className="text-white font-bold text-lg">{img.title}</div>
+                    </div>
+                  </motion.div>
+                ))}
           </div>
         </div>
       </section>
