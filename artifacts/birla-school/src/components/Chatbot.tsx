@@ -181,13 +181,117 @@ export function Chatbot() {
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <>
-      {/* Floating button */}
+      {/* Floating robot button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 text-white shadow-lg hover:bg-orange-600 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300"
+        className="fixed bottom-4 right-5 z-50 focus:outline-none group"
         aria-label="Open school assistant"
+        style={{ background: "none", border: "none", padding: 0 }}
       >
-        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        {/* Close X badge when open */}
+        {open && (
+          <span className="absolute -top-1 -left-1 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow">
+            <X className="h-3 w-3" />
+          </span>
+        )}
+
+        {/* 3D Robot SVG */}
+        <svg
+          viewBox="0 0 72 92"
+          width="72"
+          height="92"
+          className="drop-shadow-2xl transition-transform duration-200 group-hover:-translate-y-1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            {/* Body gradient - white/silver 3D look */}
+            <linearGradient id="bodyG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f0f4f8" />
+              <stop offset="60%" stopColor="#d0dde8" />
+              <stop offset="100%" stopColor="#b0c0d0" />
+            </linearGradient>
+            {/* Head gradient */}
+            <linearGradient id="headG" x1="10%" y1="0%" x2="90%" y2="100%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="50%" stopColor="#dce8f0" />
+              <stop offset="100%" stopColor="#aabccc" />
+            </linearGradient>
+            {/* Eye outer glow */}
+            <radialGradient id="eyeOuter" cx="50%" cy="40%" r="55%">
+              <stop offset="0%" stopColor="#00e5ff" />
+              <stop offset="60%" stopColor="#0080e0" />
+              <stop offset="100%" stopColor="#003880" />
+            </radialGradient>
+            {/* Eye inner shine */}
+            <radialGradient id="eyeShine" cx="35%" cy="30%" r="50%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+            </radialGradient>
+            {/* Glow filter */}
+            <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            {/* Body shadow filter */}
+            <filter id="bodyShadow" x="-10%" y="-5%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#7090a0" floodOpacity="0.35" />
+            </filter>
+          </defs>
+
+          {/* ── Antenna ── */}
+          <rect x="34" y="2" width="4" height="10" rx="2" fill="#b0c0d0" />
+          <circle cx="36" cy="2" r="4" fill="#00e5ff" filter="url(#glow)" />
+
+          {/* ── Head ── */}
+          <rect x="8" y="10" width="56" height="46" rx="18" fill="url(#headG)" filter="url(#bodyShadow)" />
+          {/* Head highlight */}
+          <ellipse cx="28" cy="18" rx="12" ry="5" fill="white" opacity="0.35" />
+
+          {/* ── Eyes ── */}
+          {/* Left eye glow halo */}
+          <circle cx="24" cy="33" r="11" fill="#00cfff" opacity="0.18" />
+          {/* Left eye */}
+          <circle cx="24" cy="33" r="9" fill="url(#eyeOuter)" filter="url(#glow)" />
+          {/* Left eye shine */}
+          <circle cx="24" cy="33" r="9" fill="url(#eyeShine)" />
+          {/* Left pupil */}
+          <circle cx="24" cy="34" r="4" fill="#001840" opacity="0.6" />
+
+          {/* Right eye glow halo */}
+          <circle cx="48" cy="33" r="11" fill="#00cfff" opacity="0.18" />
+          {/* Right eye */}
+          <circle cx="48" cy="33" r="9" fill="url(#eyeOuter)" filter="url(#glow)" />
+          {/* Right eye shine */}
+          <circle cx="48" cy="33" r="9" fill="url(#eyeShine)" />
+          {/* Right pupil */}
+          <circle cx="48" cy="34" r="4" fill="#001840" opacity="0.6" />
+
+          {/* ── Smile ── */}
+          <path
+            d="M 22 50 Q 36 60 50 50"
+            stroke="#88aabb"
+            strokeWidth="2.5"
+            fill="none"
+            strokeLinecap="round"
+          />
+
+          {/* ── Body ── */}
+          <rect x="14" y="58" width="44" height="28" rx="12" fill="url(#bodyG)" filter="url(#bodyShadow)" />
+          {/* Body chest panel */}
+          <rect x="24" y="65" width="24" height="14" rx="5" fill="white" opacity="0.3" />
+          {/* Body highlight */}
+          <ellipse cx="36" cy="62" rx="14" ry="4" fill="white" opacity="0.25" />
+        </svg>
+
+        {/* "Chat" label */}
+        {!open && (
+          <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-800 px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow">
+            Chat karo!
+          </span>
+        )}
       </button>
 
       {/* Chat window */}
