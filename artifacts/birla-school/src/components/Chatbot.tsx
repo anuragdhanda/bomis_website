@@ -195,95 +195,134 @@ export function Chatbot() {
           </span>
         )}
 
-        {/* 3D Robot SVG */}
+        {/* 3D Robot SVG — matches reference image */}
         <svg
-          viewBox="0 0 72 92"
-          width="72"
-          height="92"
-          className="drop-shadow-2xl transition-transform duration-200 group-hover:-translate-y-1"
+          viewBox="0 0 80 100"
+          width="80"
+          height="100"
+          className="transition-transform duration-200 group-hover:-translate-y-1"
+          style={{ filter: "drop-shadow(0 8px 24px rgba(0,180,255,0.25)) drop-shadow(0 4px 8px rgba(0,0,0,0.25))" }}
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Body gradient - white/silver 3D look */}
-            <linearGradient id="bodyG" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f0f4f8" />
-              <stop offset="60%" stopColor="#d0dde8" />
-              <stop offset="100%" stopColor="#b0c0d0" />
+            {/* Silver/white body gradient */}
+            <linearGradient id="rBodyG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="45%" stopColor="#dde8f0" />
+              <stop offset="100%" stopColor="#9eb8cc" />
             </linearGradient>
             {/* Head gradient */}
-            <linearGradient id="headG" x1="10%" y1="0%" x2="90%" y2="100%">
+            <linearGradient id="rHeadG" x1="15%" y1="0%" x2="85%" y2="100%">
               <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="50%" stopColor="#dce8f0" />
-              <stop offset="100%" stopColor="#aabccc" />
+              <stop offset="40%" stopColor="#e8f2f8" />
+              <stop offset="100%" stopColor="#a8c0d0" />
             </linearGradient>
-            {/* Eye outer glow */}
-            <radialGradient id="eyeOuter" cx="50%" cy="40%" r="55%">
-              <stop offset="0%" stopColor="#00e5ff" />
-              <stop offset="60%" stopColor="#0080e0" />
-              <stop offset="100%" stopColor="#003880" />
+            {/* Eye dark background */}
+            <radialGradient id="rEyeBg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#001428" />
+              <stop offset="100%" stopColor="#000810" />
             </radialGradient>
-            {/* Eye inner shine */}
-            <radialGradient id="eyeShine" cx="35%" cy="30%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+            {/* Eye glow core — bright cyan */}
+            <radialGradient id="rEyeCore" cx="50%" cy="45%" r="55%">
+              <stop offset="0%" stopColor="#80ffff" />
+              <stop offset="35%" stopColor="#00cfff" />
+              <stop offset="75%" stopColor="#0070e0" />
+              <stop offset="100%" stopColor="#003090" />
+            </radialGradient>
+            {/* Eye shine */}
+            <radialGradient id="rEyeShine" cx="35%" cy="28%" r="45%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
               <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
             </radialGradient>
-            {/* Glow filter */}
-            <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            {/* Eye outer halo blur */}
+            <filter id="rEyeGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3.5" result="b" />
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
-            {/* Body shadow filter */}
-            <filter id="bodyShadow" x="-10%" y="-5%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#7090a0" floodOpacity="0.35" />
+            {/* Antenna glow */}
+            <filter id="rAntGlow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="2" result="b" />
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
+            {/* Neck shadow */}
+            <linearGradient id="rNeckG" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#9eb8cc" />
+              <stop offset="50%" stopColor="#c8dce8" />
+              <stop offset="100%" stopColor="#9eb8cc" />
+            </linearGradient>
           </defs>
 
-          {/* ── Antenna ── */}
-          <rect x="34" y="2" width="4" height="10" rx="2" fill="#b0c0d0" />
-          <circle cx="36" cy="2" r="4" fill="#00e5ff" filter="url(#glow)" />
+          {/* ── Antenna stem ── */}
+          <rect x="37" y="3" width="6" height="14" rx="3" fill="url(#rNeckG)" />
+          {/* Antenna ball with glow */}
+          <circle cx="40" cy="3" r="5" fill="#00e8ff" filter="url(#rAntGlow)" />
+          <circle cx="40" cy="3" r="3.5" fill="#80ffff" />
+          <circle cx="39" cy="2" r="1.2" fill="white" opacity="0.9" />
 
           {/* ── Head ── */}
-          <rect x="8" y="10" width="56" height="46" rx="18" fill="url(#headG)" filter="url(#bodyShadow)" />
-          {/* Head highlight */}
-          <ellipse cx="28" cy="18" rx="12" ry="5" fill="white" opacity="0.35" />
+          <rect x="6" y="14" width="68" height="52" rx="20" fill="url(#rHeadG)" />
+          {/* Head top highlight (3D sheen) */}
+          <ellipse cx="30" cy="20" rx="18" ry="6" fill="white" opacity="0.45" />
+          {/* Head bottom shadow */}
+          <ellipse cx="40" cy="64" rx="22" ry="5" fill="#7090a8" opacity="0.15" />
 
-          {/* ── Eyes ── */}
-          {/* Left eye glow halo */}
-          <circle cx="24" cy="33" r="11" fill="#00cfff" opacity="0.18" />
-          {/* Left eye */}
-          <circle cx="24" cy="33" r="9" fill="url(#eyeOuter)" filter="url(#glow)" />
-          {/* Left eye shine */}
-          <circle cx="24" cy="33" r="9" fill="url(#eyeShine)" />
-          {/* Left pupil */}
-          <circle cx="24" cy="34" r="4" fill="#001840" opacity="0.6" />
+          {/* ── LEFT EYE ── */}
+          {/* Outer ambient glow (very soft) */}
+          <circle cx="25" cy="38" r="16" fill="#00aaff" opacity="0.12" />
+          {/* Eye socket dark background */}
+          <circle cx="25" cy="38" r="13" fill="url(#rEyeBg)" />
+          {/* Eye iris glow */}
+          <circle cx="25" cy="38" r="11" fill="url(#rEyeCore)" filter="url(#rEyeGlow)" />
+          {/* Eye rim */}
+          <circle cx="25" cy="38" r="11" fill="none" stroke="#00e8ff" strokeWidth="0.8" opacity="0.6" />
+          {/* Eye shine highlight */}
+          <circle cx="25" cy="38" r="11" fill="url(#rEyeShine)" />
+          {/* Small sparkle */}
+          <circle cx="20" cy="32" r="2.5" fill="white" opacity="0.85" />
+          <circle cx="22" cy="30" r="1" fill="white" opacity="0.5" />
 
-          {/* Right eye glow halo */}
-          <circle cx="48" cy="33" r="11" fill="#00cfff" opacity="0.18" />
-          {/* Right eye */}
-          <circle cx="48" cy="33" r="9" fill="url(#eyeOuter)" filter="url(#glow)" />
-          {/* Right eye shine */}
-          <circle cx="48" cy="33" r="9" fill="url(#eyeShine)" />
-          {/* Right pupil */}
-          <circle cx="48" cy="34" r="4" fill="#001840" opacity="0.6" />
+          {/* ── RIGHT EYE ── */}
+          {/* Outer ambient glow */}
+          <circle cx="55" cy="38" r="16" fill="#00aaff" opacity="0.12" />
+          {/* Eye socket */}
+          <circle cx="55" cy="38" r="13" fill="url(#rEyeBg)" />
+          {/* Eye iris glow */}
+          <circle cx="55" cy="38" r="11" fill="url(#rEyeCore)" filter="url(#rEyeGlow)" />
+          {/* Eye rim */}
+          <circle cx="55" cy="38" r="11" fill="none" stroke="#00e8ff" strokeWidth="0.8" opacity="0.6" />
+          {/* Eye shine */}
+          <circle cx="55" cy="38" r="11" fill="url(#rEyeShine)" />
+          {/* Sparkle */}
+          <circle cx="50" cy="32" r="2.5" fill="white" opacity="0.85" />
+          <circle cx="52" cy="30" r="1" fill="white" opacity="0.5" />
 
           {/* ── Smile ── */}
           <path
-            d="M 22 50 Q 36 60 50 50"
-            stroke="#88aabb"
+            d="M 22 58 Q 40 70 58 58"
+            stroke="#7a9db0"
             strokeWidth="2.5"
             fill="none"
             strokeLinecap="round"
           />
+          {/* Cheek blush left */}
+          <ellipse cx="14" cy="50" rx="6" ry="4" fill="#ffb0c0" opacity="0.25" />
+          {/* Cheek blush right */}
+          <ellipse cx="66" cy="50" rx="6" ry="4" fill="#ffb0c0" opacity="0.25" />
+
+          {/* ── Neck ── */}
+          <rect x="30" y="66" width="20" height="8" rx="4" fill="url(#rNeckG)" />
 
           {/* ── Body ── */}
-          <rect x="14" y="58" width="44" height="28" rx="12" fill="url(#bodyG)" filter="url(#bodyShadow)" />
-          {/* Body chest panel */}
-          <rect x="24" y="65" width="24" height="14" rx="5" fill="white" opacity="0.3" />
-          {/* Body highlight */}
-          <ellipse cx="36" cy="62" rx="14" ry="4" fill="white" opacity="0.25" />
+          <rect x="10" y="72" width="60" height="26" rx="14" fill="url(#rBodyG)" />
+          {/* Body top highlight */}
+          <ellipse cx="40" cy="74" rx="20" ry="5" fill="white" opacity="0.4" />
+          {/* Chest panel */}
+          <rect x="26" y="79" width="28" height="13" rx="6" fill="white" opacity="0.22" />
+          {/* Chest panel inner line */}
+          <rect x="31" y="83" width="18" height="2" rx="1" fill="#a0c0d8" opacity="0.5" />
+          <rect x="31" y="87" width="12" height="2" rx="1" fill="#a0c0d8" opacity="0.35" />
+          {/* Body bottom edge shadow */}
+          <ellipse cx="40" cy="97" rx="22" ry="4" fill="#6080a0" opacity="0.12" />
         </svg>
 
         {/* "Chat" label */}
