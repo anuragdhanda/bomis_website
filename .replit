@@ -79,4 +79,3 @@ externalPort = 3000
 
 [userenv.shared]
 NODE_ENV = "development"
-ADMIN_PASSWORD = "Birla@Admin123"
