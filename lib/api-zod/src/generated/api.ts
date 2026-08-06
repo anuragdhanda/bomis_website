@@ -133,14 +133,14 @@ export const DeleteNewsEventResponse = zod.void()
  * @summary List gallery items
  */
 export const ListGalleryQueryParams = zod.object({
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics']).optional()
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure']).optional()
 })
 
 export const ListGalleryResponseItem = zod.object({
   "id": zod.number(),
   "title": zod.string(),
   "imageUrl": zod.string(),
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics']),
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure']),
   "createdAt": zod.string()
 })
 export const ListGalleryResponse = zod.array(ListGalleryResponseItem)
@@ -155,14 +155,14 @@ export const ListGalleryResponse = zod.array(ListGalleryResponseItem)
 export const CreateGalleryItemBody = zod.object({
   "title": zod.string().min(1),
   "imageUrl": zod.string(),
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics'])
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure'])
 })
 
 export const CreateGalleryItemResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
   "imageUrl": zod.string(),
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics']),
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure']),
   "createdAt": zod.string()
 })
 
@@ -177,14 +177,14 @@ export const UpdateGalleryItemParams = zod.object({
 export const UpdateGalleryItemBody = zod.object({
   "title": zod.string().optional(),
   "imageUrl": zod.string().optional(),
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics']).optional()
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure']).optional()
 })
 
 export const UpdateGalleryItemResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
   "imageUrl": zod.string(),
-  "category": zod.enum(['sports', 'events', 'cultural', 'academics']),
+  "category": zod.enum(['sports', 'events', 'cultural', 'academics', 'infrastructure']),
   "createdAt": zod.string()
 })
 

@@ -77,6 +77,7 @@ export const GalleryItemCategory = {
   events: 'events',
   cultural: 'cultural',
   academics: 'academics',
+  infrastructure: 'infrastructure',
 } as const;
 
 export interface GalleryItem {
@@ -95,6 +96,7 @@ export const GalleryItemInputCategory = {
   events: 'events',
   cultural: 'cultural',
   academics: 'academics',
+  infrastructure: 'infrastructure',
 } as const;
 
 export interface GalleryItemInput {
@@ -112,6 +114,7 @@ export const GalleryItemUpdateCategory = {
   events: 'events',
   cultural: 'cultural',
   academics: 'academics',
+  infrastructure: 'infrastructure',
 } as const;
 
 export interface GalleryItemUpdate {
@@ -267,6 +270,7 @@ export const ListGalleryCategory = {
   events: 'events',
   cultural: 'cultural',
   academics: 'academics',
+  infrastructure: 'infrastructure',
 } as const;
 
 export type ListInquiriesParams = {

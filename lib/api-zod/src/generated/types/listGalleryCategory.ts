@@ -14,4 +14,5 @@ export const ListGalleryCategory = {
   events: 'events',
   cultural: 'cultural',
   academics: 'academics',
+  infrastructure: 'infrastructure',
 } as const;

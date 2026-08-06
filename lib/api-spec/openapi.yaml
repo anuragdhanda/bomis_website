@@ -148,7 +148,7 @@ paths:
           name: category
           schema:
             type: string
-            enum: [sports, events, cultural, academics]
+            enum: [sports, events, cultural, academics, infrastructure]
       responses:
         "200":
           description: List of gallery items
@@ -509,7 +509,7 @@ components:
           type: string
         category:
           type: string
-          enum: [sports, events, cultural, academics]
+          enum: [sports, events, cultural, academics, infrastructure]
         createdAt:
           type: string
 
@@ -524,7 +524,7 @@ components:
           type: string
         category:
           type: string
-          enum: [sports, events, cultural, academics]
+          enum: [sports, events, cultural, academics, infrastructure]
 
     GalleryItemUpdate:
       type: object
@@ -535,7 +535,7 @@ components:
           type: string
         category:
           type: string
-          enum: [sports, events, cultural, academics]
+          enum: [sports, events, cultural, academics, infrastructure]
 
     FacultyMember:
       type: object

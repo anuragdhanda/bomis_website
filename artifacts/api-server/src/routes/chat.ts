@@ -3,7 +3,8 @@ import Groq from "groq-sdk";
 
 const router = Router();
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groqApiKey = process.env.GROQ_API_KEY?.trim();
+const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
 
 const SYSTEM_PROMPT = `You are a helpful assistant for Birla Open Minds International School (BOMIS), located in Rajound, Haryana, India. You help parents, students, and visitors with questions about the school.
 
@@ -25,6 +26,13 @@ Guidelines:
 - Keep responses brief and to the point`;
 
 router.post("/chat", async (req, res) => {
+  if (!groq) {
+    res.status(503).json({
+      error: "The school assistant is temporarily unavailable.",
+    });
+    return;
+  }
+
   const { messages } = req.body as {
     messages: { role: "user" | "assistant"; content: string }[];
   };
@@ -37,15 +45,23 @@ router.post("/chat", async (req, res) => {
   // Keep only last 10 messages for context window efficiency
   const recentMessages = messages.slice(-10);
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [{ role: "system", content: SYSTEM_PROMPT }, ...recentMessages],
-    max_tokens: 512,
-    temperature: 0.7,
-  });
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...recentMessages],
+      max_tokens: 512,
+      temperature: 0.7,
+    });
 
-  const reply = completion.choices[0]?.message?.content ?? "Sorry, I couldn't generate a response.";
-  res.json({ reply });
+    const reply =
+      completion.choices[0]?.message?.content ??
+      "Sorry, I couldn't generate a response.";
+    res.json({ reply });
+  } catch {
+    res.status(502).json({
+      error: "The school assistant could not complete that request.",
+    });
+  }
 });
 
 export default router;
