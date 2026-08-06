@@ -39,9 +39,11 @@ Both services start automatically via their managed workflows:
 | Key | Notes |
 |---|---|
 | `SESSION_SECRET` | Secret (set) — used to sign JWTs |
+| `GROQ_API_KEY` | Secret (set) — Groq API key for the AI chatbot (LLaMA 3.3 70B) |
 | `DATABASE_URL` | Runtime-managed by Replit — do not set manually |
 | `NODE_ENV` | Set to `development` |
-| `GMAIL_USER` | Optional — Gmail address for email notifications |
+| `ADMIN_EMAIL` | Optional — admin email for OTP login; set or use "Create Account" on login page |
+| `GMAIL_USER` | Optional — Gmail address for email/OTP notifications |
 | `GMAIL_APP_PASSWORD` | Optional secret — Gmail App Password for notifications |
 | `PUBLIC_OBJECT_SEARCH_PATHS` | Optional — paths for public object storage |
 | `PRIVATE_OBJECT_DIR` | Optional — directory for private object storage |
