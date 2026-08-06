@@ -1,6 +1,6 @@
 # 📋 BOMIS Website — Audit Report
 
-**Website:** Birla Open Minds International School (BOMIS), Rajound, Haryana
+**Website:** Bright Open Minds International School (BOMIS), Rajound, Haryana
 **Audit Date:** August 2026
 **Prepared By:** Replit AI Agent
 **Report Type:** Full-Stack Website Audit
@@ -26,7 +26,7 @@
 
 ## 1. Project Overview
 
-BOMIS is a full-stack school website and admin dashboard built for **Birla Open Minds International School**, located in Rajound, Haryana, India. The site serves three audiences:
+BOMIS is a full-stack school website and admin dashboard built for **Bright Open Minds International School**, located in Rajound, Haryana, India. The site serves three audiences:
 
 | Audience | Purpose |
 |---|---|
@@ -85,7 +85,7 @@ BOMIS is a full-stack school website and admin dashboard built for **Birla Open 
 ```
 workspace/
 ├── artifacts/
-│   ├── birla-school/          # React + Vite frontend (served at /)
+│   ├── bright-school/          # React + Vite frontend (served at /)
 │   │   └── src/
 │   │       ├── pages/         # All page components
 │   │       ├── components/    # Shared UI components
@@ -440,7 +440,7 @@ pnpm --filter @workspace/db run push
 
 | Service | Command | Port |
 |---|---|---|
-| Frontend | `pnpm --filter @workspace/birla-school run dev` | 5173 |
+| Frontend | `pnpm --filter @workspace/bright-school run dev` | 5173 |
 | API Server | `pnpm --filter @workspace/api-server run dev` | 8080 |
 
 Both services start automatically via Replit managed workflows.
