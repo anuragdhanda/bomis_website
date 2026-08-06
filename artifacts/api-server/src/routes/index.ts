@@ -7,6 +7,7 @@ import facultyRouter from "./faculty";
 import inquiriesRouter from "./inquiries";
 import statsRouter from "./stats";
 import storageRouter from "./storage";
+import chatRouter from "./chat";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(facultyRouter);
 router.use(inquiriesRouter);
 router.use(statsRouter);
 router.use(storageRouter);
+router.use(chatRouter);
 
 export default router;

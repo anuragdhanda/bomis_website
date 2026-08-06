@@ -1,5 +1,6 @@
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { Chatbot } from "@/components/Chatbot";
 import { AdmissionDrawerProvider } from "@/context/AdmissionDrawerContext";
 import { AdmissionDrawer } from "@/components/AdmissionDrawer";
 import { Route, Switch, Router as WouterRouter } from "wouter";
@@ -74,6 +75,7 @@ export default function App() {
         <Router />
       </WouterRouter>
       <AdmissionDrawer />
+      <Chatbot />
     </AdmissionDrawerProvider>
   );
 }
