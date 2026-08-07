@@ -14,6 +14,7 @@ import Gallery from "@/pages/Gallery";
 import Facilities from "@/pages/Facilities";
 import Contact from "@/pages/Contact";
 import StudentPortal from "@/pages/StudentPortal";
+import Legal from "@/pages/Legal";
 
 // Admin
 import AdminLogin from "@/pages/admin/Login";
@@ -59,6 +60,12 @@ function Router() {
       </Route>
       <Route path="/student-portal">
         <StudentPortal />
+      </Route>
+      <Route path="/privacy-policy">
+        <PublicLayout><Legal kind="privacy" /></PublicLayout>
+      </Route>
+      <Route path="/terms-of-service">
+        <PublicLayout><Legal kind="terms" /></PublicLayout>
       </Route>
       <Route>
         <PublicLayout><NotFound /></PublicLayout>

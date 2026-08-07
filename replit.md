@@ -34,6 +34,14 @@ Both services start automatically via their managed workflows:
 | `artifacts/birla-school: web` | `pnpm --filter @workspace/birla-school run dev` (port 5173) |
 | `artifacts/api-server: API Server` | `pnpm --filter @workspace/api-server run dev` (port 8080) |
 
+After a fresh GitHub import, each artifact checks the lockfile and restores
+workspace dependencies before starting. The post-merge setup also initializes
+the existing Drizzle database schema, so the preview does not depend on a
+manual `pnpm install` step.
+
+The public legal pages are available at `/privacy-policy` and
+`/terms-of-service`, and are linked from the footer.
+
 ## Environment Variables / Secrets
 
 | Key | Notes |

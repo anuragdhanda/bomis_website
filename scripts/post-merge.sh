@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-pnpm install --frozen-lockfile
+bash "$(dirname "$0")/ensure-dependencies.sh"
 pnpm --filter @workspace/db run push
