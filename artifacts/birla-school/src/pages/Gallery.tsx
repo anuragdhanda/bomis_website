@@ -17,6 +17,21 @@ const INFRA_IMAGES = [
   { src: "/gallery/school-building.png", alt: "School Overview" },
 ];
 
+const ACADEMIC_IMAGES = [
+  { url: "/gallery/academics/academics-admission-counselling.jpg", title: "Admission Counselling" },
+  { url: "/gallery/academics/academics-parent-teacher-meeting.jpg", title: "Parent Teacher Meeting" },
+  { url: "/gallery/academics/academics-language-project.jpg", title: "Language Project" },
+  { url: "/gallery/academics/academics-parent-interaction.jpg", title: "Parent Interaction" },
+  { url: "/gallery/academics/academics-classroom-learning.jpg", title: "Classroom Learning" },
+  { url: "/gallery/academics/academics-learning-activity.jpg", title: "Learning Activity" },
+  { url: "/gallery/academics/academics-classroom-discussion.jpg", title: "Classroom Discussion" },
+  { url: "/gallery/academics/academics-school-activity.jpg", title: "Academic School Activity" },
+  { url: "/gallery/academics/academics-student-project.jpg", title: "Student Project" },
+  { url: "/gallery/academics/academics-classroom-session.jpg", title: "Classroom Session" },
+  { url: "/gallery/academics/academics-academic-guidance.jpg", title: "Academic Guidance" },
+  { url: "/gallery/academics/academics-student-learning.jpg", title: "Student Learning" },
+];
+
 const CATEGORIES = [
   { id: "all", label: "All Images" },
   { id: GalleryItemCategory.academics, label: "Academics" },
@@ -34,13 +49,26 @@ export default function Gallery() {
   const queryParams = activeCategory === "all" || isInfrastructure ? undefined : { category: activeCategory as GalleryItemCategory };
   const { data: galleryItems, isLoading } = useListGallery(isInfrastructure ? undefined : queryParams);
 
+  const apiGalleryItems = Array.isArray(galleryItems)
+    ? galleryItems.map((item) => ({ url: item.imageUrl, title: item.title, category: item.category, id: item.id }))
+    : [];
+  const apiImageUrls = new Set(apiGalleryItems.map((item) => item.url));
+  const localAcademicItems = ACADEMIC_IMAGES
+    .filter((item) => !apiImageUrls.has(item.url))
+    .map((item) => ({ ...item, category: GalleryItemCategory.academics }));
+  const visibleGalleryItems = activeCategory === "academics"
+    ? [...localAcademicItems, ...apiGalleryItems]
+    : activeCategory === "all"
+      ? [...localAcademicItems, ...apiGalleryItems]
+      : apiGalleryItems;
+
   // Build the full list of images visible in the current view
   const allImages: { url: string; title: string }[] = [
     ...(activeCategory === "all" || isInfrastructure
       ? INFRA_IMAGES.map((img) => ({ url: img.src, title: img.alt }))
       : []),
-    ...(!isInfrastructure && Array.isArray(galleryItems)
-      ? galleryItems.map((item) => ({ url: item.imageUrl, title: item.title }))
+    ...(!isInfrastructure
+      ? visibleGalleryItems.map((item) => ({ url: item.url, title: item.title }))
       : []),
   ];
 
@@ -140,25 +168,25 @@ export default function Gallery() {
 
           {/* API-backed Grid (hidden when Infrastructure filter is active) */}
           {!isInfrastructure && (
-            isLoading ? (
+            isLoading && visibleGalleryItems.length === 0 ? (
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <Skeleton key={i} className={`w-full rounded-xl ${i % 2 === 0 ? 'h-64' : 'h-96'}`} />
                 ))}
               </div>
-            ) : Array.isArray(galleryItems) && galleryItems.length > 0 ? (
+            ) : visibleGalleryItems.length > 0 ? (
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-                {galleryItems.map((item, idx) => (
+                {visibleGalleryItems.map((item, idx) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: (idx % 6) * 0.1 }}
                     className="break-inside-avoid rounded-xl overflow-hidden bg-muted group relative cursor-pointer border border-border shadow-sm hover:shadow-md"
-                    onClick={() => openLightbox(item.imageUrl, item.title)}
+                    onClick={() => openLightbox(item.url, item.title)}
                   >
                     <img 
-                      src={item.imageUrl} 
+                      src={item.url} 
                       alt={item.title} 
                       className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
                       loading="lazy"
