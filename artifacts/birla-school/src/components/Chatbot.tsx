@@ -53,6 +53,8 @@ function stopSpeaking() {
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState({ right: 20, bottom: 16 });
+  const [isDragging, setIsDragging] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -71,6 +73,15 @@ export function Chatbot() {
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startRight: number;
+    startBottom: number;
+    moved: boolean;
+  } | null>(null);
+  const suppressClickRef = useRef(false);
 
   // Auto-scroll
   useEffect(() => {
@@ -89,6 +100,56 @@ export function Chatbot() {
       stopSpeaking();
     };
   }, []);
+
+  // Keep the widget inside the viewport while it is being dragged. The
+  // position is shared by the launcher and chat panel so they move together.
+  const handleDragStart = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0) return;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startRight: position.right,
+      startBottom: position.bottom,
+      moved: false,
+    };
+    setIsDragging(true);
+  };
+
+  const handleDragMove = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+      drag.moved = true;
+    }
+
+    const maxRight = Math.max(8, window.innerWidth - 88);
+    const maxBottom = Math.max(8, window.innerHeight - 116);
+    setPosition({
+      right: Math.min(maxRight, Math.max(8, drag.startRight - deltaX)),
+      bottom: Math.min(maxBottom, Math.max(8, drag.startBottom - deltaY)),
+    });
+  };
+
+  const handleDragEnd = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    suppressClickRef.current = drag.moved;
+    dragRef.current = null;
+    setIsDragging(false);
+  };
+
+  const toggleOpen = () => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+    setOpen((value) => !value);
+  };
 
   // ── Send message ────────────────────────────────────────────────────────────
   const sendMessage = useCallback(
@@ -183,8 +244,13 @@ export function Chatbot() {
     <>
       {/* Floating robot button */}
       <button
-        onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-4 right-5 z-50 focus:outline-none group"
+        onClick={toggleOpen}
+        onPointerDown={handleDragStart}
+        onPointerMove={handleDragMove}
+        onPointerUp={handleDragEnd}
+        onPointerCancel={handleDragEnd}
+        className={`fixed z-50 focus:outline-none group touch-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        style={{ right: position.right, bottom: position.bottom }}
         aria-label="Open school assistant"
         style={{ background: "none", border: "none", padding: 0 }}
       >
@@ -328,14 +394,17 @@ export function Chatbot() {
         {/* "Chat" label */}
         {!open && (
           <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-800 px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow">
-            Chat karo!
+            Drag karke move karein
           </span>
         )}
       </button>
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex w-[340px] sm:w-[380px] flex-col rounded-2xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
+        <div
+          className="fixed z-50 flex w-[min(380px,calc(100vw-24px))] flex-col rounded-2xl border border-gray-200 bg-white shadow-2xl overflow-hidden"
+          style={{ right: position.right, bottom: position.bottom + 112 }}
+        >
           {/* Header */}
           <div className="flex items-center gap-3 bg-orange-500 px-4 py-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
