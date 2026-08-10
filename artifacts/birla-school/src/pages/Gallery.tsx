@@ -32,6 +32,21 @@ const ACADEMIC_IMAGES = [
   { url: "/gallery/academics/academics-student-learning.jpg", title: "Student Learning" },
 ];
 
+const SPORTS_IMAGES = [
+  { url: "/gallery/sports/uploaded-sports-01.png", title: "Outdoor Sports Training" },
+  { url: "/gallery/sports/uploaded-sports-02.png", title: "Volleyball Practice" },
+  { url: "/gallery/sports/uploaded-sports-03.png", title: "Wrestling Training" },
+  { url: "/gallery/sports/uploaded-sports-04.png", title: "Archery Practice" },
+  { url: "/gallery/sports/uploaded-sports-05.png", title: "Wrestling Practice" },
+  { url: "/gallery/sports/uploaded-sports-06.png", title: "Sports Coaching" },
+  { url: "/gallery/sports/uploaded-sports-07.png", title: "Indoor Sports Training" },
+  { url: "/gallery/sports/uploaded-sports-08.png", title: "Archery Training" },
+  { url: "/gallery/sports/uploaded-sports-09.png", title: "Sports Activity" },
+  { url: "/gallery/sports/uploaded-sports-10.png", title: "Student Sports Activity" },
+  { url: "/gallery/sports/uploaded-sports-11.png", title: "Team Sports Practice" },
+  { url: "/gallery/sports/uploaded-sports-12.png", title: "Athletics Training" },
+];
+
 const CATEGORIES = [
   { id: "all", label: "All Images" },
   { id: GalleryItemCategory.academics, label: "Academics" },
@@ -56,10 +71,15 @@ export default function Gallery() {
   const localAcademicItems = ACADEMIC_IMAGES
     .filter((item) => !apiImageUrls.has(item.url))
     .map((item) => ({ ...item, category: GalleryItemCategory.academics }));
+  const localSportsItems = SPORTS_IMAGES
+    .filter((item) => !apiImageUrls.has(item.url))
+    .map((item) => ({ ...item, category: GalleryItemCategory.sports }));
   const visibleGalleryItems = activeCategory === "academics"
     ? [...localAcademicItems, ...apiGalleryItems]
+    : activeCategory === "sports"
+      ? [...localSportsItems, ...apiGalleryItems]
     : activeCategory === "all"
-      ? [...localAcademicItems, ...apiGalleryItems]
+      ? [...localAcademicItems, ...localSportsItems, ...apiGalleryItems]
       : apiGalleryItems;
 
   // Build the full list of images visible in the current view
@@ -178,7 +198,7 @@ export default function Gallery() {
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 {visibleGalleryItems.map((item, idx) => (
                   <motion.div
-                    key={item.id}
+                    key={`${item.url}-${idx}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: (idx % 6) * 0.1 }}
