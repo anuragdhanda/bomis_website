@@ -47,6 +47,17 @@ const SPORTS_IMAGES = [
   { url: "/gallery/sports/uploaded-sports-12.png", title: "Athletics Training" },
 ];
 
+const CULTURAL_IMAGES = [
+  { url: "/gallery/cultural/uploaded-cultural-01.jpg", title: "Holi Celebration" },
+  { url: "/gallery/cultural/uploaded-cultural-02.jpg", title: "Holi Memories" },
+  { url: "/gallery/cultural/uploaded-cultural-03.jpg", title: "Cultural Celebration" },
+  { url: "/gallery/cultural/uploaded-cultural-04.jpg", title: "Student Celebration" },
+  { url: "/gallery/cultural/uploaded-cultural-05.jpg", title: "Colour Festival" },
+  { url: "/gallery/cultural/uploaded-cultural-06.jpg", title: "School Community Celebration" },
+  { url: "/gallery/cultural/uploaded-cultural-07.jpg", title: "Cultural Activities" },
+  { url: "/gallery/cultural/uploaded-cultural-08.jpg", title: "Holi with Friends" },
+];
+
 const CATEGORIES = [
   { id: "all", label: "All Images" },
   { id: GalleryItemCategory.academics, label: "Academics" },
@@ -74,12 +85,17 @@ export default function Gallery() {
   const localSportsItems = SPORTS_IMAGES
     .filter((item) => !apiImageUrls.has(item.url))
     .map((item) => ({ ...item, category: GalleryItemCategory.sports }));
+  const localCulturalItems = CULTURAL_IMAGES
+    .filter((item) => !apiImageUrls.has(item.url))
+    .map((item) => ({ ...item, category: GalleryItemCategory.cultural }));
   const visibleGalleryItems = activeCategory === "academics"
     ? [...localAcademicItems, ...apiGalleryItems]
     : activeCategory === "sports"
       ? [...localSportsItems, ...apiGalleryItems]
+    : activeCategory === "cultural"
+      ? [...localCulturalItems, ...apiGalleryItems]
     : activeCategory === "all"
-      ? [...localAcademicItems, ...localSportsItems, ...apiGalleryItems]
+      ? [...localAcademicItems, ...localSportsItems, ...localCulturalItems, ...apiGalleryItems]
       : apiGalleryItems;
 
   // Build the full list of images visible in the current view

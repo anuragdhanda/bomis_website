@@ -1,0 +1,6 @@
+python-telegram-bot[job-queue,webhooks]==21.4
+groq>=1.0.0
+requests==2.32.3
+python-dotenv==1.0.1
+tzdata
+supabase>=2.0.0
