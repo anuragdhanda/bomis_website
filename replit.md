@@ -1,6 +1,6 @@
-# Birla Open Minds International School (BOMIS)
+# Bright Open Minds (BOMIS)
 
-A full-stack school website and admin dashboard for **Birla Open Minds International School**. The public site covers academics, admissions, faculty, facilities, and a gallery. The admin dashboard lets staff manage faculty, news/events, gallery items, and inquiries.
+A full-stack school website and admin dashboard for **Bright Open Minds**. The public site covers academics, admissions, faculty, facilities, and a gallery. The admin dashboard lets staff manage faculty, news/events, gallery items, and inquiries.
 
 ## Tech Stack
 

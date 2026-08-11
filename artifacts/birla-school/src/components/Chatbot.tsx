@@ -75,7 +75,7 @@ export function Chatbot() {
     {
       role: "assistant",
       content:
-        "Namaste! 🙏 Main BOMIS School Assistant hoon. Admissions, academics, facilities ya kisi bhi sawaal mein aapki madad kar sakta hoon. Aap type karein ya mic button dabaa ke bol sakte hain!",
+        "Namaste! 🙏 Main Bright Open Minds School Assistant hoon. Admissions, academics, facilities ya kisi bhi sawaal mein aapki madad kar sakta hoon. Aap type karein ya mic button dabaa ke bol sakte hain!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -444,7 +444,7 @@ export function Chatbot() {
               <Bot className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-white">BOMIS Assistant</p>
+              <p className="text-sm font-semibold text-white">Bright Open Minds Assistant</p>
               <p className="text-xs text-orange-100">Type karein ya bol ke poochein 🎙️</p>
             </div>
 

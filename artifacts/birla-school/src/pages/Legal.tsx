@@ -5,7 +5,7 @@ type LegalPageProps = {
   kind: "privacy" | "terms";
 };
 
-const schoolName = "Bright Open Minds International School, Rajound";
+const schoolName = "Bright Open Minds, Rajound";
 
 export default function Legal({ kind }: LegalPageProps) {
   const isPrivacy = kind === "privacy";
@@ -64,7 +64,7 @@ function PrivacyContent() {
   return (
     <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground">
       <p className="lead">
-        Bright Open Minds International School, Rajound respects the privacy of students, parents, guardians, staff, and visitors. This policy explains how information is handled when you use our website, contact forms, admission enquiries, gallery, or student portal demo.
+        Bright Open Minds, Rajound respects the privacy of students, parents, guardians, staff, and visitors. This policy explains how information is handled when you use our website, contact forms, admission enquiries, gallery, or student portal demo.
       </p>
       <h2>Information we receive</h2>
       <p>We may receive information that you choose to provide, such as your name, phone number, email address, student details, enquiry message, and admission-related information. We also receive basic technical information needed to keep the website secure and working, such as browser, device, and request details.</p>

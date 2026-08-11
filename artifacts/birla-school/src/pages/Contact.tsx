@@ -107,7 +107,7 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Campus Address</h4>
                       <p className="text-muted-foreground leading-relaxed group-hover:text-primary/80 transition-colors">
-                        Bright Open Minds International School<br />
+                        Bright Open Minds<br />
                         HG85+W74, Assandh Kaithal Road,<br />
                         Rajound, Haryana 136044
                       </p>

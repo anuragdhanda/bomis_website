@@ -1,10 +1,10 @@
-Build a full-stack dynamic website for "Birla Open Minds International School" 
+Build a full-stack dynamic website for "Bright Open Minds" 
 using React (frontend) + Node.js/Express (backend) + MongoDB (database).
 
 THEME: White and Orange (primary orange: #F15A29 / #E8590C, dark maroon accent: #8B1E2D, 
 white background, clean modern sans-serif fonts like Poppins/Montserrat).
 
-LOGO: Use uploaded logo (bird pattern + BIRLA OPEN MINDS INTERNATIONAL SCHOOL text) 
+LOGO: Use uploaded logo (bird pattern + BRIGHT OPEN MINDS text)
 in navbar and footer.
 
 PAGES REQUIRED:

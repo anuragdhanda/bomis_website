@@ -103,7 +103,7 @@ export function Footer() {
 
         <div className="border-t border-secondary-foreground/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/60 text-sm">
-            © {new Date().getFullYear()} Bright Open Minds International School. All rights reserved.
+            © {new Date().getFullYear()} Bright Open Minds. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm items-center">
             <Link href="/privacy-policy" className="text-secondary-foreground/60 hover:text-white transition-colors">Privacy Policy</Link>

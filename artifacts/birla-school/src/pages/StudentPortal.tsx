@@ -128,7 +128,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
             <GraduationCap className="w-8 h-8 text-white" />
           </motion.div>
           <h1 className="text-2xl font-bold text-white">Student Portal</h1>
-          <p className="text-white/60 text-sm mt-1">Bright Open Minds International School</p>
+          <p className="text-white/60 text-sm mt-1">Bright Open Minds</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">

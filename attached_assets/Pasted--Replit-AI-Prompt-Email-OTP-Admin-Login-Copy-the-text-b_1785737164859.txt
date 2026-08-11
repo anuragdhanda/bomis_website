@@ -8,7 +8,7 @@ Copy the text below and paste it into Replit's AI Agent / Assistant chat.
 
 ```
 I want to replace the current password-based login on my Admin Portal 
-(Bright Open Minds International School) with an Email OTP-based login system.
+(Bright Open Minds) with an Email OTP-based login system.
 
 Please implement the following:
 
@@ -56,7 +56,7 @@ Please implement the following:
 
 5. EMAIL TEMPLATE:
    - Send a clean, simple email with:
-     - School name (Bright Open Minds International School)
+     - School name (Bright Open Minds)
      - The 6-digit OTP in large, clear text
      - A note that it expires in 5 minutes
      - A note like "If you didn't request this, ignore this email."

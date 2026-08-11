@@ -6,10 +6,10 @@ const router = Router();
 const groqApiKey = process.env.GROQ_API_KEY?.trim();
 const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
 
-const SYSTEM_PROMPT = `You are a helpful assistant for Birla Open Minds International School (BOMIS), located in Rajound, Haryana, India. You help parents, students, and visitors with questions about the school.
+const SYSTEM_PROMPT = `You are a helpful assistant for Bright Open Minds (BOMIS), located in Rajound, Haryana, India. You help parents, students, and visitors with questions about the school.
 
 Key facts about BOMIS:
-- Full name: Birla Open Minds International School, Rajound
+- Full name: Bright Open Minds, Rajound
 - Affiliated with CBSE board
 - Offers classes from Nursery to Class 12
 - Focus on holistic education: academics, sports, arts, and character development

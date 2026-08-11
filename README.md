@@ -1,6 +1,6 @@
 # 📋 BOMIS Website — Audit Report
 
-**Website:** Bright Open Minds International School (BOMIS), Rajound, Haryana
+**Website:** Bright Open Minds (BOMIS), Rajound, Haryana
 **Audit Date:** August 2026
 **Prepared By:** Replit AI Agent
 **Report Type:** Full-Stack Website Audit
@@ -26,7 +26,7 @@
 
 ## 1. Project Overview
 
-BOMIS is a full-stack school website and admin dashboard built for **Bright Open Minds International School**, located in Rajound, Haryana, India. The site serves three audiences:
+BOMIS is a full-stack school website and admin dashboard built for **Bright Open Minds**, located in Rajound, Haryana, India. The site serves three audiences:
 
 | Audience | Purpose |
 |---|---|

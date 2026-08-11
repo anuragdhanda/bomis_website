@@ -60,7 +60,7 @@ function buildHtml(data: InquiryEmailData): string {
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
       <div style="background:${accentColor};padding:24px 32px;">
         <h1 style="margin:0;color:#fff;font-size:22px;">${title}</h1>
-        <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">BOMIS Rajound — Birla Open Minds International School</p>
+        <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">BOMIS Rajound — Bright Open Minds</p>
       </div>
       <table style="width:100%;border-collapse:collapse;">
         ${tableRows}
