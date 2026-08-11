@@ -53,7 +53,23 @@ function stopSpeaking() {
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState({ right: 20, bottom: 16 });
+  const [position, setPosition] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("bomIS-chatbot-position");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (
+          Number.isFinite(parsed?.right) &&
+          Number.isFinite(parsed?.bottom)
+        ) {
+          return { right: parsed.right, bottom: parsed.bottom };
+        }
+      }
+    } catch {
+      // Use the default position when localStorage is unavailable or invalid.
+    }
+    return { right: 20, bottom: 16 };
+  });
   const [isDragging, setIsDragging] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -92,6 +108,18 @@ export function Chatbot() {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  // Remember the visitor's preferred position across page navigation and reloads.
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        "bomIS-chatbot-position",
+        JSON.stringify(position),
+      );
+    } catch {
+      // Persistence is a convenience; dragging still works if storage is blocked.
+    }
+  }, [position]);
 
   // Cleanup recognition on unmount
   useEffect(() => {
@@ -250,9 +278,14 @@ export function Chatbot() {
         onPointerUp={handleDragEnd}
         onPointerCancel={handleDragEnd}
         className={`fixed z-50 focus:outline-none group touch-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-        style={{ right: position.right, bottom: position.bottom }}
+        style={{
+          right: position.right,
+          bottom: position.bottom,
+          background: "none",
+          border: "none",
+          padding: 0,
+        }}
         aria-label="Open school assistant"
-        style={{ background: "none", border: "none", padding: 0 }}
       >
         {/* Close X badge when open */}
         {open && (
