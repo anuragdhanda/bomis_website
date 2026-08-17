@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Birla Open Minds School"
+title = "Bright Open Minds"
 version = "1.0.0"
 id = "artifacts/birla-school"
 router = "path"

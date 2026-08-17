@@ -44,6 +44,13 @@ The public legal pages are available at `/privacy-policy` and
 
 ## Environment Variables / Secrets
 
+Local configuration templates are available at:
+
+- `artifacts/api-server/.env.example` for backend settings
+- `artifacts/birla-school/.env.example` for safe frontend settings
+
+Do not put server secrets in the frontend `.env`; Vite exposes frontend variables to the browser. In Replit, use Secrets for `GROQ_API_KEY`, `SESSION_SECRET`, and other credentials. The API server loads a private local `.env` when one exists, while Replit-managed environment values take precedence.
+
 | Key | Notes |
 |---|---|
 | `SESSION_SECRET` | Secret (set) — used to sign JWTs |

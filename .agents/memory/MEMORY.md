@@ -1,2 +1,3 @@
 - [Imported workspace setup](imported-workspace-setup.md) — imported pnpm workspaces need locked dependency bootstrap, schema initialization, and no duplicate port-owning workflows.
 - [Security hardening patterns](security-hardening-patterns.md) — JWT fallback secrets, hardcoded seed passwords, predictable OTPs, unauthenticated data endpoints, and partial [[ports]] entries are the patterns to check on every Express service.
+- [Environment files and Replit secrets](env-file-and-secrets.md) — use .env.example and managed secrets; never place server credentials in frontend environment files.
