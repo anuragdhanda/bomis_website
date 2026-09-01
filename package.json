@@ -16,11 +16,6 @@
     "@rollup/rollup-win32-x64-msvc": "^4.63.1",
     "prettier": "^3.9.5",
     "typescript": "~5.9.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "react": "19.1.0",
-      "react-dom": "19.1.0"
-    }
   }
+  
 }
