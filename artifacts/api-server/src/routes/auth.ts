@@ -15,23 +15,23 @@ const router: IRouter = Router();
 // Email helpers
 // ---------------------------------------------------------------------------
 function createTransporter() {
-  const user = process.env["GMAIL_USER"];
-  const pass = process.env["GMAIL_APP_PASSWORD"];
-  if (!user || !pass) {
-    logger.warn("GMAIL_USER or GMAIL_APP_PASSWORD not set — email sending disabled");
+  const apiKey = process.env["BREVO_API_KEY"];
+  const sender = process.env["BREVO_SENDER_EMAIL"] ?? "anuragdhanda551@gmail.com";
+  if (!apiKey) {
+    logger.warn("BREVO_API_KEY not set — email sending disabled");
     return null;
   }
-  // Use explicit SMTP config (more reliable than service:"gmail" shorthand)
+  // Brevo (Sendinblue) SMTP relay
   return nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "smtp-relay.brevo.com",
     port: 587,
     secure: false,        // STARTTLS on port 587
-    auth: { user, pass },
+    auth: { user: sender, pass: apiKey },
     tls: { rejectUnauthorized: false },
   });
 }
 
-function gmailUser() { return process.env["GMAIL_USER"] ?? ""; }
+function gmailUser() { return process.env["BREVO_SENDER_EMAIL"] ?? "anuragdhanda551@gmail.com"; }
 
 function otpEmailHtml(otp: string) {
   return `
@@ -143,7 +143,7 @@ router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Prom
       // Send email
       const transporter = createTransporter();
       if (transporter) {
-        logger.info({ email: normalizedEmail }, "Attempting to send OTP email via Gmail SMTP...");
+        logger.info({ email: normalizedEmail }, "Attempting to send OTP email via Brevo SMTP...");
         await transporter.sendMail({
           from: `"Bright Open Minds Admin" <${gmailUser()}>`,
           to: admin.email!,
@@ -153,10 +153,10 @@ router.post("/auth/send-otp", otpEmailRateLimit, async (req: Request, res): Prom
         logger.info({ email: normalizedEmail }, "✅ OTP email sent successfully");
       } else {
         // Dev fallback: print OTP to server logs only
-        logger.warn({ email: normalizedEmail }, "📧 GMAIL not configured — OTP (dev only): " + otp);
+        logger.warn({ email: normalizedEmail }, "📧 BREVO not configured — OTP (dev only): " + otp);
       }
     } catch (err) {
-      logger.error({ err, email: normalizedEmail }, "❌ OTP email send failed — check GMAIL_USER and GMAIL_APP_PASSWORD");
+      logger.error({ err, email: normalizedEmail }, "❌ OTP email send failed — check BREVO_API_KEY");
       // Dev fallback so admin can still login via server logs
       if (process.env["NODE_ENV"] !== "production") {
         logger.warn({ email: normalizedEmail }, "🔑 DEV FALLBACK — OTP is: " + otp);

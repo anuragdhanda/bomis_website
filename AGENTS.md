@@ -109,8 +109,9 @@ pnpm -r --if-present run build        # build only (no typecheck)
 | `GROQ_API_KEY` | ✅ | Groq key for chatbot |
 | `NODE_ENV` | ✅ | `development` / `production` |
 | `PORT` | ✅ | 8080 |
-| `GMAIL_USER` | ️optional | Gmail address for inquiry/OTP emails |
-| `GMAIL_APP_PASSWORD` | optional | Gmail App Password (16 chars) |
+| `BREVO_API_KEY` | optional | Brevo (Sendinblue) SMTP/API key for inquiry/OTP emails (`xkeysib-…`) |
+| `BREVO_SENDER_EMAIL` | optional | From-address for inquiry/OTP emails (default `anuragdhanda551@gmail.com`) |
+| `BREVO_SENDER_NAME` | optional | From-name for inquiry/OTP emails (default `BOMIS Website`) |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_SECRET_KEY` | optional | admin seeding / OTP |
 | `ALLOWED_ORIGIN` | optional | CORS override |
 | `PUBLIC_OBJECT_SEARCH_PATHS` / `PRIVATE_OBJECT_DIR` | optional | object storage |
@@ -168,7 +169,7 @@ Frontend routes (Wouter) in `artifacts/birla-school/src/App.tsx`:
 ### 🎓 Apply / Inquiry forms ("apply form")
 - **Components:** `AdmissionDrawer.tsx` (global "Apply Now" drawer), `pages/Admissions.tsx`, `pages/Contact.tsx`.
 - Submits via generated hook `useCreateInquiry()` → `POST /api/inquiries` with `type: "admission" | "contact"`.
-- Backend `routes/inquiries.ts` validates with Zod, inserts into `inquiries` table, then **sends a notification email** via `lib/mailer.ts` using `GMAIL_USER` / `GMAIL_APP_PASSWORD` (nodemailer gmail). If those envs are empty, email is skipped (form still saves to DB).
+- Backend `routes/inquiries.ts` validates with Zod, inserts into `inquiries` table, then **sends a notification email** via `lib/mailer.ts` using `BREVO_API_KEY` (nodemailer → Brevo SMTP relay `smtp-relay.brevo.com`). If the key is empty, email is skipped (form still saves to DB).
 - Admin sees submissions at `/admin/inquiries` (status: new/read/resolved).
 
 ### 🤖 Chatbot
@@ -179,7 +180,7 @@ Frontend routes (Wouter) in `artifacts/birla-school/src/App.tsx`:
 ### 🔐 Auth
 - JWT in localStorage, signed with `SESSION_SECRET`, 24h expiry.
 - `/auth/register` is gated by a secret key (`ADMIN_SECRET_KEY` or `SESSION_SECRET`).
-- OTP flow uses `GMAIL_USER`/`GMAIL_APP_PASSWORD` (auth.ts).
+- OTP flow uses `BREVO_API_KEY` (auth.ts, nodemailer → Brevo SMTP relay).
 
 ### 🎨 Admin
 - Views in `src/pages/admin/` — `Login.tsx`, `Dashboard.tsx`, `AdminLayout.tsx`.
@@ -226,6 +227,11 @@ Append here at the end of every session (most recent first). Include: date, what
 ### 2026-09-01 — Gmail credentials for inquiry emails
 - Added `GMAIL_USER=anuragdhanda551@gmail.com` and new `GMAIL_APP_PASSWORD` to `artifacts/.env` (committed) and root `.env` (local).
 - **Follow-up:** update the same two env vars in the Render dashboard → Environment → Save + deploy, or inquiry emails won't send in production.
+
+### 2026-09-01 — Switch email notifications from Gmail to Brevo (Sendinblue)
+- Replaced Gmail SMTP with **Brevo SMTP relay** (`smtp-relay.brevo.com`). Added new `BREVO_API_KEY` (`xkeysib-…`), `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME` to `artifacts/.env` (committed) and root `.env` (local). Removed old `GMAIL_USER` / `GMAIL_APP_PASSWORD` from both.
+- Updated `lib/mailer.ts` (inquiry emails) and `routes/auth.ts` (OTP emails) to use Brevo SMTP via nodemailer. Typecheck passes.
+- **Follow-up:** the old Gmail vars are already in production Render env — remove them there and add `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME` in the Render dashboard → Environment → Save + deploy, or production emails won't send. Sender address `anuragdhanda551@gmail.com` must be a verified sender in the Brevo account.
 
 ### 2026-09-01 — Chatbot API URL fix + Vercel prep
 - `Chatbot.tsx`: switched `import.meta.env.BASE_URL` → `VITE_API_BASE_URL` (fallback to relative `/api` when unset). Fixes chatbot on Vercel (no `/api` proxy there).

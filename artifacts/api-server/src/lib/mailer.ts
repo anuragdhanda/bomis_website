@@ -1,21 +1,26 @@
 import nodemailer from "nodemailer";
 import { logger } from "./logger.js";
 
-const GMAIL_USER = process.env["GMAIL_USER"];
-const GMAIL_APP_PASSWORD = process.env["GMAIL_APP_PASSWORD"];
+const BREVO_API_KEY = process.env["BREVO_API_KEY"];
+const SENDER_EMAIL = process.env["BREVO_SENDER_EMAIL"] ?? "anuragdhanda551@gmail.com";
+const SENDER_NAME = process.env["BREVO_SENDER_NAME"] ?? "BOMIS Website";
 
 // Returns null if env vars are missing — email sending is optional
 function createTransporter() {
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
-    logger.warn("GMAIL_USER or GMAIL_APP_PASSWORD not set — email notifications disabled");
+  if (!BREVO_API_KEY) {
+    logger.warn("BREVO_API_KEY not set — email notifications disabled");
     return null;
   }
+  // Brevo (Sendinblue) SMTP relay
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
     auth: {
-      user: GMAIL_USER,
-      pass: GMAIL_APP_PASSWORD,
+      user: SENDER_EMAIL,
+      pass: BREVO_API_KEY,
     },
+    tls: { rejectUnauthorized: false },
   });
 }
 
@@ -72,7 +77,7 @@ function buildHtml(data: InquiryEmailData): string {
 }
 
 export async function sendInquiryEmail(data: InquiryEmailData): Promise<void> {
-  if (!transporter || !GMAIL_USER) {
+  if (!transporter || !SENDER_EMAIL) {
     logger.warn("Email not sent — mailer not configured");
     return;
   }
@@ -83,8 +88,8 @@ export async function sendInquiryEmail(data: InquiryEmailData): Promise<void> {
     : `[Contact Message] ${data.name} — ${data.email}`;
 
   await transporter.sendMail({
-    from: `"BOMIS Website" <${GMAIL_USER}>`,
-    to: GMAIL_USER,
+    from: `"${SENDER_NAME}" <${SENDER_EMAIL}>`,
+    to: SENDER_EMAIL,
     replyTo: data.email,
     subject,
     html: buildHtml(data),
