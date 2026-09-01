@@ -3,8 +3,12 @@ import Groq from "groq-sdk";
 
 const router = Router();
 
-const groqApiKey = process.env.GROQ_API_KEY?.trim();
-const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
+const getGroqApiKey = () => process.env.GROQ_API_KEY?.trim();
+
+const groqClient = () => {
+  const key = getGroqApiKey();
+  return key ? new Groq({ apiKey: key }) : null;
+};
 
 const SYSTEM_PROMPT = `You are the official website assistant for Bright Open Minds (BOMIS), Rajound. Your job is to answer questions about the school using the website information below. You help parents, students, and visitors. Never claim to have access to private student records or live office systems.
 
@@ -73,6 +77,7 @@ RESPONSE RULES:
 - Be warm and concise: normally one short sentence; for a process or list, use at most 2 short sentences and about 35 words. Do not suggest website pages unless the user asks for more details.`;
 
 router.post("/chat", async (req, res) => {
+  const groq = groqClient();
   if (!groq) {
     res.status(503).json({
       error: "The school assistant is temporarily unavailable.",
@@ -94,7 +99,7 @@ router.post("/chat", async (req, res) => {
 
   try {
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-20b",
       messages: [{ role: "system", content: SYSTEM_PROMPT }, ...recentMessages],
       max_tokens: 160,
       temperature: 0.7,
@@ -104,9 +109,18 @@ router.post("/chat", async (req, res) => {
       completion.choices[0]?.message?.content ??
       "Sorry, I couldn't generate a response.";
     res.json({ reply });
-  } catch {
-    res.status(502).json({
-      error: "The school assistant could not complete that request.",
+  } catch (err) {
+    const status =
+      (err as { status?: number })?.status === 401 ||
+      (err as { status?: number })?.status === 429
+        ? (err as { status?: number }).status
+        : 502;
+    console.error("[chat] Groq error:", status, (err as Error)?.message);
+    res.status(status as number).json({
+      error:
+        status === 401
+          ? "The school assistant is not configured correctly."
+          : "The school assistant could not complete that request.",
     });
   }
 });

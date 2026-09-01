@@ -1,2 +1,22 @@
 [WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.overrides". See https://pnpm.io/settings for the new home of each setting.
 $ node ../../scripts/kill-port.mjs 5173 && vite --config vite.config.ts --host 0.0.0.0
+[2m6:58:36 PM[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/gallery[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1426:18)
+    at afterConnectMultiple (node:net:2095:7)
+[2m6:58:37 PM[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/gallery[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1426:18)
+    at afterConnectMultiple (node:net:2095:7)
+[2m6:58:40 PM[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/gallery[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1426:18)
+    at afterConnectMultiple (node:net:2095:7)
+[2m6:58:43 PM[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/chat[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1426:18)
+    at afterConnectMultiple (node:net:2095:7)
+[2m6:58:44 PM[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/gallery[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1426:18)
+    at afterConnectMultiple (node:net:2095:7)

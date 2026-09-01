@@ -1,33 +1,83 @@
-[18:04:59.937] [32mINFO[39m (6880): [36mServer listening[39m
+[18:58:50.479] [32mINFO[39m (18852): [36mServer listening[39m
     [35mport[39m: 8080
     [35mhost[39m: "0.0.0.0"
-[18:11:23.383] [32mINFO[39m (6880): [36mrequest completed[39m
+[19:03:05.401] [32mINFO[39m (18852): [36mrequest completed[39m
     [35mreq[39m: {
       "id": 1,
       "method": "GET",
-      "url": "/api/healthz"
+      "url": "/api/gallery"
     }
     [35mres[39m: {
       "statusCode": 200
     }
-    [35mresponseTime[39m: 16
-[18:18:56.434] [32mINFO[39m (6880): [36mrequest completed[39m
+    [35mresponseTime[39m: 5907
+[19:03:08.161] [32mINFO[39m (18852): [36mrequest completed[39m
     [35mreq[39m: {
       "id": 2,
-      "method": "GET",
-      "url": "/api/gallery"
+      "method": "POST",
+      "url": "/api/chat"
     }
     [35mres[39m: {
       "statusCode": 200
     }
-    [35mresponseTime[39m: 8154
-[18:27:52.766] [32mINFO[39m (6880): [36mrequest completed[39m
+    [35mresponseTime[39m: 3139
+[19:03:20.558] [32mINFO[39m (18852): [36mrequest completed[39m
     [35mreq[39m: {
       "id": 3,
-      "method": "GET",
-      "url": "/api/gallery"
+      "method": "POST",
+      "url": "/api/chat"
     }
     [35mres[39m: {
-      "statusCode": 304
+      "statusCode": 200
     }
-    [35mresponseTime[39m: 5517
+    [35mresponseTime[39m: 2398
+[19:03:51.398] [32mINFO[39m (18852): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 4,
+      "method": "POST",
+      "url": "/api/chat"
+    }
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2445
+[19:04:13.286] [32mINFO[39m (18852): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 5,
+      "method": "POST",
+      "url": "/api/chat"
+    }
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2273
+[19:04:48.973] [32mINFO[39m (18852): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 6,
+      "method": "POST",
+      "url": "/api/chat"
+    }
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2433
+[19:04:59.896] [32mINFO[39m (18852): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 7,
+      "method": "POST",
+      "url": "/api/chat"
+    }
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2585
+[19:05:21.298] [32mINFO[39m (18852): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 8,
+      "method": "POST",
+      "url": "/api/chat"
+    }
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2212
