@@ -17,10 +17,10 @@ interface Message {
   content: string;
 }
 
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
 async function sendChat(messages: Message[]): Promise<string> {
-  const res = await fetch(`${BASE}/api/chat`, {
+  const res = await fetch(`${API_BASE}/api/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ messages }),

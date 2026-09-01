@@ -46,7 +46,8 @@ const allowedOrigins = (() => {
   if (process.env.NODE_ENV !== "production") {
     return [/^https?:\/\/localhost(:\d+)?$/, /\.replit\.dev$/];
   }
-  return false; // same-origin only in production
+  // Production: allow Vercel frontend
+  return ["https://bomis-website-birla-school.vercel.app"];
 })();
 
 app.use(
