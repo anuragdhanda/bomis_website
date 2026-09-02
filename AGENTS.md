@@ -190,13 +190,16 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 ## 9. Deployment & Infrastructure
 
-### Frontend → Vercel (`vercel.json`)
-- `framework: vite`, build `pnpm --filter @workspace/birla-school build`, output `artifacts/frontend/dist/public`, SPA rewrite to `/index.html`.
+### Frontend → Vercel (`bomiswebsite-anurag-2773.vercel.app`)
+- **Build settings live in the Vercel DASHBOARD (project `bomis_website` / team `anurag-2773`)**, not in repo root `vercel.json`:
+  `rootDirectory: artifacts/frontend`, `buildCommand: vite build`, `outputDirectory: dist/public`, `installCommand: pnpm install --no-frozen-lockfile`, node 24.x. Because `rootDirectory` is set, a repo-root `vercel.json` is NOT enough for routing config.
+- **SPA rewrite lives in `artifacts/frontend/vercel.json`** (`/(.*)` → `/index.html`). Keep it there — inside the rootDirectory. Repo-root `vercel.json` only holds framework + the same rewrite (harmless duplication).
 - On Vercel there is **NO `/api` proxy** — every API call must go to the Render URL via `VITE_API_BASE_URL`. It must be set as a Vercel env var at build time.
+- One-time deploy: `vercel --prod --yes` (logged in as `anuragdhanda551-2163`). If the lockfile is out of date, run `pnpm install --no-frozen-lockfile` and commit first.
 
 ### Backend → Render (`bomis-website-api.onrender.com`)
 - Runs the API server with env vars configured in the Render dashboard (DB URL, Groq key, Gmail creds, etc.).
-- CORS allowlist in `artifacts/api-server/src/app.ts` includes the Vercel domain in production.
+- CORS allowlist in `artifacts/api-server/src/app.ts` includes `https://bomiswebsite-anurag-2773.vercel.app` (and the stale `bomis-website-birla-school.vercel.app`) in production. Overridable via `ALLOWED_ORIGIN` env var.
 
 ### Database → Neon (Postgres)
 - Schema pushed via Drizzle (`pnpm --filter @workspace/db run push`). Don't hand-edit DB; edit `lib/db/src/schema.ts` and push.
@@ -219,13 +222,13 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
-### 2026-09-02 — Vercel deploy fix (outdated lockfile + wrong folder paths)
-- Deploying via `vercel --prod` failed with `ERR_PNPM_OUTDATED_LOCKFILE`: `pnpm-lock.yaml` was not up to date with `artifacts/frontend/package.json`.
-- Fixed by running `pnpm install --no-frozen-lockfile` and committing the updated `pnpm-lock.yaml` (+8 packages).
-- The real frontend folder is `artifacts/frontend` (package still `@workspace/birla-school`). Fixed stale `birla-school` paths: `vercel.json` `outputDirectory` → `artifacts/frontend/dist/public`, `.vercelignore` now also excludes `artifacts/frontend/node_modules`, and corrected AGENTS.md.
-- Corrected production domain everywhere: it is `bomiswebsite-anurag-2773.vercel.app` (project `bomis_website` / team `anurag-2773`), NOT the old `bomis-website-birla-school.vercel.app`.
-- Added the real domain to the API CORS allowlist in `artifacts/api-server/src/app.ts`.
-- **Follow-up:** redeploy the Render backend so the new CORS allowlist takes effect; otherwise the live frontend's API calls (gallery/faculty/inquiries) are blocked.
+### 2026-09-02 — Vercel deploy SUCCESS (live `bomiswebsite-anurag-2773.vercel.app`)
+- Frontend is now live on Vercel. Root/`/about`/`/admin`/`/gallery` all return 200; `VITE_API_BASE_URL` baked into build points to Render.
+- Reached it by fixing, in order: (1) outdated `pnpm-lock.yaml` (`pnpm install --no-frozen-lockfile`), (2) root repo `vercel.json` conflicting with Vercel dashboard settings — rootDirectory `artifacts/frontend` means repo-root vercel.json routing is ignored, (3) `.vercelignore` had `dist` which would break output detection.
+- **Key config:** build settings live in the Vercel DASHBOARD (rootDirectory `artifacts/frontend`, build `vite build`, output `dist/public`, install `pnpm install --no-frozen-lockfile`, node 24.x). The SPA rewrite `/(.*)` → `/index.html` must live in `artifacts/frontend/vercel.json` (inside rootDirectory).
+- Verified `https://bomiswebsite.vercel.app` also aliases to the production domain.
+- **Deploy command:** `vercel --prod --yes` (logged in as `anuragdhanda551-2163`).
+- **Follow-up:** redeploy the Render backend so the updated CORS allowlist in `artifacts/api-server/src/app.ts` (now includes `bomiswebsite-anurag-2773.vercel.app`) takes effect, or live gallery/faculty/inquiries API calls are blocked.
 
 ### 2026-09-01 — AGENTS.md created
 - Created `AGENTS.md` at repo root as single source of truth (full project info, commands, env vars, routes, endpoints, conventions, deployment).
