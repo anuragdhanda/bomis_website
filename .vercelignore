@@ -12,7 +12,6 @@ lib/api-zod/node_modules
 lib/object-storage-web/node_modules
 .tmp
 coverage
-dist
 out-tsc
 *.tsbuildinfo
 .DS_Store
