@@ -1,9 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @workspace/birla-school build",
-  "outputDirectory": "artifacts/frontend/dist/public",
   "rewrites": [
     {
       "source": "/(.*)",
