@@ -22,19 +22,19 @@ This file is the single source of truth for working on this repository.
 | Admin Staff | Manage faculty, gallery, inquiries via dashboard |
 
 **Deployment (current):**
-- **Frontend:** Vercel → `https://bomis-website-birla-school.vercel.app`
+- **Frontend:** Vercel → `https://bomiswebsite-anurag-2773.vercel.app` (project `bomis_website` / team `anurag-2773`)
 - **Backend (API):** Render → `https://bomis-website-api.onrender.com`
 - **Database:** PostgreSQL on **Neon** (via `DATABASE_URL`)
 - Frontend talks to the API through `VITE_API_BASE_URL` (in `.env` / Vercel env vars). In local dev it proxies `/api` → `localhost:8080`.
 
 ---
 
-## 2. Repository Layout (ACCURATE — README may say "bright-school"; the real folder is `birla-school`)
+## 2. Repository Layout (ACCURATE — README may say "bright-school"; the real folder is `frontend`)
 
 ```
 bomis_website/
 ├── artifacts/
-│   ├── birla-school/          # React + Vite frontend  (package: @workspace/birla-school, port 5173)
+│   ├── frontend/              # React + Vite frontend  (package: @workspace/birla-school, port 5173)
 │   │   └── src/
 │   │       ├── pages/         # Home, About, Academics, Admissions, FeesStructure, Faculty, Gallery, Facilities, Contact, StudentPortal, Legal, admin/...
 │   │       ├── components/    # Chatbot.tsx, AdmissionDrawer.tsx, layout/, ui/ (shadcn-style)
@@ -61,13 +61,13 @@ bomis_website/
 └── README.md / replit.md      # older audit docs (partially outdated on names)
 ```
 
-> **PACKAGE NAMING GOTCHA:** The frontend package is `@workspace/birla-school` (folder `artifacts/birla-school`). The README and older docs reference `bright-school` — ignore that; it is outdated.
+> **PACKAGE NAMING GOTCHA:** The frontend package is `@workspace/birla-school` and lives in folder `artifacts/frontend` (the folder was renamed from `birla-school`; the package name stayed the same). `vercel.json` builds it via `pnpm --filter @workspace/birla-school build`. The README and older docs reference `bright-school` — ignore that; it is outdated.
 
 ---
 
 ## 3. Tech Stack
 
-### Frontend (`artifacts/birla-school`)
+### Frontend (`artifacts/frontend`)
 React 19.1 (pinned via overrides/catalog) · TypeScript ~5.9 · Vite 7 · Tailwind CSS v4 · Wouter (routing) · TanStack React Query · Framer Motion · Radix UI · React Hook Form + Zod · Recharts (student portal) · Lucide icons · Uppy (uploads).
 
 ### Backend (`artifacts/api-server`)
@@ -118,7 +118,7 @@ pnpm -r --if-present run build        # build only (no typecheck)
 
 > **⚠️ SEcrets are COMMITTED in `artifacts/.env`** (owner's explicit decision). Root `.env` is local-only and **NOT** tracked (`.gitignore` covers `.env` but the file was force-added long ago). Do not add new secrets without asking the owner.
 
-### Frontend (`artifacts/birla-school/.env.example`)
+### Frontend (`artifacts/frontend/.env.example`)
 | Variable | Notes |
 |---|---|
 | `VITE_API_BASE_URL` | API base URL e.g. `https://bomis-website-api.onrender.com`. Used by `setBaseUrl()` in `main.tsx` AND by `Chatbot.tsx`. Leave unset locally to fall back to the `localhost:8080` dev proxy. |
@@ -128,7 +128,7 @@ pnpm -r --if-present run build        # build only (no typecheck)
 
 ## 6. Public Pages & Routing
 
-Frontend routes (Wouter) in `artifacts/birla-school/src/App.tsx`:
+Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 | Route | Page |
 |---|---|
@@ -191,7 +191,7 @@ Frontend routes (Wouter) in `artifacts/birla-school/src/App.tsx`:
 ## 9. Deployment & Infrastructure
 
 ### Frontend → Vercel (`vercel.json`)
-- `framework: vite`, build `pnpm --filter @workspace/birla-school build`, output `artifacts/birla-school/dist/public`, SPA rewrite to `/index.html`.
+- `framework: vite`, build `pnpm --filter @workspace/birla-school build`, output `artifacts/frontend/dist/public`, SPA rewrite to `/index.html`.
 - On Vercel there is **NO `/api` proxy** — every API call must go to the Render URL via `VITE_API_BASE_URL`. It must be set as a Vercel env var at build time.
 
 ### Backend → Render (`bomis-website-api.onrender.com`)
@@ -218,6 +218,14 @@ Frontend routes (Wouter) in `artifacts/birla-school/src/App.tsx`:
 ## 11. Session Log / Changelog
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
+
+### 2026-09-02 — Vercel deploy fix (outdated lockfile + wrong folder paths)
+- Deploying via `vercel --prod` failed with `ERR_PNPM_OUTDATED_LOCKFILE`: `pnpm-lock.yaml` was not up to date with `artifacts/frontend/package.json`.
+- Fixed by running `pnpm install --no-frozen-lockfile` and committing the updated `pnpm-lock.yaml` (+8 packages).
+- The real frontend folder is `artifacts/frontend` (package still `@workspace/birla-school`). Fixed stale `birla-school` paths: `vercel.json` `outputDirectory` → `artifacts/frontend/dist/public`, `.vercelignore` now also excludes `artifacts/frontend/node_modules`, and corrected AGENTS.md.
+- Corrected production domain everywhere: it is `bomiswebsite-anurag-2773.vercel.app` (project `bomis_website` / team `anurag-2773`), NOT the old `bomis-website-birla-school.vercel.app`.
+- Added the real domain to the API CORS allowlist in `artifacts/api-server/src/app.ts`.
+- **Follow-up:** redeploy the Render backend so the new CORS allowlist takes effect; otherwise the live frontend's API calls (gallery/faculty/inquiries) are blocked.
 
 ### 2026-09-01 — AGENTS.md created
 - Created `AGENTS.md` at repo root as single source of truth (full project info, commands, env vars, routes, endpoints, conventions, deployment).

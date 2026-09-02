@@ -3,7 +3,7 @@
   "framework": "vite",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @workspace/birla-school build",
-  "outputDirectory": "artifacts/birla-school/dist/public",
+  "outputDirectory": "artifacts/frontend/dist/public",
   "rewrites": [
     {
       "source": "/(.*)",

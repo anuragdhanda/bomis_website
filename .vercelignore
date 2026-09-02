@@ -3,6 +3,7 @@ node_modules
 .git
 artifacts/api-server/node_modules
 artifacts/birla-school/node_modules
+artifacts/frontend/node_modules
 artifacts/mockup-sandbox/node_modules
 lib/db/node_modules
 lib/api-client-react/node_modules

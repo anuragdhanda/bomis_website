@@ -47,7 +47,10 @@ const allowedOrigins = (() => {
     return [/^https?:\/\/localhost(:\d+)?$/, /\.replit\.dev$/];
   }
   // Production: allow Vercel frontend
-  return ["https://bomis-website-birla-school.vercel.app"];
+  return [
+    "https://bomiswebsite-anurag-2773.vercel.app",
+    "https://bomis-website-birla-school.vercel.app",
+  ];
 })();
 
 app.use(
