@@ -121,7 +121,7 @@ pnpm -r --if-present run build        # build only (no typecheck)
 ### Frontend (`artifacts/frontend/.env.example`)
 | Variable | Notes |
 |---|---|
-| `VITE_API_BASE_URL` | API base URL e.g. `https://bomis-website-api.onrender.com`. Used by `setBaseUrl()` in `main.tsx` AND by `Chatbot.tsx`. Leave unset locally to fall back to the `localhost:8080` dev proxy. |
+| `VITE_API_BASE_URL` | API base URL e.g. `https://bomis-website.onrender.com`. Used by `setBaseUrl()` in `main.tsx` AND by `Chatbot.tsx`. Leave unset locally to fall back to the `localhost:8080` dev proxy. |
 | `VITE_API_PORT` / `API_PORT` / `BASE_PATH` | dev-server + base path settings |
 
 ---
@@ -197,9 +197,11 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 - On Vercel there is **NO `/api` proxy** — every API call must go to the Render URL via `VITE_API_BASE_URL`. It must be set as a Vercel env var at build time.
 - One-time deploy: `vercel --prod --yes` (logged in as `anuragdhanda551-2163`). If the lockfile is out of date, run `pnpm install --no-frozen-lockfile` and commit first.
 
-### Backend → Render (`bomis-website-api.onrender.com`)
-- Runs the API server with env vars configured in the Render dashboard (DB URL, Groq key, Gmail creds, etc.).
-- CORS allowlist in `artifacts/api-server/src/app.ts` includes `https://bomiswebsite-anurag-2773.vercel.app` (and the stale `bomis-website-birla-school.vercel.app`) in production. Overridable via `ALLOWED_ORIGIN` env var.
+### Backend → Render (`bomis-website.onrender.com`)
+- Runs the API server with env vars configured in the Render dashboard (DB URL, Groq key, Brevo creds, etc.).
+- **⚠️ `NODE_ENV` must be `production`** on Render — otherwise CORS allowlist falls through to localhost/replit origins and Vercel requests are rejected.
+- **Render env var API gotcha:** updating a single env var by key uses `PUT /v1/services/{serviceId}/env-vars/{key}` with flat body `{"key":"...","value":"..."}` (NOT the `{"envVar":{...}}` wrapper). The bulk endpoint `PUT .../env-vars` takes a JSON array of `{key,value}` objects and **replaces all** env vars.
+- CORS allowlist in `artifacts/api-server/src/app.ts` includes `https://bomiswebsite-anurag-2773.vercel.app`. Overridable via `ALLOWED_ORIGIN` env var.
 
 ### Database → Neon (Postgres)
 - Schema pushed via Drizzle (`pnpm --filter @workspace/db run push`). Don't hand-edit DB; edit `lib/db/src/schema.ts` and push.
@@ -222,13 +224,14 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
-### 2026-09-02 — Vercel deploy SUCCESS (live `bomiswebsite-anurag-2773.vercel.app`)
-- Frontend is now live on Vercel. Root/`/about`/`/admin`/`/gallery` all return 200; `VITE_API_BASE_URL` baked into build points to Render.
-- Reached it by fixing, in order: (1) outdated `pnpm-lock.yaml` (`pnpm install --no-frozen-lockfile`), (2) root repo `vercel.json` conflicting with Vercel dashboard settings — rootDirectory `artifacts/frontend` means repo-root vercel.json routing is ignored, (3) `.vercelignore` had `dist` which would break output detection.
-- **Key config:** build settings live in the Vercel DASHBOARD (rootDirectory `artifacts/frontend`, build `vite build`, output `dist/public`, install `pnpm install --no-frozen-lockfile`, node 24.x). The SPA rewrite `/(.*)` → `/index.html` must live in `artifacts/frontend/vercel.json` (inside rootDirectory).
-- Verified `https://bomiswebsite.vercel.app` also aliases to the production domain.
-- **Deploy command:** `vercel --prod --yes` (logged in as `anuragdhanda551-2163`).
-- **Follow-up:** redeploy the Render backend so the updated CORS allowlist in `artifacts/api-server/src/app.ts` (now includes `bomiswebsite-anurag-2773.vercel.app`) takes effect, or live gallery/faculty/inquiries API calls are blocked.
+### 2026-09-02 — Full stack live: CORS fixed + VITE_API_BASE_URL corrected + frontend redeployed
+- **Render NODE_ENV → production:** updated via `PUT /v1/services/{id}/env-vars/NODE_ENV` (flat `{key,value}` body, NOT wrapped in `envVar`). Triggers CORS allowlist in `app.ts` to activate (was falling through to localhost list when NODE_ENV was `development`).
+- **CORS now working:** `access-control-allow-origin: https://bomiswebsite-anurag-2773.vercel.app` confirmed in response headers.
+- **Correct backend URL:** `https://bomis-website.onrender.com` (NOT `bomis-website-api.onrender.com` — that domain is dead).
+- **VITE_API_BASE_URL updated on Vercel:** old wrong value removed (`vercel env remove`), new `https://bomis-website.onrender.com` added for both production and preview (`vercel env add`).
+- **Frontend redeployed:** `vercel --prod --yes` — build succeeded, live at `bomiswebsite-anurag-2773.vercel.app`.
+- **End-to-end verified:** `/gallery`, `/about`, `/faculty` all 200; API `/api/healthz` returns 200 with correct CORS headers from Vercel origin.
+- **Remaining follow-ups:** (1) Brevo email vars not yet on Render production — inquiry/OTP emails won't send in prod until `BREVO_API_KEY` etc. are added in Render dashboard. (2) Chatbot requires `GROQ_API_KEY` on Render (already set). (3) `SESSION_SECRET` and `DATABASE_URL` already on Render from prior deploys.
 
 ### 2026-09-01 — AGENTS.md created
 - Created `AGENTS.md` at repo root as single source of truth (full project info, commands, env vars, routes, endpoints, conventions, deployment).
