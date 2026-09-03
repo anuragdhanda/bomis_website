@@ -224,6 +224,11 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-03 — CORS: allowed primary Vercel deployment domain
+- Added `https://bomiswebsite.vercel.app` to the production CORS allowlist in `artifacts/api-server/src/app.ts`. This lets its gallery and chatbot requests reach `https://bomis-website.onrender.com` without the browser blocking them.
+- Corrected the stale source comment that said production frontend and API share one domain; they are deployed separately on Vercel and Render.
+- **Follow-up:** deploy the API change to Render before retesting the live Vercel site.
+
 ### 2026-09-02 — Full stack live: CORS fixed + VITE_API_BASE_URL corrected + frontend redeployed
 - **Render NODE_ENV → production:** updated via `PUT /v1/services/{id}/env-vars/NODE_ENV` (flat `{key,value}` body, NOT wrapped in `envVar`). Triggers CORS allowlist in `app.ts` to activate (was falling through to localhost list when NODE_ENV was `development`).
 - **CORS now working:** `access-control-allow-origin: https://bomiswebsite-anurag-2773.vercel.app` confirmed in response headers.

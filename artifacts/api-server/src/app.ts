@@ -37,9 +37,9 @@ app.use(
 );
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
-// In production both frontend and API share the same domain (path-routed),
-// so no cross-origin requests are needed. In local dev the Vite dev server
-// runs on a different port, so we allow localhost origins there.
+// The production frontend is deployed separately on Vercel, so its known
+// origins must be explicitly allowed. In local dev the Vite dev server runs
+// on a different port, so we allow localhost origins there.
 const allowedOrigins = (() => {
   const envOrigin = process.env.ALLOWED_ORIGIN;
   if (envOrigin) return envOrigin.split(",").map((o) => o.trim());
@@ -48,6 +48,7 @@ const allowedOrigins = (() => {
   }
   // Production: allow Vercel frontend
   return [
+    "https://bomiswebsite.vercel.app",
     "https://bomiswebsite-anurag-2773.vercel.app",
     "https://bomis-website-birla-school.vercel.app",
   ];
