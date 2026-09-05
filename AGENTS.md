@@ -224,6 +224,13 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-05 — Chatbot fix: GROQ_API_KEY was invalid on Render + local
+- **Problem:** deployed chatbot failed with `401`/`"The school assistant is not configured correctly."` from `POST /api/chat`.
+- **Root cause:** the `GROQ_API_KEY` was expired/invalid. Verified by calling Groq's API directly (`invalid_api_key` 401) for all three candidates: Render env var, root `.env`, and the value in git history (commit `80c54e1`).
+- **Fix:** owner supplied a new valid Groq API key. Updated `artifacts/.env` (committed) and root `.env` (local-only). Confirmed the key is valid (HTTP 200 on `GET /v1/models`) and that `chat.ts`'s model `openai/gpt-oss-20b` is supported by it. Ran a smoke test of the exact Groq SDK call used by `routes/chat.ts` — returned a real reply.
+- **Frontend verified OK (no change needed):** deployed bundle calls `https://bomis-website.onrender.com/api/chat` via `VITE_API_BASE_URL`.
+- **Follow-up:** owner is updating `GROQ_API_KEY` in the Render dashboard (Environment → Save → Deploy). Verify `POST https://bomis-website.onrender.com/api/chat` returns 200 before closing this session.
+
 ### 2026-09-03 — CORS: allowed primary Vercel deployment domain
 - Added `https://bomiswebsite.vercel.app` to the production CORS allowlist in `artifacts/api-server/src/app.ts`. This lets its gallery and chatbot requests reach `https://bomis-website.onrender.com` without the browser blocking them.
 - Corrected the stale source comment that said production frontend and API share one domain; they are deployed separately on Vercel and Render.
