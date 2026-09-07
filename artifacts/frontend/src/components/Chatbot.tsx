@@ -19,13 +19,23 @@ interface Message {
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
-async function sendChat(messages: Message[]): Promise<string> {
+async function sendChat(messages: Message[], signal?: AbortSignal): Promise<string> {
   const res = await fetch(`${API_BASE}/api/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ messages }),
+    signal,
   });
-  if (!res.ok) throw new Error("Network error");
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const body = await res.json();
+      detail = body?.error || "";
+    } catch {
+      // non-JSON body; ignore
+    }
+    throw new Error(detail || `Request failed (${res.status})`);
+  }
   const data = await res.json();
   return data.reply as string;
 }
@@ -86,6 +96,18 @@ export function Chatbot() {
   const [ttsEnabled, setTtsEnabled] = useState(true);
   const [voiceSupported] = useState(() => !!SpeechRecognitionCtor);
   const recognitionRef = useRef<any>(null);
+  const messagesRef = useRef<Message[]>(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+  const loadingRef = useRef(false);
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
+  const ttsRef = useRef(ttsEnabled);
+  useEffect(() => {
+    ttsRef.current = ttsEnabled;
+  }, [ttsEnabled]);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -183,33 +205,48 @@ export function Chatbot() {
   const sendMessage = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || loading) return;
+      if (!trimmed || loadingRef.current) return;
 
       const newMessages: Message[] = [
-        ...messages,
+        ...messagesRef.current,
         { role: "user", content: trimmed },
       ];
       setMessages(newMessages);
       setInput("");
       setLoading(true);
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000);
+
       try {
-        const reply = await sendChat(newMessages);
+        const reply = await sendChat(newMessages, controller.signal);
         setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-        if (ttsEnabled) speak(reply);
-      } catch {
-        const errMsg =
-          "Sorry, kuch technical issue aa gaya. Please thodi der baad try karein.";
+        if (ttsRef.current) speak(reply);
+      } catch (err) {
+        const aborted = (err as Error)?.name === "AbortError";
+        const detail = (err as Error)?.message;
+        let errMsg: string;
+        if (aborted) {
+          errMsg =
+            "Kuch jyada time lag gaya. Please thodi der baad try karein ya phir dobaara bhejein. 🙏";
+        } else if (detail && detail.includes("configured")) {
+          errMsg =
+            "Assistant thodi der ke liye unavailable hai. Humein is par kaam chal raha hai, please thodi der baad try karein. 🙏";
+        } else {
+          errMsg =
+            "Sorry, kuch technical issue aa gaya. Please thodi der baad try karein.";
+        }
         setMessages((prev) => [
           ...prev,
           { role: "assistant", content: errMsg },
         ]);
-        if (ttsEnabled) speak(errMsg);
+        if (ttsRef.current) speak(errMsg);
       } finally {
+        clearTimeout(timeout);
         setLoading(false);
       }
     },
-    [messages, loading, ttsEnabled]
+    []
   );
 
   const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -245,8 +282,20 @@ export function Chatbot() {
       }
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: any) => {
       setListening(false);
+      // Give feedback on permission/network errors instead of silent failure
+      const errName = event?.error;
+      if (errName === "not-allowed" || errName === "service-not-allowed") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "Mic access allowed nahi hai. Browser ke settings se permission de kar phir try karein, ya text mein type karein.",
+          },
+        ]);
+      }
     };
 
     recognition.onend = () => {
@@ -254,8 +303,12 @@ export function Chatbot() {
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
-  }, [listening, sendMessage]);
+    try {
+      recognition.start();
+    } catch {
+      setListening(false);
+    }
+  }, [sendMessage]);
 
   const stopListening = useCallback(() => {
     recognitionRef.current?.stop();

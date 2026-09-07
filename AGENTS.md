@@ -224,6 +224,17 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-07 — Chatbot UX/robustness fixes (no more "technical glitch" spam)
+- **Frontend `Chatbot.tsx` hardened** so genuine issues surface with helpful messages instead of a vague glitch, and failures recover cleanly:
+  - **30s timeout (AbortController):** if the API hangs, loading spinner no longer spins forever; user gets a clear "time lag" message.
+  - **Error body now parsed:** `sendChat` reads `{ error }` from the server response, so 401/503/429 messages like "assistant is not configured" are preserved (previously discarded → generic error).
+  - **Error messages differentiated:** abort/timeout vs "not configured" (backend config issue) vs generic — each shows a friendly Hinglish hint.
+  - **Stale-closure fix:** `sendMessage` now reads current state via refs (`messagesRef`, `loadingRef`, `ttsRef`), so voice-input auto-send can't drop/duplicate messages or fire while a request is already in flight.
+  - **Mic error feedback added:** `recognition.onerror` now shows a hint when mic permission is denied instead of failing silently.
+  - **`recognition.start()` guarded** in a try/catch (prevents uncaught exceptions on browsers that throw directly).
+- **Verified live:** `POST https://bomis-website.onrender.com/api/chat` returns 200 with a real reply; typecheck + production build pass.
+- **Follow-up:** this frontend fix only reaches users after a **Vercel redeploy** (`vercel --prod --yes`). Backend unchanged, no Render deploy needed.
+
 ### 2026-09-05 — Chatbot fix: GROQ_API_KEY was invalid on Render + local
 - **Problem:** deployed chatbot failed with `401`/`"The school assistant is not configured correctly."` from `POST /api/chat`.
 - **Root cause:** the `GROQ_API_KEY` was expired/invalid. Verified by calling Groq's API directly (`invalid_api_key` 401) for all three candidates: Render env var, root `.env`, and the value in git history (commit `80c54e1`).
