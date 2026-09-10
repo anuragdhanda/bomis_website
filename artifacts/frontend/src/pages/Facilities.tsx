@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Monitor } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 const FACILITIES = [
   {
@@ -43,6 +44,11 @@ const FACILITIES = [
 export default function Facilities() {
   return (
     <div className="flex flex-col w-full min-h-screen">
+      <Seo
+        title="Campus Facilities | Bright Open Minds Rajound, Haryana"
+        description="Explore the world-class facilities at Bright Open Minds, Rajound — library, science & tech labs, sports complex, smart classrooms, computer lab and safe transport."
+        path="/facilities"
+      />
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/attached_assets/generated_images/smart-classes.jpg')] bg-cover bg-center opacity-20 mix-blend-multiply" />
@@ -90,7 +96,7 @@ export default function Facilities() {
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
                     <facility.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-3">{facility.title}</h3>
+                  <h2 className="text-2xl font-bold text-foreground mb-3">{facility.title}</h2>
                   <p className="text-muted-foreground leading-relaxed text-sm">
                     {facility.description}
                   </p>

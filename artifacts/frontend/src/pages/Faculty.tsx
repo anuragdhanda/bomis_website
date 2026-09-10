@@ -16,6 +16,7 @@ import { GraduationCap, Plus, Pencil, Trash2, X, ImageOff, BookOpen, LayoutGrid 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Seo } from "@/components/Seo";
 import {
   Form,
   FormControl,
@@ -348,7 +349,7 @@ function TeacherCard({
       </div>
 
       <div className="p-5">
-        <h3 className="text-lg font-bold text-foreground mb-0.5">{member.name}</h3>
+        <h2 className="text-lg font-bold text-foreground mb-0.5">{member.name}</h2>
         <p className="text-primary font-medium text-sm mb-1">{member.subject}</p>
         {member.classLevel && (
           <span className="inline-block text-xs font-medium bg-secondary/10 text-secondary px-2 py-0.5 rounded-full mb-2">
@@ -419,6 +420,11 @@ export default function Faculty() {
 
   return (
     <div className="flex flex-col w-full min-h-screen">
+      <Seo
+        title="Our Faculty & Teachers | Bright Open Minds Rajound"
+        description="Meet the expert faculty and teachers at Bright Open Minds, Rajound. Qualified, caring educators who inspire our students across all subjects and classes."
+        path="/faculty"
+      />
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -592,11 +598,11 @@ export default function Faculty() {
           ) : (
             <div className="text-center py-20 bg-muted/30 rounded-xl border border-border border-dashed">
               <GraduationCap className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-              <h3 className="text-xl font-medium text-foreground mb-2">
+              <h2 className="text-xl font-medium text-foreground mb-2">
                 {filterMode !== "all"
                   ? "No teachers found for this filter"
                   : "No Faculty Profiles"}
-              </h3>
+              </h2>
               <p className="text-muted-foreground mb-6">
                 {filterMode !== "all"
                   ? "Try selecting a different subject or class."

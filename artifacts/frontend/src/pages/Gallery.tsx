@@ -5,6 +5,7 @@ import { GalleryItemCategory } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Seo } from "@/components/Seo";
 
 const INFRA_IMAGES = [
   { src: "/gallery/infra-building-front.png", alt: "School Building Front View" },
@@ -129,6 +130,11 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col w-full min-h-screen">
+      <Seo
+        title="Campus Gallery | Bright Open Minds Rajound, Haryana"
+        description="Browse the campus gallery of Bright Open Minds, Rajound — academics, sports, cultural celebrations and infrastructure photos of our school in Haryana."
+        path="/gallery"
+      />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -237,7 +243,7 @@ export default function Gallery() {
             ) : (
               <div className="text-center py-24 bg-muted/30 rounded-xl border border-border border-dashed">
                 <ImageIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-30" />
-                <h3 className="text-2xl font-bold text-foreground mb-2">No Images Found</h3>
+                <h2 className="text-2xl font-bold text-foreground mb-2">No Images Found</h2>
                 <p className="text-muted-foreground">There are no images in this category yet.</p>
               </div>
             )

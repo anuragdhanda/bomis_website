@@ -224,6 +224,19 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-10 — Full on-page SEO audit + implementation (React+Vite, NOT Next.js)
+- **NOTE:** this project is a React + Vite + Wouter SPA (no Next.js metadata API / app router). SEO was implemented with Vite equivalents.
+- **New components:** `src/components/Seo.tsx` (sets `document.title`, meta description, canonical, OG/Twitter tags, robots per route) and `src/components/JsonLd.tsx` (injects JSON-LD `<script type="application/ld+json">`).
+- **Title/meta per page:** added `<Seo>` to Home, About, Academics, Admissions, Facilities, Faculty, Gallery, Contact, FeesStructure (now routed at `/fees`), StudentPortal, Legal (privacy/terms), 404. Unique 50-60 char titles with "Rajound" + 150-160 char descriptions.
+- **Heading hierarchy fixed:** Home highlight cards h3→h2; About Vision/Mission h3→h2; Admissions steps h4→h3 + fee cards h3→h2; Facilities/FeesStructure cards h3→h2; Faculty names + empty-state h3→h2; Gallery empty-state h3→h2; Contact sub-heads h4→h3; StudentPortal dashboard added h2 + Seo.
+- **Clean URLs:** added missing `/fees` route (FeesStructure was orphaned) + `/fees-structure` → `/fees` redirect in `App.tsx`.
+- **Alt text:** improved logo/chairman/principal alts to be descriptive; all `<img>` verified to have alt.
+- **Internal linking:** footer added Home + Fee Structure links; About → Facilities link added in Infrastructure section; navbar/footer already linked all key pages.
+- **JSON-LD:** School schema on Home (educational org w/ address, phone, email, openingHours) + LocalBusiness schema on Contact (address, openingHoursSpecification Mo–Sa 08:00–16:00). No fabricated geo coordinates or social URLs.
+- **robots.txt:** updated in `public/` with `Sitemap:` line. **sitemap.xml:** created in `public/` (11 public routes, lastmod/changefreq/priority).
+- **Accessibility:** navbar navs got `aria-label`, footer social icon links got `aria-label`.
+- Canonical base URL used everywhere: `https://bomiswebsite-anurag-2773.vercel.app`. Typecheck + production build pass (files land in `dist/public/`).
+
 ### 2026-09-10 — Secret scanning fix: removed secrets from git history + env consolidation
 - **`artifacts/.env` removed from git entirely** (GitHub push protection blocked a Groq API Key). Rewrote all 146 commits via `git filter-branch --index-filter "git rm --cached --ignore-unmatch artifacts/.env"` and force-pushed (`git push --force origin main:main`). The file now exists locally only; replicated from root `.env` after the rewrite.
 - **`.gitignore`:** added `artifacts/.env` explicitly so it never gets tracked again.

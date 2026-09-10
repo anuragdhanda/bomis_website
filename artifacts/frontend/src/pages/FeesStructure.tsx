@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { IndianRupee, Info, CheckCircle2, Phone } from "lucide-react";
 import { Link } from "wouter";
+import { Seo } from "@/components/Seo";
 
 const feeData = [
   {
@@ -91,6 +92,11 @@ const notes = [
 export default function FeesStructure() {
   return (
     <div className="flex flex-col w-full">
+      <Seo
+        title="Fee Structure 2025-26 | Bright Open Minds Rajound"
+        description="Transparent fee structure 2025-26 at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary tuition, registration and annual fees. Sibling discounts available."
+        path="/fees"
+      />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10"
@@ -137,7 +143,7 @@ export default function FeesStructure() {
               >
                 {/* Card Header */}
                 <div className={`${section.headerColor} px-6 py-5 text-white`}>
-                  <h3 className="text-xl font-bold">{section.category}</h3>
+                  <h2 className="text-xl font-bold">{section.category}</h2>
                   <p className="text-white/75 text-sm mt-1">{section.grades}</p>
                 </div>
 

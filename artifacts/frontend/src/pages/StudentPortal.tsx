@@ -5,6 +5,7 @@ import {
   Award, Clock, CheckCircle, XCircle, AlertCircle,
   GraduationCap, FileText, Star, ChevronRight
 } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 // ── Mock student data ──────────────────────────────────────────────────────────
 const MOCK_STUDENT = {
@@ -110,6 +111,11 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4">
+      <Seo
+        title="Student Portal | Bright Open Minds Rajound"
+        description="Demo student portal for Bright Open Minds, Rajound — check attendance, grades and class schedule. Demo credentials: BOMS2024089 / student123."
+        path="/student-portal"
+      />
       {/* Floating blobs */}
       <motion.div className="absolute w-72 h-72 rounded-full bg-[#F15A29]/20 blur-3xl top-10 left-10"
         animate={{ scale: [1, 1.2, 1], x: [0, 20, 0] }} transition={{ duration: 7, repeat: Infinity }} />
@@ -181,6 +187,7 @@ function DashboardTab() {
   const avg = Math.round(GRADES.reduce((s, g) => s + g.marks, 0) / GRADES.length);
   return (
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">Student Dashboard</h2>
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[

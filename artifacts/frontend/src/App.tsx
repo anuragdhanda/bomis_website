@@ -3,8 +3,9 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import { AdmissionDrawerProvider } from "@/context/AdmissionDrawerContext";
 import { AdmissionDrawer } from "@/components/AdmissionDrawer";
-import { Route, Switch, Router as WouterRouter } from "wouter";
+import { Route, Switch, Redirect, Router as WouterRouter } from "wouter";
 import Home from "@/pages/Home";
+import FeesStructure from "@/pages/FeesStructure";
 import NotFound from "@/pages/not-found";
 import About from "@/pages/About";
 import Academics from "@/pages/Academics";
@@ -45,6 +46,12 @@ function Router() {
       </Route>
       <Route path="/admissions">
         <PublicLayout><Admissions /></PublicLayout>
+      </Route>
+      <Route path="/fees">
+        <PublicLayout><FeesStructure /></PublicLayout>
+      </Route>
+      <Route path="/fees-structure">
+        <Redirect to="/fees" />
       </Route>
       <Route path="/faculty">
         <PublicLayout><Faculty /></PublicLayout>

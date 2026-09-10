@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://bomiswebsite-anurag-2773.vercel.app/sitemap.xml

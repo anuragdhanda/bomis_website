@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, CheckCircle2, Lightbulb, MonitorPlay, Puzzle, Users } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 const CURRICULUM_DATA = {
   preprimary: {
@@ -32,6 +33,11 @@ const CURRICULUM_DATA = {
 export default function Academics() {
   return (
     <div className="flex flex-col w-full">
+      <Seo
+        title="Academics & Curriculum | Bright Open Minds Rajound"
+        description="Explore the CBSE curriculum at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary with experiential learning, smart classrooms and expert teachers."
+        path="/academics"
+      />
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/attached_assets/generated_images/library.jpg')] bg-cover bg-center opacity-20" />

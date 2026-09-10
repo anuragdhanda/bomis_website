@@ -13,16 +13,16 @@ export function Footer() {
               Nurturing tomorrow's leaders through holistic education, state-of-the-art facilities, and a commitment to excellence in Rajound, Haryana.
             </p>
             <div className="flex gap-4 pt-2">
-              <a href="#" className="text-secondary-foreground/70 hover:text-white transition-colors">
+              <a href="#" aria-label="Bright Open Minds on Facebook" className="text-secondary-foreground/70 hover:text-white transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-white transition-colors">
+              <a href="#" aria-label="Bright Open Minds on Instagram" className="text-secondary-foreground/70 hover:text-white transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-white transition-colors">
+              <a href="#" aria-label="Bright Open Minds on X (Twitter)" className="text-secondary-foreground/70 hover:text-white transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-white transition-colors">
+              <a href="#" aria-label="Bright Open Minds on YouTube" className="text-secondary-foreground/70 hover:text-white transition-colors">
                 <Youtube className="h-5 w-5" />
               </a>
             </div>
@@ -55,7 +55,13 @@ export function Footer() {
             <h4 className="text-lg font-semibold text-white mb-6">Discover</h4>
             <ul className="space-y-3">
               <li>
+                <Link href="/" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Home</Link>
+              </li>
+              <li>
                 <Link href="/gallery" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Gallery</Link>
+              </li>
+              <li>
+                <Link href="/fees" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Fee Structure</Link>
               </li>
               <li>
                 <Link href="/contact" className="text-secondary-foreground/80 hover:text-white hover:underline transition-all">Contact Us</Link>

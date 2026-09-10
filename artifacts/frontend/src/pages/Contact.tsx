@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Seo, SITE_URL } from "@/components/Seo";
+import { JsonLd } from "@/components/JsonLd";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -59,6 +61,47 @@ export default function Contact() {
 
   return (
     <div className="flex flex-col w-full min-h-screen">
+      <Seo
+        title="Contact Us | Bright Open Minds Rajound | Visit Today"
+        description="Contact Bright Open Minds, Rajound. Call +91 96534 24964 or visit the campus on Assandh Kaithal Road, Rajound, Haryana 136044. Open Monday–Saturday."
+        path="/contact"
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": `${SITE_URL}/#school`,
+          name: "Bright Open Minds",
+          url: SITE_URL,
+          logo: `${SITE_URL}/bright-logo.png`,
+          image: `${SITE_URL}/og-image.png`,
+          telephone: "+919653424964",
+          email: "info.rajound@brightopenminds.com",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "HG85+W74, Assandh Kaithal Road",
+            addressLocality: "Rajound",
+            addressRegion: "Haryana",
+            postalCode: "136044",
+            addressCountry: "IN",
+          },
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ],
+              opens: "08:00",
+              closes: "16:00",
+            },
+          ],
+        }}
+      />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -105,7 +148,7 @@ export default function Contact() {
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Campus Address</h4>
+                      <h3 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Campus Address</h3>
                       <p className="text-muted-foreground leading-relaxed group-hover:text-primary/80 transition-colors">
                         Bright Open Minds<br />
                         HG85+W74, Assandh Kaithal Road,<br />
@@ -124,7 +167,7 @@ export default function Contact() {
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Phone</h4>
+                      <h3 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">Phone</h3>
                       <p className="text-muted-foreground group-hover:text-primary transition-colors">+91 96534 24964</p>
                       <span className="text-xs text-primary mt-1 inline-block opacity-0 group-hover:opacity-100 transition-opacity">Tap to call →</span>
                     </div>
@@ -136,7 +179,7 @@ export default function Contact() {
                       <Mail className="h-6 w-6" />
                     </div>
                     <div className="space-y-1">
-                      <h4 className="font-bold text-lg text-foreground mb-1">Email</h4>
+                      <h3 className="font-bold text-lg text-foreground mb-1">Email</h3>
                       <a
                         href="mailto:info.rajound@brightopenminds.com"
                         className="block text-primary font-medium hover:underline hover:text-primary/80 transition-colors"
@@ -158,7 +201,7 @@ export default function Contact() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg text-foreground mb-1">Visiting Hours</h4>
+                      <h3 className="font-bold text-lg text-foreground mb-1">Visiting Hours</h3>
                       <p className="text-muted-foreground">
                         Monday - Saturday: Open till 4:00 PM<br />
                         Sunday: Closed

@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, Award, BookOpen, Users, ChevronLeft, ChevronRight, X } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useCallback, useRef, useState } from "react";
+import { Seo, SITE_URL } from "@/components/Seo";
+import { JsonLd } from "@/components/JsonLd";
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -136,6 +138,42 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full">
+      <Seo
+        title="Bright Open Minds, Rajound | Best School in Haryana"
+        description="Bright Open Minds, Rajound — a premier school in Haryana with holistic CBSE education, expert faculty and 1,200+ happy students. Admissions open. Apply today."
+        path="/"
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "School",
+          "@id": `${SITE_URL}/#school`,
+          name: "Bright Open Minds",
+          alternateName: "BOMIS Rajound",
+          url: SITE_URL,
+          logo: `${SITE_URL}/bright-logo.png`,
+          image: `${SITE_URL}/og-image.png`,
+          telephone: "+919653424964",
+          email: "info.rajound@brightopenminds.com",
+          description:
+            "Bright Open Minds, Rajound is a leading school in Haryana offering holistic CBSE education from Pre-Primary to Senior Secondary with world-class facilities.",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "HG85+W74, Assandh Kaithal Road",
+            addressLocality: "Rajound",
+            addressRegion: "Haryana",
+            postalCode: "136044",
+            addressCountry: "IN",
+          },
+          openingHours: "Mo-Sa 08:00-16:00",
+          currenciesAccepted: "INR",
+          paymentAccepted: "Cash, Bank Transfer",
+          parentOrganization: {
+            "@type": "Organization",
+            name: "Bright Edutech",
+          },
+        }}
+      />
       {/* Hero Section */}
       <section className="relative w-full h-[85vh] overflow-hidden bg-secondary">
         <div className="absolute inset-0" ref={emblaRef}>
@@ -224,7 +262,7 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary">
                 <BookOpen className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Holistic Learning</h3>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Holistic Learning</h2>
               <p className="text-muted-foreground mb-6">
                 Our curriculum integrates academics with life skills, ensuring every student develops into a well-rounded individual.
               </p>
@@ -243,7 +281,7 @@ export default function Home() {
               <div className="w-14 h-14 bg-secondary/10 rounded-lg flex items-center justify-center mb-6 text-secondary">
                 <Award className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Why Choose Us</h3>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Us</h2>
               <p className="text-muted-foreground mb-6">
                 State-of-the-art facilities, expert faculty, and a proven track record of academic and extra-curricular excellence.
               </p>
@@ -262,7 +300,7 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary">
                 <Users className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Expert Faculty</h3>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Expert Faculty</h2>
               <p className="text-muted-foreground mb-6">
                 Dedicated educators who are passionate about nurturing young minds and fostering a love for lifelong learning.
               </p>

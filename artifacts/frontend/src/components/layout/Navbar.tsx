@@ -28,7 +28,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-3 group">
             <img
               src="/bright-logo.png"
-              alt="Bright Open Minds"
+              alt="Bright Open Minds, Rajound logo"
               className="h-14 w-auto object-contain group-hover:opacity-85 transition-opacity"
             />
             <div className="w-px h-10 bg-border" />
@@ -39,7 +39,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-6">
             {NAV_LINKS.map((link) => {
               const isActive = location === link.href || (link.href !== "/" && location.startsWith(link.href));
               return (
@@ -80,7 +80,7 @@ export function Navbar() {
       {/* Mobile Nav */}
       {isOpen && (
         <div className="lg:hidden border-t bg-background">
-          <nav className="flex flex-col py-4">
+          <nav aria-label="Mobile navigation" className="flex flex-col py-4">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}

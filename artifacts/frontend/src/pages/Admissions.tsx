@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle2, FileText, UserPlus, Calendar, PhoneCall, IndianRupee, Info } from "lucide-react";
 import { useToast as useToastHook } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { Seo } from "@/components/Seo";
 
 const formSchema = z.object({
   name: z.string().min(2, "Parent/Guardian name is required"),
@@ -147,6 +148,11 @@ export default function Admissions() {
 
   return (
     <div className="flex flex-col w-full">
+      <Seo
+        title="Admissions 2026-27 | Bright Open Minds Rajound | Apply Now"
+        description="Apply for admission 2026-27 at Bright Open Minds, Rajound. Simple 5-step process, age eligibility, transparent fee structure and scholarships. Apply today."
+        path="/admissions"
+      />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -233,7 +239,7 @@ export default function Admissions() {
                               <step.icon className="h-6 w-6" />
                             </div>
                             <div>
-                              <h4 className="font-bold text-lg text-foreground">{step.title}</h4>
+                              <h3 className="font-bold text-lg text-foreground">{step.title}</h3>
                               <p className="text-muted-foreground text-sm">{step.desc}</p>
                             </div>
                           </motion.div>
@@ -363,7 +369,7 @@ export default function Admissions() {
                       className={`rounded-2xl border-2 overflow-hidden shadow-sm hover:shadow-md transition-shadow ${section.bgColor} ${section.borderColor}`}
                     >
                       <div className={`${section.headerColor} px-6 py-5 text-white`}>
-                        <h3 className="text-xl font-bold">{section.category}</h3>
+                        <h2 className="text-xl font-bold">{section.category}</h2>
                         <p className="text-white/75 text-sm mt-1">{section.grades}</p>
                       </div>
                       <div className="px-6 py-4 space-y-3">
