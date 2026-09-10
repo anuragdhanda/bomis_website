@@ -224,6 +224,13 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-10 — Secret scanning fix: removed secrets from git history + env consolidation
+- **`artifacts/.env` removed from git entirely** (GitHub push protection blocked a Groq API Key). Rewrote all 146 commits via `git filter-branch --index-filter "git rm --cached --ignore-unmatch artifacts/.env"` and force-pushed (`git push --force origin main:main`). The file now exists locally only; replicated from root `.env` after the rewrite.
+- **`.gitignore`:** added `artifacts/.env` explicitly so it never gets tracked again.
+- **`.env.example` deleted** (was `artifacts/frontend/.env.example`). Its frontend/build settings (`API_PORT`, `VITE_API_PORT`, `BASE_PATH`, `VITE_API_BASE_URL`) were merged into root `.env`.
+- **IMPORTANT for future agents:** never commit `artifacts/.env` again — GitHub push protection scans history. Production secrets live in the **Render dashboard** (backend) and **Vercel env vars** (frontend `VITE_API_BASE_URL`). Local dev reads both `.env` (root) and `artifacts/.env`.
+- **History rewritten** — old commit SHAs no longer exist locally or on `origin`. Do NOT fetch/pull old refs.
+
 ### 2026-09-07 — Chatbot UX/robustness fixes (no more "technical glitch" spam)
 - **Frontend `Chatbot.tsx` hardened** so genuine issues surface with helpful messages instead of a vague glitch, and failures recover cleanly:
   - **30s timeout (AbortController):** if the API hangs, loading spinner no longer spins forever; user gets a clear "time lag" message.
