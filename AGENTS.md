@@ -224,6 +224,13 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-11 — Sitemap folder created + sitemap.xml generated
+- **New dedicated folder:** `artifacts/frontend/public/sitemap/` now holds the site sitemap (previously the single `sitemap.xml` sat loose in `public/`).
+- **`public/sitemap/sitemap.xml`:** comprehensive sitemap covering all 11 public routes (Home, About, Academics, Admissions, Fees, Faculty, Gallery, Facilities, Contact, Student Portal, Privacy/Terms) with per-route `lastmod` (2026-09-11), `changefreq`, and `priority`. Admin routes + 404 excluded (not meant for indexing).
+- **`public/robots.txt` updated:** `Sitemap:` line now points to `https://bomiswebsite-anurag-2773.vercel.app/sitemap/sitemap.xml`.
+- Old `public/sitemap.xml` deleted (was superseded).
+- **Follow-up:** deploy to Vercel (`vercel --prod --yes`) so live site serves the new sitemap at `/sitemap/sitemap.xml`. No backend/DB changes.
+
 ### 2026-09-10 — Full on-page SEO audit + implementation (React+Vite, NOT Next.js)
 - **NOTE:** this project is a React + Vite + Wouter SPA (no Next.js metadata API / app router). SEO was implemented with Vite equivalents.
 - **New components:** `src/components/Seo.tsx` (sets `document.title`, meta description, canonical, OG/Twitter tags, robots per route) and `src/components/JsonLd.tsx` (injects JSON-LD `<script type="application/ld+json">`).
