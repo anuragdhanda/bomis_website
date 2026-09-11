@@ -139,7 +139,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full">
       <Seo
-        title="Bright Open Minds, Rajound | Best School in Haryana"
+        title="Best CBSE School in Rajound, Haryana | Bright Open Minds"
         description="Bright Open Minds, Rajound — a premier school in Haryana with holistic CBSE education, expert faculty and 1,200+ happy students. Admissions open. Apply today."
         path="/"
       />

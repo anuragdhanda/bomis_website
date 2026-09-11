@@ -93,7 +93,7 @@ export default function FeesStructure() {
   return (
     <div className="flex flex-col w-full">
       <Seo
-        title="Fee Structure 2025-26 | Bright Open Minds Rajound"
+        title="Fee Structure 2025-26 | Bright Open Minds, Rajound, Haryana"
         description="Transparent fee structure 2025-26 at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary tuition, registration and annual fees. Sibling discounts available."
         path="/fees"
       />

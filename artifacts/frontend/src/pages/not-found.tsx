@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
       <Seo
-        title="Page Not Found | Bright Open Minds Rajound"
+        title="Page Not Found | Bright Open Minds, Rajound, Haryana"
         description="The page you are looking for could not be found. Explore Bright Open Minds, Rajound — academics, admissions, facilities and more."
         path="/404"
         noIndex

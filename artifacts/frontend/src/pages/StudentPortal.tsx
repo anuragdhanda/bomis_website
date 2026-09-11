@@ -112,7 +112,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4">
       <Seo
-        title="Student Portal | Bright Open Minds Rajound"
+        title="Student Portal | Bright Open Minds, Rajound, Haryana"
         description="Demo student portal for Bright Open Minds, Rajound — check attendance, grades and class schedule. Demo credentials: BOMS2024089 / student123."
         path="/student-portal"
       />

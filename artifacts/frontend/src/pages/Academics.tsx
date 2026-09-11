@@ -34,7 +34,7 @@ export default function Academics() {
   return (
     <div className="flex flex-col w-full">
       <Seo
-        title="Academics & Curriculum | Bright Open Minds Rajound"
+        title="Academics & Curriculum | Bright Open Minds, Rajound, Haryana"
         description="Explore the CBSE curriculum at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary with experiential learning, smart classrooms and expert teachers."
         path="/academics"
       />

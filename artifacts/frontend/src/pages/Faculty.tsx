@@ -421,7 +421,7 @@ export default function Faculty() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <Seo
-        title="Our Faculty & Teachers | Bright Open Minds Rajound"
+        title="Our Faculty & Teachers | Bright Open Minds, Rajound, Haryana"
         description="Meet the expert faculty and teachers at Bright Open Minds, Rajound. Qualified, caring educators who inspire our students across all subjects and classes."
         path="/faculty"
       />

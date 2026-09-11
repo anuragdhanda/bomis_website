@@ -14,7 +14,7 @@ export default function Legal({ kind }: LegalPageProps) {
   return (
     <article className="bg-background">
       <Seo
-        title={isPrivacy ? "Privacy Policy | Bright Open Minds Rajound" : "Terms of Service | Bright Open Minds Rajound"}
+        title={isPrivacy ? "Privacy Policy | Bright Open Minds, Rajound, Haryana" : "Terms of Service | Bright Open Minds, Rajound, Haryana"}
         description={isPrivacy
           ? "Read the privacy policy of Bright Open Minds, Rajound — how we collect, use and protect your information on our school website."
           : "Read the terms of service for the Bright Open Minds, Rajound school website — acceptable use, content rights, enquiries and more."}

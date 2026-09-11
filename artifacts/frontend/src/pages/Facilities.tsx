@@ -45,7 +45,7 @@ export default function Facilities() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <Seo
-        title="Campus Facilities | Bright Open Minds Rajound, Haryana"
+        title="Campus Facilities | Bright Open Minds, Rajound, Haryana"
         description="Explore the world-class facilities at Bright Open Minds, Rajound — library, science & tech labs, sports complex, smart classrooms, computer lab and safe transport."
         path="/facilities"
       />

@@ -131,7 +131,7 @@ export default function Gallery() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <Seo
-        title="Campus Gallery | Bright Open Minds Rajound, Haryana"
+        title="Campus Gallery | Bright Open Minds, Rajound, Haryana"
         description="Browse the campus gallery of Bright Open Minds, Rajound — academics, sports, cultural celebrations and infrastructure photos of our school in Haryana."
         path="/gallery"
       />

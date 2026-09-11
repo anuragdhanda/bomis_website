@@ -224,6 +224,30 @@ Frontend routes (Wouter) in `artifacts/frontend/src/App.tsx`:
 
 Append here at the end of every session (most recent first). Include: date, what changed, where, and any follow-up needed.
 
+### 2026-09-11 — Full page title audit: all public pages now have unique 50–60 char titles with "Rajound, Haryana"
+- **Framework clarification:** This is React + Vite + Wouter, not Next.js. No Metadata API exists. Titles set via the `<Seo>` component (`document.title`).
+- **New titles applied across all 12 public pages + 404 + index.html + Seo.tsx defaults:**
+
+| Page | New Title (50–60 chars) | File |
+|---|---|---|
+| Home | Best CBSE School in Rajound, Haryana \| Bright Open Minds (56) | `src/pages/Home.tsx` |
+| About | About Our School \| Bright Open Minds, Rajound, Haryana (54) | `src/pages/About.tsx` |
+| Academics | Academics & Curriculum \| Bright Open Minds, Rajound, Haryana (60) | `src/pages/Academics.tsx` |
+| Admissions | Admissions 2026-27 \| Bright Open Minds, Rajound, Haryana (56) | `src/pages/Admissions.tsx` |
+| Fee Structure | Fee Structure 2025-26 \| Bright Open Minds, Rajound, Haryana (59) | `src/pages/FeesStructure.tsx` |
+| Faculty | Our Faculty & Teachers \| Bright Open Minds, Rajound, Haryana (60) | `src/pages/Faculty.tsx` |
+| Gallery | Campus Gallery \| Bright Open Minds, Rajound, Haryana (52) | `src/pages/Gallery.tsx` |
+| Facilities | Campus Facilities \| Bright Open Minds, Rajound, Haryana (55) | `src/pages/Facilities.tsx` |
+| Contact | Contact Our School \| Bright Open Minds, Rajound, Haryana (56) | `src/pages/Contact.tsx` |
+| Student Portal | Student Portal \| Bright Open Minds, Rajound, Haryana (52) | `src/pages/StudentPortal.tsx` |
+| Privacy Policy | Privacy Policy \| Bright Open Minds, Rajound, Haryana (52) | `src/pages/Legal.tsx` |
+| Terms of Service | Terms of Service \| Bright Open Minds, Rajound, Haryana (54) | `src/pages/Legal.tsx` |
+| 404 | Page Not Found \| Bright Open Minds, Rajound, Haryana (52) | `src/pages/not-found.tsx` |
+
+- **Also updated:** `index.html` `<title>`, `og:title`, `twitter:title` (SSR default); `src/components/Seo.tsx` `DEFAULT_TITLE`.
+- All titles are unique, contain primary keyword + "Rajound, Haryana" location. 404 page already had `noIndex` set.
+- Typecheck passes. No follow-up needed — just deploy to Vercel.
+
 ### 2026-09-11 — Sitemap folder created + sitemap.xml generated
 - **New dedicated folder:** `artifacts/frontend/public/sitemap/` now holds the site sitemap (previously the single `sitemap.xml` sat loose in `public/`).
 - **`public/sitemap/sitemap.xml`:** comprehensive sitemap covering all 11 public routes (Home, About, Academics, Admissions, Fees, Faculty, Gallery, Facilities, Contact, Student Portal, Privacy/Terms) with per-route `lastmod` (2026-09-11), `changefreq`, and `priority`. Admin routes + 404 excluded (not meant for indexing).

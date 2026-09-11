@@ -62,7 +62,7 @@ export default function Contact() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <Seo
-        title="Contact Us | Bright Open Minds Rajound | Visit Today"
+        title="Contact Our School | Bright Open Minds, Rajound, Haryana"
         description="Contact Bright Open Minds, Rajound. Call +91 96534 24964 or visit the campus on Assandh Kaithal Road, Rajound, Haryana 136044. Open Monday–Saturday."
         path="/contact"
       />

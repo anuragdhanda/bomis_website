@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export const SITE_URL = "https://bomiswebsite-anurag-2773.vercel.app";
 export const SITE_NAME = "Bright Open Minds, Rajound";
-export const DEFAULT_TITLE = "Bright Open Minds, Rajound | Best School in Haryana";
+export const DEFAULT_TITLE = "Best CBSE School in Rajound, Haryana | Bright Open Minds";
 export const DEFAULT_DESCRIPTION =
   "Bright Open Minds, Rajound — a premier school in Haryana with holistic CBSE education, expert faculty and 1,200+ happy students. Admissions open. Apply today.";
 

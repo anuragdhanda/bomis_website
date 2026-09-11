@@ -46,7 +46,7 @@ export default function About() {
   return (
     <div className="flex flex-col w-full">
       <Seo
-        title="About Bright Open Minds Rajound | Best School in Haryana"
+        title="About Our School | Bright Open Minds, Rajound, Haryana"
         description="Learn about Bright Open Minds, Rajound — our legacy, vision, expert leadership and world-class campus facilities since 2015. Explore admissions today."
         path="/about"
       />

@@ -149,7 +149,7 @@ export default function Admissions() {
   return (
     <div className="flex flex-col w-full">
       <Seo
-        title="Admissions 2026-27 | Bright Open Minds Rajound | Apply Now"
+        title="Admissions 2026-27 | Bright Open Minds, Rajound, Haryana"
         description="Apply for admission 2026-27 at Bright Open Minds, Rajound. Simple 5-step process, age eligibility, transparent fee structure and scholarships. Apply today."
         path="/admissions"
       />
