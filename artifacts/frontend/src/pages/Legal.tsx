@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { ArrowLeft, ShieldCheck, Scale } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 type LegalPageProps = {
   kind: "privacy" | "terms";
@@ -19,6 +20,14 @@ export default function Legal({ kind }: LegalPageProps) {
           ? "Read the privacy policy of Bright Open Minds, Rajound — how we collect, use and protect your information on our school website."
           : "Read the terms of service for the Bright Open Minds, Rajound school website — acceptable use, content rights, enquiries and more."}
         path={isPrivacy ? "/privacy-policy" : "/terms-of-service"}
+      />
+      <SeoBreadcrumbs
+        items={[
+          {
+            label: isPrivacy ? "Privacy Policy" : "Terms of Service",
+            path: isPrivacy ? "/privacy-policy" : "/terms-of-service",
+          },
+        ]}
       />
       <section className="bg-secondary text-secondary-foreground py-16 md:py-20">
         <div className="container mx-auto px-4 max-w-4xl">

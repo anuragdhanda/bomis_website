@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Monitor } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const FACILITIES = [
   {
@@ -46,9 +47,10 @@ export default function Facilities() {
     <div className="flex flex-col w-full min-h-screen">
       <Seo
         title="Campus Facilities | Bright Open Minds, Rajound, Haryana"
-        description="Explore the world-class facilities at Bright Open Minds, Rajound — library, science & tech labs, sports complex, smart classrooms, computer lab and safe transport."
+        description="Explore world-class facilities at Bright Open Minds, Rajound — library, science & tech labs, sports complex, smart classrooms, computer lab and transport."
         path="/facilities"
       />
+      <SeoBreadcrumbs items={[{ label: "Facilities", path: "/facilities" }]} />
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/attached_assets/generated_images/smart-classes.jpg')] bg-cover bg-center opacity-20 mix-blend-multiply" />
@@ -86,7 +88,9 @@ export default function Facilities() {
                 <div className="w-full sm:w-1/2 shrink-0 h-48 sm:h-auto rounded-xl overflow-hidden relative">
                   <img 
                     src={facility.image} 
-                    alt={facility.title} 
+                    alt={`${facility.title} at Bright Open Minds school, Rajound`} 
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-primary/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity" />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { BookOpen, FlaskConical, Trophy, Bus, MonitorPlay, Monitor, Flag, Building2, GraduationCap, Users, Star, Rocket, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const MILESTONES = [
   {
@@ -50,6 +51,7 @@ export default function About() {
         description="Learn about Bright Open Minds, Rajound — our legacy, vision, expert leadership and world-class campus facilities since 2015. Explore admissions today."
         path="/about"
       />
+      <SeoBreadcrumbs items={[{ label: "About Us", path: "/about" }]} />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/attached_assets/generated_images/hero-1.jpg')] bg-cover bg-center opacity-10" />
@@ -225,7 +227,7 @@ export default function About() {
             >
               <div className="w-full md:w-1/3 shrink-0">
                 <div className="aspect-square rounded-xl overflow-hidden bg-muted">
-                  <img src="/attached_assets/generated_images/chairman.jpg" alt="Mr. Yashovardhan Bright, Chairman of Bright Open Minds Rajound" className="w-full h-full object-cover" />
+                  <img src="/attached_assets/generated_images/chairman.jpg" alt="Mr. Yashovardhan Bright, Chairman of Bright Open Minds Rajound" loading="lazy" decoding="async" width="640" height="640" className="w-full h-full object-cover" />
                 </div>
                 <div className="mt-4 text-center md:text-left">
                   <h4 className="font-bold text-lg text-foreground">Mr. Yashovardhan Bright</h4>
@@ -250,7 +252,7 @@ export default function About() {
             >
               <div className="w-full md:w-1/3 shrink-0">
                 <div className="aspect-square rounded-xl overflow-hidden bg-muted">
-                  <img src="/principal.png" alt="Mr. Shishpal, Principal of Bright Open Minds Rajound" className="w-full h-full object-cover" />
+                  <img src="/principal.png" alt="Mr. Shishpal, Principal of Bright Open Minds Rajound" loading="lazy" decoding="async" width="640" height="640" className="w-full h-full object-cover" />
                 </div>
                 <div className="mt-4 text-center md:text-left">
                   <h4 className="font-bold text-lg text-foreground">Mr. Shishpal</h4>

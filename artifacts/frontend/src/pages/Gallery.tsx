@@ -6,6 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SITE_URL } from "@/components/Seo";
+import { JsonLd } from "@/components/JsonLd";
 
 const INFRA_IMAGES = [
   { src: "/gallery/infra-building-front.png", alt: "School Building Front View" },
@@ -135,6 +138,23 @@ export default function Gallery() {
         description="Browse the campus gallery of Bright Open Minds, Rajound — academics, sports, cultural celebrations and infrastructure photos of our school in Haryana."
         path="/gallery"
       />
+      <SeoBreadcrumbs items={[{ label: "Gallery", path: "/gallery" }]} />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          name: "Campus Gallery — Bright Open Minds, Rajound",
+          url: `${SITE_URL}/gallery`,
+          description:
+            "Photos of academics, sports, cultural celebrations and infrastructure at Bright Open Minds, Rajound, Haryana.",
+          "isPartOf": {
+            "@type": "School",
+            "@id": `${SITE_URL}/#school`,
+            name: "Bright Open Minds",
+            url: SITE_URL,
+          },
+        }}
+      />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -198,6 +218,7 @@ export default function Gallery() {
                       alt={img.alt}
                       className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                       <div className="text-white font-bold text-lg">{img.alt}</div>
@@ -232,6 +253,7 @@ export default function Gallery() {
                       alt={item.title} 
                       className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
                       loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                       <div className="text-white font-bold text-lg">{item.title}</div>

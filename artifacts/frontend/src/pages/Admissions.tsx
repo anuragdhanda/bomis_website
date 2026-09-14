@@ -13,6 +13,7 @@ import { CheckCircle2, FileText, UserPlus, Calendar, PhoneCall, IndianRupee, Inf
 import { useToast as useToastHook } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const formSchema = z.object({
   name: z.string().min(2, "Parent/Guardian name is required"),
@@ -153,6 +154,7 @@ export default function Admissions() {
         description="Apply for admission 2026-27 at Bright Open Minds, Rajound. Simple 5-step process, age eligibility, transparent fee structure and scholarships. Apply today."
         path="/admissions"
       />
+      <SeoBreadcrumbs items={[{ label: "Admissions", path: "/admissions" }]} />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">

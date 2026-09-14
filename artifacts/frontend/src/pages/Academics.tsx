@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, CheckCircle2, Lightbulb, MonitorPlay, Puzzle, Users } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const CURRICULUM_DATA = {
   preprimary: {
@@ -38,6 +39,7 @@ export default function Academics() {
         description="Explore the CBSE curriculum at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary with experiential learning, smart classrooms and expert teachers."
         path="/academics"
       />
+      <SeoBreadcrumbs items={[{ label: "Academics", path: "/academics" }]} />
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/attached_assets/generated_images/library.jpg')] bg-cover bg-center opacity-20" />

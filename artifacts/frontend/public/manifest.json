@@ -1,0 +1,26 @@
+{
+  "name": "Bright Open Minds, Rajound — Best CBSE School in Haryana",
+  "short_name": "BOMIS Rajound",
+  "description": "Bright Open Minds (BOMIS) is a leading CBSE school on Assandh Kaithal Road, Rajound, Haryana 136044. Admissions open — apply today.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#F15A29",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

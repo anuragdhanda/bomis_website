@@ -12,6 +12,7 @@ interface SeoProps {
   path?: string;
   image?: string;
   noIndex?: boolean;
+  type?: string;
 }
 
 function setMeta(attr: "name" | "property", key: string, content: string) {
@@ -36,12 +37,15 @@ function setLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
+const imageUrl = (src: string) => (src.startsWith("http") ? src : `${SITE_URL}${src}`);
+
 export function Seo({
   title,
   description,
   path = "/",
   image = "/og-image.png",
   noIndex = false,
+  type = "website",
 }: SeoProps) {
   useEffect(() => {
     document.title = title;
@@ -49,17 +53,23 @@ export function Seo({
     setLink("canonical", `${SITE_URL}${path}`);
     setMeta("property", "og:title", title);
     setMeta("property", "og:description", description);
+    setMeta("property", "og:type", type);
     setMeta("property", "og:url", `${SITE_URL}${path}`);
-    setMeta("property", "og:image", `${SITE_URL}${image}`);
+    setMeta("property", "og:image", imageUrl(image));
+    setMeta("property", "og:image:alt", `${SITE_NAME} — school on Assandh Kaithal Road, Rajound, Haryana`);
     setMeta("property", "og:site_name", SITE_NAME);
+    setMeta("property", "og:locale", "en_IN");
+    setMeta("name", "twitter:card", "summary_large_image");
     setMeta("name", "twitter:title", title);
     setMeta("name", "twitter:description", description);
+    setMeta("name", "twitter:image", imageUrl(image));
+    setMeta("name", "theme-color", "#F15A29");
     setMeta(
       "name",
       "robots",
       noIndex ? "noindex, nofollow" : "index, follow"
     );
-  }, [title, description, path, image, noIndex]);
+  }, [title, description, path, image, noIndex, type]);
 
   return null;
 }

@@ -29,12 +29,12 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 import { useListGallery } from "@workspace/api-client-react";
 
 const CAMPUS_IMAGES = [
-  { src: "/gallery/infra-building-front.png", title: "School Building" },
-  { src: "/gallery/infra-entrance.png",       title: "School Entrance" },
-  { src: "/gallery/infra-building-2.png",     title: "Campus Infrastructure" },
-  { src: "/gallery/infra-building-field.png", title: "School Ground" },
-  { src: "/gallery/infra-building-side.png",  title: "Campus Wing" },
-  { src: "/gallery/school-building.png",      title: "School Overview" },
+  { src: "/gallery/infra-building-front.png", title: "School Building", alt: "Front view of the Bright Open Minds school building in Rajound, Haryana" },
+  { src: "/gallery/infra-entrance.png",       title: "School Entrance", alt: "Main entrance of Bright Open Minds school at Rajound, Haryana" },
+  { src: "/gallery/infra-building-2.png",     title: "Campus Infrastructure", alt: "Campus infrastructure of Bright Open Minds CBSE school, Rajound" },
+  { src: "/gallery/infra-building-field.png", title: "School Ground", alt: "School playground and field at Bright Open Minds, Rajound" },
+  { src: "/gallery/infra-building-side.png",  title: "Campus Wing", alt: "Classroom wing of Bright Open Minds school campus, Rajound" },
+  { src: "/gallery/school-building.png",      title: "School Overview", alt: "Overview of Bright Open Minds school campus near Kaithal Road, Rajound" },
 ];
 
 import heroBuildingImg from "@assets/file_000000003a648208a8d8ede98caf1363_1785517414158.png";
@@ -44,6 +44,7 @@ import heroAssemblyImg from "@assets/file_00000000173c8208bd2a49578dac6e25_17853
 const HERO_SLIDES = [
   {
     image: heroBuildingImg,
+    imageAlt: "Bright Open Minds school campus in Rajound, Haryana",
     title: "Excellence in Education",
     subtitle: "Empowering students to think big, aim high, and achieve greatness in a rapidly changing world.",
     cta: "Discover Our Campus",
@@ -51,6 +52,7 @@ const HERO_SLIDES = [
   },
   {
     image: heroGardenImg,
+    imageAlt: "Green campus grounds at Bright Open Minds school, Rajound, Haryana",
     title: "A Nurturing Environment",
     subtitle: "Where curiosity meets opportunity. Our modern campus provides the perfect setting for holistic growth.",
     cta: "View Facilities",
@@ -58,6 +60,7 @@ const HERO_SLIDES = [
   },
   {
     image: heroAssemblyImg,
+    imageAlt: "Students at school assembly at Bright Open Minds, Rajound",
     title: "Future-Ready Learning",
     subtitle: "Integrating traditional values with modern pedagogy to shape the leaders of tomorrow.",
     cta: "Admission Process",
@@ -183,7 +186,9 @@ export default function Home() {
                 <div className="absolute inset-0 bg-black/40 z-10" />
                 <img
                   src={slide.image}
-                  alt={slide.title}
+                  alt={slide.imageAlt}
+                  fetchPriority="high"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-4 container mx-auto">
@@ -531,6 +536,8 @@ export default function Home() {
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
@@ -551,7 +558,9 @@ export default function Home() {
                   >
                     <img
                       src={img.src}
-                      alt={img.title}
+                      alt={img.alt}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">

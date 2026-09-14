@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { IndianRupee, Info, CheckCircle2, Phone } from "lucide-react";
 import { Link } from "wouter";
 import { Seo } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const feeData = [
   {
@@ -94,9 +95,10 @@ export default function FeesStructure() {
     <div className="flex flex-col w-full">
       <Seo
         title="Fee Structure 2025-26 | Bright Open Minds, Rajound, Haryana"
-        description="Transparent fee structure 2025-26 at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary tuition, registration and annual fees. Sibling discounts available."
+        description="Transparent fee structure 2025-26 at Bright Open Minds, Rajound — Pre-Primary to Senior Secondary tuition, registration and annual fees."
         path="/fees"
       />
+      <SeoBreadcrumbs items={[{ label: "Fee Structure", path: "/fees" }]} />
       {/* Page Header */}
       <section className="bg-secondary text-secondary-foreground py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10"

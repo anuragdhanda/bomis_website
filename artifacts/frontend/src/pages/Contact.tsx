@@ -11,6 +11,7 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Seo, SITE_URL } from "@/components/Seo";
 import { JsonLd } from "@/components/JsonLd";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -66,6 +67,7 @@ export default function Contact() {
         description="Contact Bright Open Minds, Rajound. Call +91 96534 24964 or visit the campus on Assandh Kaithal Road, Rajound, Haryana 136044. Open Monday–Saturday."
         path="/contact"
       />
+      <SeoBreadcrumbs items={[{ label: "Contact Us", path: "/contact" }]} />
       <JsonLd
         data={{
           "@context": "https://schema.org",

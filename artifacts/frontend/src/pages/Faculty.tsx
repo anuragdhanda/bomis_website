@@ -16,7 +16,9 @@ import { GraduationCap, Plus, Pencil, Trash2, X, ImageOff, BookOpen, LayoutGrid 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Seo } from "@/components/Seo";
+import { Seo, SITE_URL } from "@/components/Seo";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
 import {
   Form,
   FormControl,
@@ -334,8 +336,10 @@ function TeacherCard({
         {member.photoUrl ? (
           <img
             src={member.photoUrl}
-            alt={member.name}
+            alt={`${member.name}, ${member.subject} teacher at Bright Open Minds Rajound`}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
               (e.target as HTMLImageElement).nextElementSibling?.classList.remove("hidden");
@@ -425,6 +429,31 @@ export default function Faculty() {
         description="Meet the expert faculty and teachers at Bright Open Minds, Rajound. Qualified, caring educators who inspire our students across all subjects and classes."
         path="/faculty"
       />
+      <SeoBreadcrumbs items={[{ label: "Faculty", path: "/faculty" }]} />
+      {(Array.isArray(facultyMembers) && facultyMembers.length > 0) && (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Faculty at Bright Open Minds, Rajound",
+            url: `${SITE_URL}/faculty`,
+            itemListElement: facultyMembers.slice(0, 50).map((m, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              item: {
+                "@type": "Person",
+                name: m.name,
+                jobTitle: m.subject ? `${m.subject} Teacher` : "Teacher",
+                worksFor: {
+                  "@type": "School",
+                  "@id": `${SITE_URL}/#school`,
+                  name: "Bright Open Minds",
+                },
+              },
+            })),
+          }}
+        />
+      )}
       {/* Page Header */}
       <section className="bg-primary text-primary-foreground py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
